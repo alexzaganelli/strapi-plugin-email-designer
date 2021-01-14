@@ -1,0 +1,34 @@
+{
+  "kind": "collectionType",
+  "collectionName": "email_templates",
+  "info": {
+    "name": "emailTemplate"
+  },
+  "options": {
+    "draftAndPublish": false,
+    "timestamps": true,
+    "increments": true,
+    "comment": ""
+  },
+  "attributes": {
+    "design": {
+      "type": "json"
+    },
+    "name": {
+      "type": "string",
+      "default": ""
+    },
+    "bodyHtml": {
+      "type": "text",
+      "default": ""
+    },
+    "bodyText": {
+      "type": "text",
+      "default": ""
+    },
+    "enabled": {
+      "type": "boolean",
+      "default": true
+    }
+  }
+}
