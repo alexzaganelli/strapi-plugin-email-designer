@@ -128,10 +128,6 @@ The **Email Designer** plugin should appear in the **Plugins** section of Strapi
 
 **Enjoy 🎉**
 
-## ⭐️ Show your support
-
-Give a star if this project helped you.
-
 ## 🖐 Requirements
 
 Complete installation requirements are exact same as for Strapi itself and can be found in the documentation under <a href="https://strapi.io/documentation/v3.x/installation/cli.html#step-1-make-sure-requirements-are-met">Installation Requirements</a>.
@@ -142,18 +138,31 @@ Complete installation requirements are exact same as for Strapi itself and can b
 
 (This plugin may work with the older Strapi versions, but these are not tested nor officially supported at this time.)
 
+**Node / NPM versions**:
+
+- NodeJS >= 12.10 <= 14
+- NPM >= 6.x
+
 **We recommend always using the latest version of Strapi to start your new projects**.
 
 ## 🚧 Roadmap
 
 - [x] Template composer helper
+- [ ] Import design functionality
 - [ ] Preview email with real data
+- [ ] Override Strapi's core email system
+- [ ] Tags functionality
 - [ ] Complete UI tests
-- [ ] Translations
+- [ ] i18n translations
 
 ## 🤝 Contributing
 
 Feel free to fork and make a Pull Request to this plugin project. All the input is warmly welcome!
+
+## ⭐️ Show your support
+
+Give a star if this project helped you.
+You can also [offer me a beer](https://www.paypal.me/alexzaganelli/10) 🍻.
 
 ## 🔗 Links
 
