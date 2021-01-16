@@ -2,11 +2,19 @@
 
 <p align="left">
   <a href="https://www.npmjs.org/package/strapi-plugin-email-designer">
-    <img src="https://img.shields.io/npm/v/strapi-plugin-email-designer/latest.svg" alt="NPM Version" />
-  </a>
+    <img src="https://img.shields.io/npm/v/strapi-plugin-email-designer.svg?style=plastic" alt="NPM Version" /></a>
   <a href="https://www.npmjs.org/package/strapi-plugin-email-designer">
-    <img src="https://img.shields.io/npm/dm/strapi-plugin-email-designer.svg" alt="Monthly download on NPM" />
-  </a>
+    <img src="https://img.shields.io/npm/dm/strapi-plugin-email-designer.svg?style=plastic" alt="Monthly download on NPM" /></a>
+  <a href="https://github.com/prettier/prettier" target="_blank" rel="noopener noreferrer">
+    <img alt="code style: prettier" src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=plastic"></a>
+  <a href="#-contributing">
+    <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=plastic" alt="PRs welcome!" /></a>
+  <a href="#-license">
+    <img src="https://img.shields.io/github/license/alexzaganelli/strapi-plugin-email-designer?style=plastic" alt="License" /></a>
+  <a href="https://twitter.com/intent/follow?screen_name=alexzaganelli" target="_blank" rel="noopener noreferrer">
+    <img alt="Follow Alex Zaganelli" src="https://img.shields.io/twitter/follow/alexzaganelli?color=%231DA1F2&label=follow%20me&style=plastic"></a>
+  <a href="#">
+    <img alt="Repo stars" src="https://img.shields.io/github/stars/alexzaganelli/strapi-plugin-email-designer?color=white&label=%E2%AD%90%EF%B8%8F&style=plastic"></a>
 </p>
 
 Design your own email templates directly from the [Strapi CMS](https://github.com/strapi/strapi) admin panel and use the magic to send programmatically email from your controllers / services.
@@ -152,6 +160,7 @@ Complete installation requirements are exact same as for Strapi itself and can b
 - [ ] Preview email with real data
 - [ ] Override Strapi's core email system
 - [ ] Tags functionality
+- [ ] Custom components extension
 - [ ] Complete UI tests
 - [ ] i18n translations
 
