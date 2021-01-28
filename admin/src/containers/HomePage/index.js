@@ -209,11 +209,11 @@ const HomePage = () => {
             {`
             {
               const templateId = "[GET_THE_TEMPLATE_ID]",
-              to: "jhon@doe.com",
-              from: "me@example.com",
-              replyTo: "no-reply@example.com",
-              subject: "[TEST] This is a test using strapi-email-designer",
-              userData: {
+              to = "jhon@doe.com",
+              from = "me@example.com",
+              replyTo = "no-reply@example.com",
+              subject = "[TEST] This is a test using strapi-email-designer",
+              userData = {
                 firstname: "Alex",
                 lastname: "Zaganelli",
                 email: "blah@blah.com"

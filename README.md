@@ -14,7 +14,7 @@
   <a href="https://twitter.com/intent/follow?screen_name=alexzaganelli" target="_blank" rel="noopener noreferrer">
     <img alt="Follow Alex Zaganelli" src="https://img.shields.io/twitter/follow/alexzaganelli?color=%231DA1F2&label=follow%20me&style=plastic"></a>
   <a href="#">
-    <img alt="Repo stars" src="https://img.shields.io/github/stars/alexzaganelli/strapi-plugin-email-designer?color=white&label=%E2%AD%90%EF%B8%8F&style=plastic"></a>
+    <img alt="Repo stars" src="https://img.shields.io/github/stars/alexzaganelli/strapi-plugin-email-designer?color=white&label=Github&style=plastic"></a>
 </p>
 
 Design your own email templates directly from the [Strapi CMS](https://github.com/strapi/strapi) admin panel and use the magic to send programmatically email from your controllers / services.
@@ -84,11 +84,11 @@ The **Email Designer** plugin should appear in the **Plugins** section of Strapi
   // ...
 
   const templateId = "[GET_THE_TEMPLATE_ID]",
-    to: "jhon@doe.com",
-    from: "me@example.com",
-    replyTo: "no-reply@example.com",
-    subject: "[TEST] This is a test using strapi-email-designer",
-    userData: {
+    to = "jhon@doe.com",
+    from = "me@example.com",
+    replyTo = "no-reply@example.com",
+    subject = "[TEST] This is a test using strapi-email-designer",
+    userData = {
       firstname: "Alex",
       lastname: "Zaganelli",
       email: "blah@blah.com",
@@ -119,7 +119,7 @@ The **Email Designer** plugin should appear in the **Plugins** section of Strapi
   // ...
 
   const templateId = "[GET_THE_TEMPLATE_ID]",
-    userData: {
+    userData = {
       firstname: "Alex",
       lastname: "Zaganelli",
       email: "blah@blah.com",
@@ -157,8 +157,8 @@ Complete installation requirements are exact same as for Strapi itself and can b
 
 - [x] Template composer helper
 - [ ] Import design functionality
-- [ ] Preview email with real data
 - [ ] Override Strapi's core email system
+- [ ] Preview email with real data
 - [ ] Tags functionality
 - [ ] Custom components extension
 - [ ] Complete UI tests
