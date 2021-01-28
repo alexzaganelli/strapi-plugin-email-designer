@@ -4,7 +4,7 @@
   <a href="https://www.npmjs.org/package/strapi-plugin-email-designer">
     <img src="https://img.shields.io/npm/v/strapi-plugin-email-designer.svg?style=plastic" alt="NPM Version" /></a>
   <a href="https://www.npmjs.org/package/strapi-plugin-email-designer">
-    <img src="https://img.shields.io/npm/dm/strapi-plugin-email-designer.svg?style=plastic" alt="Monthly download on NPM" /></a>
+    <img src="https://img.shields.io/npm/dt/strapi-plugin-email-designer.svg?style=plastic" alt="Monthly download on NPM" /></a>
   <a href="https://github.com/prettier/prettier" target="_blank" rel="noopener noreferrer">
     <img alt="code style: prettier" src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=plastic"></a>
   <a href="#-contributing">
