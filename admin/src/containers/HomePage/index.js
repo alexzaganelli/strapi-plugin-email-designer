@@ -9,6 +9,7 @@ import React, { memo, useState, useEffect, useCallback } from "react";
 // import PropTypes from 'prop-types';
 import { PopUpWarning, LoadingIndicator, PluginHeader, request, useGlobalContext } from "strapi-helper-plugin";
 import { Table, Button } from "@buffetjs/core";
+import { Pencil } from "@buffetjs/icons";
 import { Header } from "@buffetjs/custom";
 import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -97,7 +98,7 @@ const HomePage = () => {
   ];
 
   return (
-    <div className="container-fluid" style={{ padding: "18px 30px" }}>
+    <div className="container-fluid" style={{ padding: "18px 30px 66px 30px" }}>
       <PopUpWarning
         isOpen={!isEmpty(duplicateConfirmationModal)}
         content={{
@@ -164,7 +165,7 @@ const HomePage = () => {
             rowLinks={[
               // @todo would be great to add popper for each action
               {
-                icon: <FontAwesomeIcon icon={faPencilAlt} />,
+                icon: <Pencil />,
                 onClick: (data) => {
                   push(getUrl(`design/${data.id}`));
                 },
