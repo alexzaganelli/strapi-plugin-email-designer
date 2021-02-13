@@ -159,8 +159,10 @@ const HomePage = () => {
           <Table
             headers={headers}
             rows={templates}
-            // onClickRow={(e, data) => {}}
             // customRow={this.CustomRow}
+            onClickRow={(e, data) => {
+              push(getUrl(`design/${data.id}`));
+            }}
             rowLinks={[
               // @todo would be great to add popper for each action
               {
