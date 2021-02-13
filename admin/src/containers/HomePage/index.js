@@ -7,9 +7,8 @@
 
 import React, { memo, useState, useEffect, useCallback } from "react";
 // import PropTypes from 'prop-types';
-import { PopUpWarning, LoadingIndicator, PluginHeader, request, useGlobalContext } from "strapi-helper-plugin";
-import { Table, Button } from "@buffetjs/core";
-import { Pencil } from "@buffetjs/icons";
+import { PopUpWarning, LoadingIndicator, request, useGlobalContext } from "strapi-helper-plugin";
+import { Table } from "@buffetjs/core";
 import { Header } from "@buffetjs/custom";
 import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -165,7 +164,7 @@ const HomePage = () => {
             rowLinks={[
               // @todo would be great to add popper for each action
               {
-                icon: <Pencil />,
+                icon: <FontAwesomeIcon icon={faPencilAlt} />,
                 onClick: (data) => {
                   push(getUrl(`design/${data.id}`));
                 },
