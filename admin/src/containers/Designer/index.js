@@ -115,8 +115,9 @@ const EmailDesigner = () => {
   };
 
   return (
+    <>
+    <BackHeader onClick={history.goBack} />
     <DesignerContainer className="container-fluid">
-      <BackHeader onClick={history.goBack} />
       <Prompt message={formatMessage({ id: getTrad("prompt.unsaved") })} when={enablePrompt} />
       <>
         <Bar>
@@ -181,6 +182,7 @@ const EmailDesigner = () => {
         </div>
       </>
     </DesignerContainer>
+    </>
   );
 };
 
