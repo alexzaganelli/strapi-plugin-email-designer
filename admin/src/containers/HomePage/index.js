@@ -9,6 +9,7 @@ import React, { memo, useState, useEffect, useCallback } from "react";
 // import PropTypes from 'prop-types';
 import { PopUpWarning, LoadingIndicator, PluginHeader, request, useGlobalContext } from "strapi-helper-plugin";
 import { Table, Button } from "@buffetjs/core";
+import { Header } from "@buffetjs/custom";
 import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy, faClipboard, faPencilAlt, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
@@ -121,14 +122,19 @@ const HomePage = () => {
           deleteTemplateHandler();
         }}
       />
-      <Row className="row">
-        <div className="col-sm-6">
-          <PluginHeader title="Email Designer" description="Design your own templates" />
-        </div>
-        <div className="col-sm-6 text-right">
-          <Button label={formatMessage({ id: getTrad("newTemplate") })} onClick={() => push(getUrl(`design/new`))} />
-        </div>
-      </Row>
+      <Header
+        actions={[
+          {
+            label: formatMessage({ id: getTrad("newTemplate") }),
+            onClick: () => push(getUrl(`design/new`)),
+            color: 'primary',
+            type: 'button',
+          },
+        ]}
+        title={{
+          label: 'Email Designer',
+        }}
+        content="Design your own templates" />
       {!plugins[pluginId].isReady && <LoadingIndicator />}
 
       <TabsNav
