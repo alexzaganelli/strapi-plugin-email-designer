@@ -129,6 +129,7 @@ const HomePage = () => {
             onClick: () => push(getUrl(`design/new`)),
             color: 'primary',
             type: 'button',
+            icon: true
           },
         ]}
         title={{
