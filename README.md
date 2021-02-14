@@ -41,6 +41,8 @@ npx create-strapi-app my-project --quickstart
 
 _This command generates a brand new project with the default features (authentication, permissions, content management, content type builder & file upload). The **Quickstart** command installs Strapi using a **SQLite** database which is used for prototyping in development._
 
+- Configure the `Strapi email` plugin ( [official documentation](https://strapi.io/documentation/developer-docs/latest/plugins/email.html#configure-the-plugin) )
+
 - Add the `strapi-designer` plugin
 
 ```bash
@@ -156,10 +158,10 @@ Complete installation requirements are exact same as for Strapi itself and can b
 ## 🚧 Roadmap
 
 - [x] Template composer helper
-- [ ] Import design functionality
-- [ ] Override Strapi's core email system
-- [ ] Preview email with real data
-- [ ] Tags functionality
+- [ ] Import design feature
+- [ ] Override Strapi's core email system feature
+- [ ] Preview email with real data feature
+- [ ] Tags feature
 - [ ] Custom components extension
 - [ ] Complete UI tests
 - [ ] i18n translations
