@@ -4,16 +4,16 @@
  *
  */
 
-import React, { useState, useEffect, memo, useRef } from "react";
-import { Button, Textarea } from "@buffetjs/core";
-import { Prompt, useHistory, useParams } from "react-router-dom";
-import { BackHeader, InputText, useGlobalContext, request } from "strapi-helper-plugin";
+import React, { useState, useEffect, memo, useRef } from 'react';
+import { Button, Textarea } from '@buffetjs/core';
+import { Prompt, useHistory, useParams } from 'react-router-dom';
+import { BackHeader, InputText, useGlobalContext, request } from 'strapi-helper-plugin';
 
-import EmailEditor from "react-email-editor";
-import styled from "styled-components";
-import pluginId from "../../pluginId";
-import getTrad from "../../utils/getTrad";
-import TabsNav from "../../components/Tabs";
+import EmailEditor from 'react-email-editor';
+import styled from 'styled-components';
+import pluginId from '../../pluginId';
+import getTrad from '../../utils/getTrad';
+import TabsNav from '../../components/Tabs';
 
 const DesignerContainer = styled.div`
   padding: 18px 30px;
@@ -45,16 +45,16 @@ const EmailDesigner = () => {
   const emailEditorRef = useRef(null);
   const [templateData, setTemplateData] = useState();
   const [enablePrompt, togglePrompt] = useState(false);
-  const [bodyText, setBodyText] = useState("");
+  const [bodyText, setBodyText] = useState('');
 
-  const [mode, setMode] = useState("html");
+  const [mode, setMode] = useState('html');
   const { formatMessage } = useGlobalContext();
 
   useEffect(() => {
-    if (!emailEditorRef.current || templateId === "" || templateId === "new") return;
+    if (!emailEditorRef.current || templateId === '' || templateId === 'new') return;
 
     (async () => {
-      const _templateData = await request(`/${pluginId}/templates/${templateId}`, { method: "GET" });
+      const _templateData = await request(`/${pluginId}/templates/${templateId}`, { method: 'GET' });
       setTemplateData(_templateData);
       setBodyText(_templateData.bodyText);
       emailEditorRef.current?.editor?.loadDesign(_templateData.design);
@@ -68,9 +68,9 @@ const EmailDesigner = () => {
       try {
         // strapi.lockAppWithOverlay();
         const response = await request(`/${pluginId}/templates/${templateId}`, {
-          method: "POST",
+          method: 'POST',
           body: {
-            name: templateData?.name || formatMessage({ id: getTrad("noName") }),
+            name: templateData?.name || formatMessage({ id: getTrad('noName') }),
             design,
             bodyText,
             bodyHtml: html,
@@ -78,17 +78,18 @@ const EmailDesigner = () => {
         });
 
         strapi.notification.toggle({
-          type: "success",
-          message: { id: getTrad("notification.success.submit") },
+          type: 'success',
+          message: { id: getTrad('notification.success.submit') },
         });
         togglePrompt(false);
 
-        if (templateId === "new" && templateId !== response.id) history.replace(`/plugins/${pluginId}/design/${response.id}`);
+        if (templateId === 'new' && templateId !== response.id)
+          history.replace(`/plugins/${pluginId}/design/${response.id}`);
       } catch (err) {
         console.error(err);
         strapi.notification.toggle({
-          type: "warning",
-          message: { id: "notification.error" },
+          type: 'warning',
+          message: { id: 'notification.error' },
         });
       }
     });
@@ -96,7 +97,7 @@ const EmailDesigner = () => {
 
   const onDesignLoad = () => {
     // eslint-disable-next-line no-unused-vars
-    emailEditorRef.current.editor.addEventListener("design:updated", (data) => {
+    emailEditorRef.current.editor.addEventListener('design:updated', (data) => {
       /*
       let { type, item, changes } = data;
       console.log("design:updated", type, item, changes);
@@ -108,7 +109,7 @@ const EmailDesigner = () => {
   const onLoadHandler = () => {
     // ⬇︎ workaround to avoid firing onLoad api before setting the editor ref
     setTimeout(() => {
-      emailEditorRef.current?.editor?.addEventListener("onDesignLoad", onDesignLoad);
+      emailEditorRef.current?.editor?.addEventListener('onDesignLoad', onDesignLoad);
 
       if (templateData) emailEditorRef.current.editor.loadDesign(templateData.design);
     }, 500);
@@ -118,7 +119,7 @@ const EmailDesigner = () => {
     <>
       <BackHeader onClick={history.goBack} />
       <DesignerContainer className="container-fluid">
-        <Prompt message={formatMessage({ id: getTrad("prompt.unsaved") })} when={enablePrompt} />
+        <Prompt message={formatMessage({ id: getTrad('prompt.unsaved') })} when={enablePrompt} />
         <>
           <Bar>
             <InputText
@@ -127,40 +128,40 @@ const EmailDesigner = () => {
               onChange={({ target: { value } }) => {
                 setTemplateData((state) => ({ ...state, name: value }));
               }}
-              placeholder={getTrad("templateNameInputField")}
+              placeholder={getTrad('templateNameInputField')}
               type="text"
-              value={templateData?.name || ""}
-              style={{ marginTop: 0, width: "50%" }}
+              value={templateData?.name || ''}
+              style={{ marginTop: 0, width: '50%' }}
             />
-            <Button onClick={saveDesign}>{formatMessage({ id: getTrad("saveTemplate") })}</Button>
+            <Button onClick={saveDesign}>{formatMessage({ id: getTrad('saveTemplate') })}</Button>
           </Bar>
 
           <TabsNav
             links={[
               {
-                isActive: mode === "html",
-                name: getTrad("htmlVersion"),
-                onClick: () => setMode("html"),
+                isActive: mode === 'html',
+                name: getTrad('htmlVersion'),
+                onClick: () => setMode('html'),
               },
               {
-                isActive: mode === "text",
-                name: getTrad("textVersion"),
-                onClick: () => setMode("text"),
+                isActive: mode === 'text',
+                name: getTrad('textVersion'),
+                onClick: () => setMode('text'),
               },
             ]}
-            style={{ marginTop: "0.4rem" }}
+            style={{ marginTop: '0.4rem' }}
           />
-          <div style={{ height: "100%", display: mode === "html" ? "flex" : "none" }}>
+          <div style={{ height: '100%', display: mode === 'html' ? 'flex' : 'none' }}>
             <React.StrictMode>
               <EmailEditor
                 ref={emailEditorRef}
                 onLoad={onLoadHandler}
                 style={{
-                  border: "1px solid #dedede",
+                  border: '1px solid #dedede',
                 }}
                 appearance={{
-                  minWidth: "100%",
-                  theme: "light",
+                  minWidth: '100%',
+                  theme: 'light',
                 }}
                 tools={{
                   image: {
@@ -177,7 +178,7 @@ const EmailDesigner = () => {
               />
             </React.StrictMode>
           </div>
-          <div style={{ display: mode === "text" ? "block" : "none" }}>
+          <div style={{ display: mode === 'text' ? 'block' : 'none' }}>
             <Textarea name="textarea" onChange={({ target: { value } }) => setBodyText(value)} value={bodyText} />
           </div>
         </>

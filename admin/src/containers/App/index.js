@@ -1,15 +1,15 @@
-import React from "react";
-import { Switch, Route } from "react-router-dom";
-import { NotFound } from "strapi-helper-plugin";
+import React from 'react';
+import { Switch, Route } from 'react-router-dom';
+import { NotFound } from 'strapi-helper-plugin';
 
 // Utils
-import { Fonts } from "@buffetjs/styles";
-import styled from "styled-components";
-import pluginId from "../../pluginId";
+import { Fonts } from '@buffetjs/styles';
+import styled from 'styled-components';
+import pluginId from '../../pluginId';
 
 // Containers
-import HomePage from "../HomePage";
-import Designer from "../Designer";
+import HomePage from '../HomePage';
+import Designer from '../Designer';
 
 const Container = styled.div`
   display: flex;

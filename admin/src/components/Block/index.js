@@ -3,9 +3,9 @@
  * Block
  */
 
-import React, { memo } from "react";
-import PropTypes from "prop-types";
-import { Wrapper, Sub } from "./components";
+import React, { memo } from 'react';
+import PropTypes from 'prop-types';
+import { Wrapper, Sub } from './components';
 
 const Block = ({ children, description, style, title }) => (
   <div className="col-md-12" style={style}>

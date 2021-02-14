@@ -1,10 +1,10 @@
-"use strict";
+'use strict';
 
 /**
  * email-designer.js email service
  */
 
-const _ = require("lodash");
+const _ = require('lodash');
 _.templateSettings.interpolate = /{{([\s\S]+?)}}/g;
 const isValidEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -17,12 +17,12 @@ module.exports = {
     if (!templateId) throw new Error("No email template's id provided");
     let composedHtml, composedText;
     try {
-      const template = await strapi.query("email-template", "email-designer").findOne({ id: templateId });
+      const template = await strapi.query('email-template', 'email-designer').findOne({ id: templateId });
       composedHtml = _.template(template.bodyHtml)({ ...data });
       composedText = _.template(template.bodyText)({ ...data });
     } catch (error) {
       strapi.log.debug(error);
-      throw new Error("Email template not found with id: " + templateId);
+      throw new Error('Email template not found with id: ' + templateId);
     }
 
     return { composedHtml, composedText };
@@ -38,12 +38,12 @@ module.exports = {
     });
 
     try {
-      const { composedHtml = "", composedText = "" } = await strapi.plugins["email-designer"].services.email.compose({
+      const { composedHtml = '', composedText = '' } = await strapi.plugins['email-designer'].services.email.compose({
         templateId,
         data,
       });
 
-      await strapi.plugins["email"].services.email.send({
+      await strapi.plugins['email'].services.email.send({
         to,
         from,
         replyTo,

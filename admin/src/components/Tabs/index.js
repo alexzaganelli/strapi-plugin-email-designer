@@ -4,16 +4,16 @@
  *
  */
 
-import React from "react";
-import { FormattedMessage } from "react-intl";
-import { darken } from "strapi-helper-plugin";
-import { map } from "lodash";
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+import { darken } from 'strapi-helper-plugin';
+import { map } from 'lodash';
 
-import PropTypes from "prop-types";
-import Wrapper from "./Wrapper";
+import PropTypes from 'prop-types';
+import Wrapper from './Wrapper';
 
 function TabsNav({ links, style }) {
-  let linkColor = "#F5F5F5";
+  let linkColor = '#F5F5F5';
 
   return (
     <Wrapper style={style}>
@@ -24,10 +24,10 @@ function TabsNav({ links, style }) {
           <button
             key={link.name}
             type="button"
-            className={`headerLink ${link.isActive && "linkActive"}`}
+            className={`headerLink ${link.isActive && 'linkActive'}`}
             style={{
               backgroundColor: linkColor,
-              cursor: link.disabled ? "not-allowed" : "pointer",
+              cursor: link.disabled ? 'not-allowed' : 'pointer',
             }}
             onClick={(e) => {
               if (link.disabled) e.preventDefault();

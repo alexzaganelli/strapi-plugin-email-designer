@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const Wrapper = styled.div`
   display: flex;
@@ -35,7 +35,9 @@ const Wrapper = styled.div`
       font-weight: bold;
       text-decoration: none !important;
       box-shadow: 0 0 2px rgba(#dbdbdb, 0.5);
-      ${({theme}) => { return { borderTop: `2px solid ${theme.main.colors.blue}` }}}
+      ${({ theme }) => {
+        return { borderTop: `2px solid ${theme.main.colors.blue}` };
+      }}
     }
   }
   .linkText {
