@@ -23,10 +23,10 @@ const Wrapper = styled.div`
     flex: 1 100%;
     height: 3.6rem;
     border-radius: 2px 0 0 0;
-    background-color: darken(#f5f5f5, 50%);
+    background-color: #f2f3f4;
     text-decoration: none !important;
-    font-family: Lato;
     font-size: 1.3rem;
+    font-weight: 500;
     color: #333740 !important;
     line-height: 1.6rem;
     &.linkActive {
@@ -35,7 +35,7 @@ const Wrapper = styled.div`
       font-weight: bold;
       text-decoration: none !important;
       box-shadow: 0 0 2px rgba(#dbdbdb, 0.5);
-      border-top: 0.2rem solid #1c5de7;
+      ${({theme}) => { return { borderTop: `2px solid ${theme.main.colors.blue}` }}}
     }
   }
   .linkText {
