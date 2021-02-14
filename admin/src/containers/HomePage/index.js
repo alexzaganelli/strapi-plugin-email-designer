@@ -7,8 +7,10 @@
 
 import React, { memo, useState, useEffect, useCallback } from "react";
 // import PropTypes from 'prop-types';
-import { PopUpWarning, LoadingIndicator, PluginHeader, request, useGlobalContext } from "strapi-helper-plugin";
+import { PopUpWarning, LoadingIndicator, ListButton, request, useGlobalContext } from "strapi-helper-plugin";
 import { Table, Button } from "@buffetjs/core";
+import { Plus } from "@buffetjs/icons";
+import { Header } from "@buffetjs/custom";
 import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy, faClipboard, faPencilAlt, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
@@ -16,7 +18,6 @@ import { isEmpty, pick } from "lodash";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import sunburst from "react-syntax-highlighter/dist/esm/styles/prism/material-dark";
 
-import styled from "styled-components";
 import Row from "../../components/Row";
 import Block from "../../components/Block";
 import getTrad from "../../utils/getTrad";
@@ -24,23 +25,6 @@ import pluginId from "../../pluginId";
 import TabsNav from "../../components/Tabs";
 
 const getUrl = (to) => (to ? `/plugins/${pluginId}/${to}` : `/plugins/${pluginId}`);
-
-const TableBottom = styled.div`
-  button {
-    width: 100%;
-    height: 54px;
-    border: 0;
-    border-top: 1px solid #aed4fb;
-    color: #007eff;
-    font-weight: 500;
-    text-transform: uppercase;
-    background-color: #e6f0fb;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    border-bottom-left-radius: 2px;
-    border-bottom-right-radius: 2px;
-  }
-`;
 
 const HomePage = () => {
   const { push } = useHistory();
@@ -96,7 +80,7 @@ const HomePage = () => {
   ];
 
   return (
-    <div className="container-fluid" style={{ padding: "18px 30px" }}>
+    <div className="container-fluid" style={{ padding: "18px 30px 66px 30px" }}>
       <PopUpWarning
         isOpen={!isEmpty(duplicateConfirmationModal)}
         content={{
@@ -121,14 +105,20 @@ const HomePage = () => {
           deleteTemplateHandler();
         }}
       />
-      <Row className="row">
-        <div className="col-sm-6">
-          <PluginHeader title="Email Designer" description="Design your own templates" />
-        </div>
-        <div className="col-sm-6 text-right">
-          <Button label={formatMessage({ id: getTrad("newTemplate") })} onClick={() => push(getUrl(`design/new`))} />
-        </div>
-      </Row>
+      <Header
+        actions={[
+          {
+            label: formatMessage({ id: getTrad("newTemplate") }),
+            onClick: () => push(getUrl(`design/new`)),
+            color: 'primary',
+            type: 'button',
+            icon: true
+          },
+        ]}
+        title={{
+          label: 'Email Designer',
+        }}
+        content="Design your own templates" />
       {!plugins[pluginId].isReady && <LoadingIndicator />}
 
       <TabsNav
@@ -152,8 +142,10 @@ const HomePage = () => {
           <Table
             headers={headers}
             rows={templates}
-            // onClickRow={(e, data) => {}}
             // customRow={this.CustomRow}
+            onClickRow={(e, data) => {
+              push(getUrl(`design/${data.id}`));
+            }}
             rowLinks={[
               // @todo would be great to add popper for each action
               {
@@ -189,17 +181,11 @@ const HomePage = () => {
               },
             ]}
           />
-          <TableBottom>
-            <button color="primary" type="button" onClick={() => push(getUrl(`design/new`))}>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 13 13" width="11px" height="11px" fill="#007eff">
-                <g data-name="plus symbol">
-                  <path d="M6.5.5v12m6-6H.5" fill="none" stroke="#007eff" strokeLinecap="round" />
-                </g>
-              </svg>
-              {` `}
+          <ListButton>
+            <Button color="primary" type="button" onClick={() => push(getUrl(`design/new`))} icon={<Plus fill="#007eff" width="11px" height="11px" />}>
               {formatMessage({ id: getTrad("addNewTemplate") })}
-            </button>
-          </TableBottom>
+            </Button>
+          </ListButton>
         </Block>
       </div>
 
