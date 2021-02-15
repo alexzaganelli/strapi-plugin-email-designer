@@ -1,7 +1,4 @@
 # Strapi email designer plugin 💅
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 <p align="left">
   <a href="https://www.npmjs.org/package/strapi-plugin-email-designer">
@@ -18,6 +15,10 @@
     <img alt="Follow Alex Zaganelli" src="https://img.shields.io/twitter/follow/alexzaganelli?color=%231DA1F2&label=follow%20me&style=plastic"></a>
   <a href="#">
     <img alt="Repo stars" src="https://img.shields.io/github/stars/alexzaganelli/strapi-plugin-email-designer?color=white&label=Github&style=plastic"></a>
+  <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+  <a href="#contributors-">
+    <img alt="Contributors" src="https://img.shields.io/badge/all_contributors-2-orange.svg?style=plastic"></a>
+  <!-- ALL-CONTRIBUTORS-BADGE:END -->
 </p>
 
 Design your own email templates directly from the [Strapi CMS](https://github.com/strapi/strapi) admin panel and use the magic to send programmatically email from your controllers / services.
@@ -88,19 +89,19 @@ The **Email Designer** plugin should appear in the **Plugins** section of Strapi
 {
   // ...
 
-  const templateId = "[GET_THE_TEMPLATE_ID]",
-    to = "jhon@doe.com",
-    from = "me@example.com",
-    replyTo = "no-reply@example.com",
-    subject = "[TEST] This is a test using strapi-email-designer",
+  const templateId = '[GET_THE_TEMPLATE_ID]',
+    to = 'jhon@doe.com',
+    from = 'me@example.com',
+    replyTo = 'no-reply@example.com',
+    subject = '[TEST] This is a test using strapi-email-designer',
     userData = {
-      firstname: "Alex",
-      lastname: "Zaganelli",
-      email: "blah@blah.com",
+      firstname: 'Alex',
+      lastname: 'Zaganelli',
+      email: 'blah@blah.com',
     };
 
   try {
-    await strapi.plugins["email-designer"].services.email.send({
+    await strapi.plugins['email-designer'].services.email.send({
       templateId,
       to,
       from,
@@ -109,7 +110,7 @@ The **Email Designer** plugin should appear in the **Plugins** section of Strapi
       data: userData,
     });
   } catch (err) {
-    strapi.log.debug("📺: ", err);
+    strapi.log.debug('📺: ', err);
     return ctx.badRequest(null, err);
   }
 
@@ -123,14 +124,14 @@ The **Email Designer** plugin should appear in the **Plugins** section of Strapi
 {
   // ...
 
-  const templateId = "[GET_THE_TEMPLATE_ID]",
+  const templateId = '[GET_THE_TEMPLATE_ID]',
     userData = {
-      firstname: "Alex",
-      lastname: "Zaganelli",
-      email: "blah@blah.com",
+      firstname: 'Alex',
+      lastname: 'Zaganelli',
+      email: 'blah@blah.com',
     };
 
-  const { composedHtml, composedText } = await strapi.plugins["email-designer"].services.email.compose({
+  const { composedHtml, composedText } = await strapi.plugins['email-designer'].services.email.compose({
     templateId,
     data: userData,
   });
@@ -202,6 +203,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
+    <td align="center"><a href="https://alexzaganelli.com"><img src="https://avatars.githubusercontent.com/u/1064582?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Alexandre Zaganelli</b></sub></a><br /><a href="#ideas-alexzaganelli" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/alexzaganelli/strapi-plugin-email-designer/commits?author=alexzaganelli" title="Code">💻</a> <a href="#design-alexzaganelli" title="Design">🎨</a> <a href="https://github.com/alexzaganelli/strapi-plugin-email-designer/issues?q=author%3Aalexzaganelli" title="Bug reports">🐛</a></td>
     <td align="center"><a href="http://www.tuhaogo.com/"><img src="https://avatars.githubusercontent.com/u/1281294?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Ron Chi</b></sub></a><br /><a href="https://github.com/alexzaganelli/strapi-plugin-email-designer/issues?q=author%3Abannerchi" title="Bug reports">🐛</a></td>
   </tr>
 </table>

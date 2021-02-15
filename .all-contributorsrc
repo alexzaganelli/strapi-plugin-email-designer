@@ -6,6 +6,18 @@
   "commit": false,
   "contributors": [
     {
+      "login": "alexzaganelli",
+      "name": "Alexandre Zaganelli",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1064582?v=4",
+      "profile": "https://alexzaganelli.com",
+      "contributions": [
+        "ideas",
+        "code",
+        "design",
+        "bug"
+      ]
+    },
+    {
       "login": "bannerchi",
       "name": "Ron Chi",
       "avatar_url": "https://avatars.githubusercontent.com/u/1281294?v=4",
