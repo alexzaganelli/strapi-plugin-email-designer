@@ -1,0 +1,24 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "bannerchi",
+      "name": "Ron Chi",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1281294?v=4",
+      "profile": "http://www.tuhaogo.com/",
+      "contributions": [
+        "bug"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "strapi-plugin-email-designer",
+  "projectOwner": "alexzaganelli",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
