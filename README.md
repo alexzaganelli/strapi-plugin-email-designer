@@ -16,8 +16,9 @@
   <a href="#">
     <img alt="Repo stars" src="https://img.shields.io/github/stars/alexzaganelli/strapi-plugin-email-designer?color=white&label=Github&style=plastic"></a>
   <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
+  <a href="#contributors-">
+    <img alt="Contributors" src="https://img.shields.io/badge/all_contributors-3-orange.svg?style=plastic"></a>
+  <!-- ALL-CONTRIBUTORS-BADGE:END -->
 </p>
 
 Design your own email templates directly from the [Strapi CMS](https://github.com/strapi/strapi) admin panel and use the magic to send programmatically email from your controllers / services.
