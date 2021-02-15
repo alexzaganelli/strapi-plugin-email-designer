@@ -133,7 +133,7 @@ const EmailDesigner = () => {
               value={templateData?.name || ''}
               style={{ marginTop: 0, width: '50%' }}
             />
-            <Button onClick={saveDesign}>{formatMessage({ id: getTrad('saveTemplate') })}</Button>
+            <Button onClick={saveDesign} color="success">{formatMessage({ id: getTrad('saveTemplate') })}</Button>
           </Bar>
 
           <TabsNav
