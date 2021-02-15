@@ -163,6 +163,7 @@ const EmailDesigner = () => {
                   minWidth: '100%',
                   theme: 'light',
                 }}
+                locale={ strapi.currentLanguage }
                 tools={{
                   image: {
                     enabled: true,
