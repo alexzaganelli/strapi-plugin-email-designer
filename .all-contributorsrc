@@ -1,0 +1,27 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "alexzaganelli",
+      "name": "Alexandre Zaganelli",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1064582?v=4",
+      "profile": "https://alexzaganelli.com",
+      "contributions": [
+        "ideas",
+        "code",
+        "design",
+        "bug"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "strapi-plugin-email-designer",
+  "projectOwner": "alexzaganelli",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
