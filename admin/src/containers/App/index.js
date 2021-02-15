@@ -9,6 +9,7 @@ import pluginId from '../../pluginId';
 
 // Containers
 import HomePage from '../HomePage';
+import HowToPage from '../HowToPage';
 import Designer from '../Designer';
 
 const Container = styled.div`
@@ -24,6 +25,7 @@ const App = () => {
 
       <Switch>
         <Route path={`/plugins/${pluginId}`} component={HomePage} exact />
+        <Route path={`/plugins/${pluginId}/how-to`} component={HowToPage} exact />
         <Route path={`/plugins/${pluginId}/design/:templateId`} component={() => <Designer isNew />} exact />
         <Route component={NotFound} />
       </Switch>

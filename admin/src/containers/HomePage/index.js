@@ -11,18 +11,19 @@ import { PopUpWarning, LoadingIndicator, ListButton, request, useGlobalContext }
 import { Table, Button } from '@buffetjs/core';
 import { Plus } from '@buffetjs/icons';
 import { Header } from '@buffetjs/custom';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCopy, faClipboard, faPencilAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import styled from 'styled-components';
 import { isEmpty, pick } from 'lodash';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import sunburst from 'react-syntax-highlighter/dist/esm/styles/prism/material-dark';
-import Block from '../../components/Block';
 import getTrad from '../../utils/getTrad';
 import pluginId from '../../pluginId';
-import TabsNav from '../../components/Tabs';
 
 const getUrl = (to) => (to ? `/plugins/${pluginId}/${to}` : `/plugins/${pluginId}`);
+
+const Wrapper = styled.div`
+  margin-bottom: 30px;
+`
 
 const HomePage = () => {
   const { push } = useHistory();
@@ -124,122 +125,66 @@ const HomePage = () => {
         }}
         content="Design your own templates"
       />
+
       {!plugins[pluginId].isReady && <LoadingIndicator />}
 
-      <TabsNav
-        style={{ display: 'flex-inline', marginTop: '0.4rem' }}
-        links={[
-          {
-            isActive: activeTab === 'listEmailTemplates',
-            name: getTrad('listEmailTemplates'),
-            onClick: () => setActiveTab('listEmailTemplates'),
-          },
-          {
-            isActive: activeTab === 'howToUse',
-            name: getTrad('howToUse'),
-            onClick: () => setActiveTab('howToUse'),
-          },
-        ]}
-      />
-
-      <div
-        className="row"
-        style={{
-          display: activeTab === 'listEmailTemplates' ? 'block' : 'none',
-        }}
-      >
-        <Block>
-          <Table
-            headers={headers}
-            rows={templates}
-            // customRow={this.CustomRow}
-            onClickRow={(e, data) => {
-              push(getUrl(`design/${data.id}`));
-            }}
-            rowLinks={[
-              // @todo would be great to add popper for each action
-              {
-                icon: <FontAwesomeIcon icon={faPencilAlt} />,
-                onClick: (data) => {
-                  push(getUrl(`design/${data.id}`));
-                },
-              },
-              {
-                icon: <FontAwesomeIcon icon={faClipboard} />,
-                onClick: (data) => {
-                  navigator.clipboard.writeText(`${data.id}`).then(
-                    function () {
-                      strapi.notification.toggle({
-                        type: 'success',
-                        message: {
-                          id: getTrad('notification.templateIdCopied'),
-                        },
-                      });
-                      console.log('Template ID copied to clipboard successfully!');
-                    },
-                    function (err) {
-                      console.error('Could not copy text: ', err);
-                    }
-                  );
-                },
-              },
-              {
-                icon: <FontAwesomeIcon icon={faCopy} />,
-                onClick: (data) => setDuplicateConfirmationModal(data.id),
-              },
-              {
-                icon: <FontAwesomeIcon icon={faTrashAlt} />,
-                onClick: (data) => setDeleteConfirmationModal(data.id),
-              },
-            ]}
-          />
-          <ListButton>
-            <Button
-              color="primary"
-              type="button"
-              onClick={() => push(getUrl(`design/new`))}
-              icon={<Plus fill="#007eff" width="11px" height="11px" />}
-            >
-              {formatMessage({ id: getTrad('addNewTemplate') })}
-            </Button>
-          </ListButton>
-        </Block>
-      </div>
-
-      <div className="row" style={{ display: activeTab === 'howToUse' ? 'block' : 'none' }}>
-        <Block title="Come funziona?" description="Example code">
-          <SyntaxHighlighter language="javascript" style={sunburst}>
-            {`
+      <Wrapper>
+        <Table
+          headers={headers}
+          rows={templates}
+          // customRow={this.CustomRow}
+          onClickRow={(e, data) => {
+            push(getUrl(`design/${data.id}`));
+          }}
+          rowLinks={[
+            // @todo would be great to add popper for each action
             {
-              const templateId = "[GET_THE_TEMPLATE_ID]",
-              to = "jhon@doe.com",
-              from = "me@example.com",
-              replyTo = "no-reply@example.com",
-              subject = "[TEST] This is a test using strapi-email-designer",
-              userData = {
-                firstname: "Alex",
-                lastname: "Zaganelli",
-                email: "blah@blah.com"
-              }
-              
-              try {
-                await strapi.plugins["email-designer"].services.email.send({
-                  templateId,
-                  to,
-                  from,
-                  replyTo,
-                  subject,
-                  data: userData,
-                });
-              } catch (err) {
-                strapi.log.debug('📺: ', err);
-                return ctx.badRequest(null, err);
-              }
-            }
-            `}
-          </SyntaxHighlighter>
-        </Block>
-      </div>
+              icon: <FontAwesomeIcon icon={faPencilAlt} />,
+              onClick: (data) => {
+                push(getUrl(`design/${data.id}`));
+              },
+            },
+            {
+              icon: <FontAwesomeIcon icon={faClipboard} />,
+              onClick: (data) => {
+                navigator.clipboard.writeText(`${data.id}`).then(
+                  function () {
+                    strapi.notification.toggle({
+                      type: 'success',
+                      message: {
+                        id: getTrad('notification.templateIdCopied'),
+                      },
+                    });
+                    console.log('Template ID copied to clipboard successfully!');
+                  },
+                  function (err) {
+                    console.error('Could not copy text: ', err);
+                  }
+                );
+              },
+            },
+            {
+              icon: <FontAwesomeIcon icon={faCopy} />,
+              onClick: (data) => setDuplicateConfirmationModal(data.id),
+            },
+            {
+              icon: <FontAwesomeIcon icon={faTrashAlt} />,
+              onClick: (data) => setDeleteConfirmationModal(data.id),
+            },
+          ]}
+        />
+        <ListButton>
+          <Button
+            color="primary"
+            type="button"
+            onClick={() => push(getUrl(`design/new`))}
+            icon={<Plus fill="#007eff" width="11px" height="11px" />}
+          >
+            {formatMessage({ id: getTrad('addNewTemplate') })}
+          </Button>
+        </ListButton>
+      </Wrapper>
+      <Link to={`/plugins/${pluginId}/how-to`}>{formatMessage({ id: getTrad('howToUse.link') })}</Link>
     </div>
   );
 };

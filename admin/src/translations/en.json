@@ -1,6 +1,8 @@
 {
   "addNewTemplate": "Add new template",
   "howToUse": "How to use",
+  "howToUse.content": "Example code",
+  "howToUse.link": "Learn how to use templates",
   "htmlVersion": "HTML version",
   "listEmailTemplates": "Templates list",
   "listEmailTemplatesDescription": "These are the templates you can programmatically use to send emails",
