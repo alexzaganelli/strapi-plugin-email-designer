@@ -1,7 +1,9 @@
 {
-  "newTemplate": "Nuovo template",
   "addNewTemplate": "Aggiungi un nuovo template",
-  "htmlVersion": "Versione HTML",
+  "designer.version.html": "Versione HTML",
+  "designer.version.text": "Versione testuale",
+  "designer.action.saveTemplate": "Salva design",
+  "newTemplate": "Nuovo template",
   "noName": "Senza nome",
   "howToUse": "Come si usa?",
   "notification.error": "Impossibile salvare il design",
@@ -15,11 +17,9 @@
   "prompt.unsaved": "Modifiche non salvate",
   "questions.sureToDuplicate": "Vuoi duplicare questo template?",
   "questions.sureToDelete": "Vuoi eliminare questo template?",
-  "saveTemplate": "Salva design",
   "settings": "Preferenze",
   "table.description": "Descrizione",
   "table.name": "Nome",
   "templateNameInputField": "Nome identificativo",
-  "templates": "Templates",
-  "textVersion": "Versione testuale"
+  "templates": "Templates"
 }
