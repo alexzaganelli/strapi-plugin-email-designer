@@ -90,14 +90,14 @@ The **Email Designer** plugin should appear in the **Plugins** section of Strapi
   // ...
 
   const templateId = '[GET_THE_TEMPLATE_ID]',
-    to = 'jhon@doe.com',
+    to = 'john@doe.com',
     from = 'me@example.com',
     replyTo = 'no-reply@example.com',
     subject = '[TEST] This is a test using strapi-email-designer',
     userData = {
-      firstname: 'Alex',
-      lastname: 'Zaganelli',
-      email: 'blah@blah.com',
+      firstname: 'John',
+      lastname: 'Doe',
+      email: 'john@doe.com',
     };
 
   try {
@@ -126,9 +126,9 @@ The **Email Designer** plugin should appear in the **Plugins** section of Strapi
 
   const templateId = '[GET_THE_TEMPLATE_ID]',
     userData = {
-      firstname: 'Alex',
-      lastname: 'Zaganelli',
-      email: 'blah@blah.com',
+      firstname: 'John',
+      lastname: 'Doe',
+      email: 'john@doe.com',
     };
 
   const { composedHtml, composedText } = await strapi.plugins['email-designer'].services.email.compose({
@@ -158,6 +158,33 @@ Complete installation requirements are exact same as for Strapi itself and can b
 - NPM >= 6.x
 
 **We recommend always using the latest version of Strapi to start your new projects**.
+
+## 🚨 How to run the tests
+
+Create the `cypress.env.json` file to the root and add your variables following this schema:
+
+```json
+{
+  "adminUrl": "http://localhost:1337/admin/auth/login",
+  "user": {
+    "email": "john.doe@example.com",
+    "password": "P1pp0#2021"
+  }
+}
+```
+
+Now let's install and open Cypress
+
+```bash
+# with yarn
+yarn cypress:install
+yarn cypress:open
+
+# with npm
+npm run cypress:install
+npm run cypress:open
+
+```
 
 ## 🚧 Roadmap
 
