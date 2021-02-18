@@ -31,7 +31,6 @@ const HomePage = () => {
   const [templates, setTemplates] = useState([]);
   const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
   const [duplicateConfirmationModal, setDuplicateConfirmationModal] = useState(false);
-  const [activeTab, setActiveTab] = useState('listEmailTemplates');
 
   useEffect(() => {
     (async () => {
@@ -121,9 +120,11 @@ const HomePage = () => {
           },
         ]}
         title={{
-          label: 'Email Designer',
+          label: formatMessage({ id: getTrad('plugin.name') }),
         }}
-        content="Design your own templates"
+        content={
+          formatMessage({ id: getTrad('header.description') })
+        }
       />
 
       {!plugins[pluginId].isReady && <LoadingIndicator />}

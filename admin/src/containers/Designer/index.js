@@ -133,19 +133,19 @@ const EmailDesigner = () => {
               value={templateData?.name || ''}
               style={{ marginTop: 0, width: '50%' }}
             />
-            <Button onClick={saveDesign} color="success">{formatMessage({ id: getTrad('saveTemplate') })}</Button>
+            <Button onClick={saveDesign} color="success">{formatMessage({ id: getTrad('designer.action.saveTemplate') })}</Button>
           </Bar>
 
           <TabsNav
             links={[
               {
                 isActive: mode === 'html',
-                name: getTrad('htmlVersion'),
+                name: getTrad('designer.version.html'),
                 onClick: () => setMode('html'),
               },
               {
                 isActive: mode === 'text',
-                name: getTrad('textVersion'),
+                name: getTrad('designer.version.text'),
                 onClick: () => setMode('text'),
               },
             ]}

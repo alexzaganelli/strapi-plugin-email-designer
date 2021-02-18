@@ -3,9 +3,9 @@
   "howToUse": "How to use",
   "howToUse.content": "Example code",
   "howToUse.link": "Learn how to use templates",
-  "htmlVersion": "HTML version",
-  "listEmailTemplates": "Templates list",
-  "listEmailTemplatesDescription": "These are the templates you can programmatically use to send emails",
+  "designer.version.html": "HTML version",
+  "designer.version.text": "Text version",
+  "designer.action.saveTemplate": "Save design",
   "newTemplate": "New template",
   "noName": "No name",
   "notification.error": "Unable to save the design",
@@ -19,11 +19,10 @@
   "prompt.unsaved": "Unsaved changes",
   "questions.sureToDelete": "Do you want delete this entry?",
   "questions.sureToDuplicate": "Do you want duplicate this entry?",
-  "saveTemplate": "Save design",
   "settings": "Settings",
   "table.description": "Description",
   "table.name": "Name",
   "templateNameInputField": "Identification name",
   "templates": "Templates",
-  "textVersion": "Text version"
+  "header.description": "Design your own templates"
 }
