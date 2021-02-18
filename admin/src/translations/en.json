@@ -23,5 +23,6 @@
   "table.name": "Name",
   "templateNameInputField": "Identification name",
   "templates": "Templates",
-  "textVersion": "Text version"
+  "textVersion": "Text version",
+  "header.description": "Design your own templates"
 }

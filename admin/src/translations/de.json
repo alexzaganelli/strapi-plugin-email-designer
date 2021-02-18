@@ -23,5 +23,6 @@
   "table.name": "Name",
   "templateNameInputField": "Identifikationsname",
   "templates": "Vorlagen",
-  "textVersion": "Text-Version"
+  "textVersion": "Text-Version",
+  "header.description": "Gestalte deine eigenen E-Mail-Vorlagen"
 }

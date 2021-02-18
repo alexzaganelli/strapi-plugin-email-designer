@@ -120,9 +120,11 @@ const HomePage = () => {
           },
         ]}
         title={{
-          label: 'Email Designer',
+          label: formatMessage({ id: getTrad('plugin.name') }),
         }}
-        content="Design your own templates"
+        content={
+          formatMessage({ id: getTrad('header.description') })
+        }
       />
 
       {!plugins[pluginId].isReady && <LoadingIndicator />}
