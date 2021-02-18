@@ -9,8 +9,7 @@
     "description": "Design your own email templates directly from the Strapi admin panel and use the magic to send it programmatically in your controllers / services."
   },
   "scripts": {
-    "cypress:install": "node ./node_modules/cypress/bin/cypress install",
-    "cypress:open": "cypress open"
+    "cypress": "./node_modules/cypress/bin/cypress open"
   },
   "dependencies": {
     "react-email-editor": "^1.2.0",
@@ -49,7 +48,7 @@
   "license": "MIT",
   "funding": "https://paypal.me/AlexZaganelli",
   "devDependencies": {
-    "cypress": "^6.5.0",
+    "cypress": "^6.4.0",
     "eslint": "^7.20.0",
     "prettier": "^2.2.1"
   }
