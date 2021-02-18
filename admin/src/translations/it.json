@@ -2,8 +2,6 @@
   "newTemplate": "Nuovo template",
   "addNewTemplate": "Aggiungi un nuovo template",
   "htmlVersion": "Versione HTML",
-  "listEmailTemplates": "Lista templates",
-  "listEmailTemplatesDescription": "Questi sono i template che puoi usare per inviare le email",
   "noName": "Senza nome",
   "howToUse": "Come si usa?",
   "notification.error": "Impossibile salvare il design",

@@ -31,7 +31,6 @@ const HomePage = () => {
   const [templates, setTemplates] = useState([]);
   const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
   const [duplicateConfirmationModal, setDuplicateConfirmationModal] = useState(false);
-  const [activeTab, setActiveTab] = useState('listEmailTemplates');
 
   useEffect(() => {
     (async () => {

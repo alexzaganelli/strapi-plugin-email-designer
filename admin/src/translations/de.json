@@ -1,1 +1,27 @@
-{}
+{
+  "addNewTemplate": "Neue Vorlage hinzufügen",
+  "howToUse": "Beispiel zur Benutzung",
+  "howToUse.content": "Beispiel-Code",
+  "howToUse.link": "Wie Vorlagen verwendet werden",
+  "htmlVersion": "HTML-Version",
+  "newTemplate": "Neue Vorlage",
+  "noName": "Kein Name",
+  "notification.error": "Konnte Design nicht speichern",
+  "notification.impossibileToDeleteTemplate": "Konnte diese Vorlage nicht löschen!",
+  "notification.impossibleToDuplicate": "Konnte diese Vorlage nicht duplizieren!",
+  "notification.success.submit": "Design erfolgreich gespeichert",
+  "notification.templateDeleted": "Vorlage gelöscht",
+  "notification.templateIdCopied": "ID in Zwischenablage kopiert",
+  "pleaseConfirm": "Bist du dir sicher?",
+  "plugin.name": "E-Mail-Designer",
+  "prompt.unsaved": "Ungespeicherte Änderungen",
+  "questions.sureToDelete": "Willst du diesen Eintrag wirklich löschen?",
+  "questions.sureToDuplicate": "Willst du diesen Eintrag duplizieren?",
+  "saveTemplate": "Design speichern",
+  "settings": "Einstellungen",
+  "table.description": "Beschreibung",
+  "table.name": "Name",
+  "templateNameInputField": "Identifikationsname",
+  "templates": "Vorlagen",
+  "textVersion": "Text-Version"
+}

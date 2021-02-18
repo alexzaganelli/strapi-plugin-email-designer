@@ -4,8 +4,6 @@
   "howToUse.content": "Example code",
   "howToUse.link": "Learn how to use templates",
   "htmlVersion": "HTML version",
-  "listEmailTemplates": "Templates list",
-  "listEmailTemplatesDescription": "These are the templates you can programmatically use to send emails",
   "newTemplate": "New template",
   "noName": "No name",
   "notification.error": "Unable to save the design",
