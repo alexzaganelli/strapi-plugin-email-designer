@@ -23,7 +23,7 @@ const getUrl = (to) => (to ? `/plugins/${pluginId}/${to}` : `/plugins/${pluginId
 
 const Wrapper = styled.div`
   margin-bottom: 30px;
-`
+`;
 
 const HomePage = () => {
   const { push } = useHistory();
@@ -122,9 +122,7 @@ const HomePage = () => {
         title={{
           label: formatMessage({ id: getTrad('plugin.name') }),
         }}
-        content={
-          formatMessage({ id: getTrad('header.description') })
-        }
+        content={formatMessage({ id: getTrad('header.description') })}
       />
 
       {!plugins[pluginId].isReady && <LoadingIndicator />}
