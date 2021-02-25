@@ -14,6 +14,7 @@
   "notification.success.submit": "Design saved succesfully",
   "notification.templateDeleted": "Template deleted",
   "notification.templateIdCopied": "ID copied to clipboard",
+  "notification.importTemplate": "Are you sure you want to import selected email templates?",
   "pleaseConfirm": "Are you sure?",
   "plugin.name": "Email designer",
   "prompt.unsaved": "Unsaved changes",
@@ -24,5 +25,7 @@
   "table.name": "Name",
   "templateNameInputField": "Identification name",
   "templates": "Templates",
+  "templates.importTemplates": "Import Templates",
+  "templates.exportTemplates": "Export Templates",
   "header.description": "Design your own templates"
 }
