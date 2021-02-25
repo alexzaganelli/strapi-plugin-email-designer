@@ -149,7 +149,7 @@ const EmailDesigner = () => {
                 onClick: () => setMode('text'),
               },
             ]}
-            style={{ marginTop: '0.4rem' }}
+            style={{ marginTop: '0.4rem', height: '5rem' }}
           />
           <div style={{ height: '100%', display: mode === 'html' ? 'flex' : 'none' }}>
             <React.StrictMode>
