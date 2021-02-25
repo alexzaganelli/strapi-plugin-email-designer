@@ -119,7 +119,7 @@ Complete installation requirements are exact same as for Strapi itself and can b
 
 **Supported Strapi versions**:
 
-- Strapi v3.4.x
+- Strapi v3.5.x
 
 (This plugin may work with the older Strapi versions, but these are not tested nor officially supported at this time.)
 
