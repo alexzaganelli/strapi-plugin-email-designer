@@ -23,7 +23,7 @@
 
 Design your own email templates directly from the [Strapi CMS](https://github.com/strapi/strapi) admin panel and use the magic to send programmatically email from your controllers / services.
 
-<img src="https://raw.githubusercontent.com/alexzaganelli/strapi-plugin-email-designer/main/public/assets/designer-screenshot.jpg" alt="Designer screenshot" />
+<img src="https://raw.githubusercontent.com/creazy231/strapi-plugin-email-designer/main/public/assets/designer-screenshot.png" alt="Designer screenshot" />
 
 _Visual composer provided by [Unlayer](https://unlayer.com/)_
 
@@ -81,7 +81,8 @@ The **Email Designer** plugin should appear in the **Plugins** section of Strapi
 
 ## 💄 Usage
 
-1. Design your template with easy on the visual composer. For variables use [lodash templating language](https://lodash.com/docs/4.17.15#template).
+1. Design your template with easy on the visual composer. For variables use [lodash templating language](https://lodash.com/docs/4.17.15#template). **You can leave the text version blank to automatically generate a text version of your email from the HTML version.**
+
 
 2. Send email programmatically:
 
