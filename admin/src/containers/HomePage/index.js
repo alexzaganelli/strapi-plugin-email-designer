@@ -144,6 +144,7 @@ const HomePage = () => {
           ...template,
           created_at: moment().unix(),
           updated_at: moment().unix(),
+          import: true,
         },
       });
       importedTemplates.push(response);

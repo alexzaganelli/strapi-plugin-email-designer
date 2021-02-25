@@ -57,7 +57,7 @@ module.exports = {
    * @return {Object}
    */
   saveTemplate: async (ctx) => {
-    if (!_.isEmpty(ctx.params.templateId)) {
+    if (!_.isEmpty(ctx.params.templateId) && ctx.request.body.import) {
       const foundTemplate = await strapi.plugins['email-designer'].services.template.fetch({ id: ctx.params.templateId });
       if (!foundTemplate || foundTemplate.name !== ctx.request.body.name ) ctx.params.templateId = 'new';
     }
