@@ -90,10 +90,12 @@ const HomePage = () => {
     {name: 'Template ID', value: 'id'},
   ];
 
+  console.log(duplicateConfirmationModal);
+
   return (
     <div className="container-fluid" style={{padding: '18px 30px 66px 30px'}}>
       <PopUpWarning
-        isOpen={!isEmpty(duplicateConfirmationModal)}
+        isOpen={typeof duplicateConfirmationModal === 'number'}
         content={{
           title: getTrad('pleaseConfirm'),
           message: getTrad('questions.sureToDuplicate'),
@@ -101,11 +103,11 @@ const HomePage = () => {
         popUpWarningType="danger"
         toggleModal={() => setDuplicateConfirmationModal(false)}
         onConfirm={async () => {
-          duplicateTemplateHandler();
+          await duplicateTemplateHandler();
         }}
       />
       <PopUpWarning
-        isOpen={!isEmpty(deleteConfirmationModal)}
+        isOpen={typeof deleteConfirmationModal === 'number'}
         content={{
           title: getTrad('pleaseConfirm'),
           message: getTrad('questions.sureToDelete'),
@@ -113,7 +115,7 @@ const HomePage = () => {
         popUpWarningType="danger"
         toggleModal={() => setDeleteConfirmationModal(false)}
         onConfirm={async () => {
-          deleteTemplateHandler();
+          await deleteTemplateHandler();
         }}
       />
       <Header
