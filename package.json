@@ -52,6 +52,7 @@
   "license": "MIT",
   "funding": "https://paypal.me/AlexZaganelli",
   "devDependencies": {
+    "babel-eslint": "^10.1.0",
     "cypress": "^6.5.0",
     "eslint": "^7.20.0",
     "prettier": "^2.2.1"

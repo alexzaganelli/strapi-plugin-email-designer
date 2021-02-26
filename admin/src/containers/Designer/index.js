@@ -133,7 +133,9 @@ const EmailDesigner = () => {
               value={templateData?.name || ''}
               style={{ marginTop: 0, width: '50%' }}
             />
-            <Button onClick={saveDesign} color="success">{formatMessage({ id: getTrad('designer.action.saveTemplate') })}</Button>
+            <Button onClick={saveDesign} color="success">
+              {formatMessage({ id: getTrad('designer.action.saveTemplate') })}
+            </Button>
           </Bar>
 
           <TabsNav
@@ -163,7 +165,7 @@ const EmailDesigner = () => {
                   minWidth: '100%',
                   theme: 'light',
                 }}
-                locale={ strapi.currentLanguage }
+                locale={strapi.currentLanguage}
                 tools={{
                   image: {
                     enabled: true,
