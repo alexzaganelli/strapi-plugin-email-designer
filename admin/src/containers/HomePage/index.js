@@ -20,7 +20,7 @@ import { isEmpty, pick } from 'lodash';
 import getTrad from '../../utils/getTrad';
 import pluginId from '../../pluginId';
 import { Tooltip } from '@buffetjs/styles';
-import moment from 'moment';
+import { dateFormats, dateToUtcTime } from 'strapi-helper-plugin';
 
 const getUrl = (to) => (to ? `/plugins/${pluginId}/${to}` : `/plugins/${pluginId}`);
 
@@ -68,7 +68,7 @@ const HomePage = () => {
       });
       templatesData.forEach((data) => {
         data.enabled = data.enabled.toString();
-        data.created_at = moment(data.created_at).format('dddd, MMMM Do YYYY');
+        data.created_at = dateToUtcTime(data.created_at).format(dateFormats.date);
       });
       setTemplates(templatesData.map((row) => pick(row, ['id', 'name', 'enabled', 'created_at'])));
     })();
@@ -119,7 +119,7 @@ const HomePage = () => {
     const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(templates));
     const dlAnchorElem = document.getElementById('downloadAnchorElem');
     dlAnchorElem.setAttribute('href', dataStr);
-    dlAnchorElem.setAttribute('download', `${pluginId}-templates_${moment().unix()}.json`);
+    dlAnchorElem.setAttribute('download', `${pluginId}-templates_${dateToUtcTime().unix()}.json`);
     dlAnchorElem.click();
   };
 
@@ -148,8 +148,8 @@ const HomePage = () => {
         method: 'POST',
         body: {
           ...template,
-          created_at: moment().unix(),
-          updated_at: moment().unix(),
+          created_at: dateToUtcTime().unix(),
+          updated_at: dateToUtcTime().unix(),
           import: true,
         },
       });
@@ -158,9 +158,9 @@ const HomePage = () => {
 
     let newTemplates = [...templates, ...importedTemplates].map((data) => {
       data.enabled = data.enabled.toString();
-      data.created_at = moment(
+      data.created_at = dateToUtcTime(
         data.created_at,
-        moment(data.created_at).isValid() ? undefined : 'dddd, MMMM Do YYYY'
+        dateToUtcTime(data.created_at).isValid() ? undefined : dateFormats.date
       ).format('dddd, MMMM Do YYYY');
       return data;
     });
@@ -177,9 +177,9 @@ const HomePage = () => {
 
   const headers = [
     { name: formatMessage({ id: getTrad('table.name') }), value: 'name' },
-    { name: 'Template ID', value: 'id' },
-    { name: 'Enabled', value: 'enabled' },
-    { name: 'Created At', value: 'created_at' },
+    { name: formatMessage({ id: getTrad('table.templateId') }), value: 'id' },
+    { name: formatMessage({ id: getTrad('table.enabled') }), value: 'enabled' },
+    { name: formatMessage({ id: getTrad('table.createdAt') }), value: 'created_at' },
   ];
 
   return (
@@ -257,7 +257,7 @@ const HomePage = () => {
             {
               icon: (
                 <>
-                  <div data-for="duplicate" data-tip={'Duplicate'}>
+                  <div data-for="duplicate" data-tip={formatMessage({ id: getTrad('tooltip.duplicate') })}>
                     <Duplicate fill={'#000000'} />
                   </div>
                   <Tooltip id={'duplicate'} />
@@ -268,7 +268,7 @@ const HomePage = () => {
             {
               icon: (
                 <>
-                  <div data-for="edit" data-tip={'Edit'}>
+                  <div data-for="edit" data-tip={formatMessage({ id: getTrad('tooltip.edit') })}>
                     <FontAwesomeIcon icon={faPencilAlt} />
                   </div>
                   <Tooltip id={'edit'} />
@@ -281,7 +281,7 @@ const HomePage = () => {
             {
               icon: (
                 <>
-                  <div data-for="copy_template_id" data-tip={'Copy Template ID'}>
+                  <div data-for="copy_template_id" data-tip={formatMessage({ id: getTrad('tooltip.copyTemplateId') })}>
                     <FontAwesomeIcon icon={faLink} />
                   </div>
                   <Tooltip id={'copy_template_id'} />
@@ -307,7 +307,7 @@ const HomePage = () => {
             {
               icon: (
                 <>
-                  <div data-for="delete_template" data-tip={'Delete Template'}>
+                  <div data-for="delete_template" data-tip={formatMessage({ id: getTrad('tooltip.delete') })}>
                     <FontAwesomeIcon icon={faTrashAlt} />
                   </div>
                   <Tooltip id={'delete_template'} />
