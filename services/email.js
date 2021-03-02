@@ -18,7 +18,10 @@ const { htmlToText } = require('html-to-text');
  */
 const sendTemplatedEmail = async (emailOptions = {}, emailTemplate = {}, data = {}) => {
   Object.entries(emailOptions).forEach(([key, address]) => {
-    if (!isValidEmail.test(address)) throw new Error(`Invalid "${key}" email address with value "${address}"`);
+    const emailsToCheck = address.split(',');
+    emailsToCheck.forEach(email => {
+      if (!isValidEmail.test(email)) throw new Error(`Invalid "${key}" email address with value "${email}"`);
+    });
   });
 
   const requiredAttributes = ['templateId', 'subject'];
@@ -38,7 +41,7 @@ const sendTemplatedEmail = async (emailOptions = {}, emailTemplate = {}, data = 
   emailTemplate = {
     ...emailTemplate,
     html: decode(bodyHtml),
-    text: decode(bodyText),
+    text: decode(bodyText)
   };
 
   const templatedAttributes = attributes.reduce(
@@ -60,7 +63,7 @@ const sendTemplatedEmail = async (emailOptions = {}, emailTemplate = {}, data = 
 const compose = async ({ templateId, data }) => {
   strapi.log.debug(`⚠️: `, `The 'compose' function is deprecated and may be removed or changed in the future.`);
 
-  if (!templateId) throw new Error("No email template's id provided");
+  if (!templateId) throw new Error('No email template\'s id provided');
   let composedHtml, composedText;
   try {
     const template = await strapi.query('email-template', 'email-designer').findOne({ id: templateId });
@@ -89,7 +92,7 @@ const send = async ({ templateId, data, to, from, replyTo, subject }) => {
   try {
     const { composedHtml = '', composedText = '' } = await strapi.plugins['email-designer'].services.email.compose({
       templateId,
-      data,
+      data
     });
 
     await strapi.plugins['email'].services.email.send({
@@ -98,7 +101,7 @@ const send = async ({ templateId, data, to, from, replyTo, subject }) => {
       replyTo,
       subject,
       html: composedHtml,
-      text: composedText,
+      text: composedText
     });
   } catch (err) {
     strapi.log.debug(`📺: `, err);
@@ -109,5 +112,5 @@ const send = async ({ templateId, data, to, from, replyTo, subject }) => {
 module.exports = {
   sendTemplatedEmail,
   compose,
-  send,
+  send
 };
