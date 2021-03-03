@@ -18,8 +18,7 @@ const { htmlToText } = require('html-to-text');
  */
 const sendTemplatedEmail = async (emailOptions = {}, emailTemplate = {}, data = {}) => {
   Object.entries(emailOptions).forEach(([key, address]) => {
-    const emailsToCheck = address.split(',');
-    emailsToCheck.forEach(email => {
+    address.forEach(email => {
       if (!isValidEmail.test(email)) throw new Error(`Invalid "${key}" email address with value "${email}"`);
     });
   });
