@@ -2,7 +2,7 @@
   "routes": [
     {
       "method": "GET",
-      "path": "/templates/",
+      "path": "/templates",
       "handler": "designer.getTemplates",
       "config": {
         "policies": []

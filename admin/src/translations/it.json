@@ -10,6 +10,7 @@
   "newTemplate": "Nuovo template",
   "noName": "Senza nome",
   "notification.error": "Impossibile salvare il design",
+  "notification.importTemplate": "Sei sicuro di importare i templates selezionati?",
   "notification.impossibileToDeleteTemplate": "Impossibile eliminare il template!",
   "notification.impossibleToDuplicate": "Impossibile duplicare il template!",
   "notification.success.submit": "Design salvato correttamente",
@@ -22,7 +23,15 @@
   "questions.sureToDuplicate": "Vuoi duplicare questo template?",
   "settings": "Preferenze",
   "table.description": "Descrizione",
+  "table.enabled": "Attivo",
   "table.name": "Nome",
+  "table.templateId": "ID Template",
+  "templates.exportTemplates": "Esporta Templates",
+  "templates.importTemplates": "Importa Templates",
   "templateNameInputField": "Nome identificativo",
-  "templates": "Templates"
+  "templates": "Templates",
+  "tooltip.copyTemplateId": "Copia ID del Template",
+  "tooltip.delete": "Elimina Template",
+  "tooltip.duplicate": "Duplica",
+  "tooltip.edit": "Modifica"
 }

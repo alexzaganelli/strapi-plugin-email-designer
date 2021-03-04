@@ -10,9 +10,14 @@
   },
   "scripts": {
     "cypress:install": "node ./node_modules/cypress/bin/cypress install",
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress open",
+    "prettier:check": "prettier --check **/*.js",
+    "prettier:write": "prettier --write **/*.js"
   },
   "dependencies": {
+    "decode-html": "^2.0.0",
+    "html-to-text": "^7.0.0",
+    "lodash": "^4.17.21",
     "react-email-editor": "^1.2.0",
     "react-syntax-highlighter": "^15.4.3"
   },
@@ -49,6 +54,7 @@
   "license": "MIT",
   "funding": "https://paypal.me/AlexZaganelli",
   "devDependencies": {
+    "babel-eslint": "^10.1.0",
     "cypress": "^6.5.0",
     "eslint": "^7.20.0",
     "prettier": "^2.2.1"
