@@ -63,6 +63,7 @@ module.exports = {
       });
       if (!foundTemplate || foundTemplate.name !== ctx.request.body.name) ctx.params.templateId = 'new';
     }
+
     const template =
       _.isEmpty(ctx.params.templateId) || ctx.params.templateId === 'new'
         ? await strapi.plugins['email-designer'].services.template.add(ctx.request.body)

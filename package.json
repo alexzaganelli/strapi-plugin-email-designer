@@ -10,7 +10,9 @@
   },
   "scripts": {
     "cypress:install": "node ./node_modules/cypress/bin/cypress install",
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress open",
+    "prettier:check": "prettier --check **/*.js",
+    "prettier:write": "prettier --write **/*.js"
   },
   "dependencies": {
     "decode-html": "^2.0.0",

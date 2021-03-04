@@ -5,22 +5,27 @@
  * Reference: https://strapi.io/documentation/developer-docs/latest/plugin-development/frontend-development.html#environment-setup
  */
 
-import React, { memo, useState, useEffect, useCallback } from 'react';
-// import PropTypes from 'prop-types';
-import { PopUpWarning, LoadingIndicator, ListButton, request, useGlobalContext } from 'strapi-helper-plugin';
-import { Table, Button } from '@buffetjs/core';
-import { Plus } from '@buffetjs/icons';
-import { Header } from '@buffetjs/custom';
-import { Link, useHistory } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { memo, useRef, useState, useEffect, useCallback } from 'react';
+import {
+  PopUpWarning,
+  LoadingIndicator,
+  request,
+  useGlobalContext,
+  dateFormats,
+  dateToUtcTime,
+} from 'strapi-helper-plugin';
 import { faLink, faFileExport, faFileImport, faPencilAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Link, useHistory } from 'react-router-dom';
+import { Table, Button } from '@buffetjs/core';
 import { Duplicate } from '@buffetjs/icons';
+import { Tooltip } from '@buffetjs/styles';
+import { Header } from '@buffetjs/custom';
+import { isEmpty, pick, uniqBy } from 'lodash';
+
 import styled from 'styled-components';
-import { isEmpty, pick } from 'lodash';
 import getTrad from '../../utils/getTrad';
 import pluginId from '../../pluginId';
-import { Tooltip } from '@buffetjs/styles';
-import { dateFormats, dateToUtcTime } from 'strapi-helper-plugin';
 
 const getUrl = (to) => (to ? `/plugins/${pluginId}/${to}` : `/plugins/${pluginId}`);
 
@@ -60,6 +65,7 @@ const HomePage = () => {
   const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
   const [duplicateConfirmationModal, setDuplicateConfirmationModal] = useState(false);
   const [importConfirmationModal, setImportConfirmationModal] = useState(false);
+  const emailTemplatesFileSelect = useRef();
 
   useEffect(() => {
     (async () => {
@@ -79,6 +85,7 @@ const HomePage = () => {
       const response = await request(`/${pluginId}/templates/duplicate/${duplicateConfirmationModal}`, {
         method: 'POST',
       });
+
       push(getUrl(`design/${response.id}`));
     } catch (error) {
       strapi.notification.toggle({
@@ -116,15 +123,16 @@ const HomePage = () => {
       method: 'GET',
     });
 
-    const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(templates));
-    const dlAnchorElem = document.getElementById('downloadAnchorElem');
-    dlAnchorElem.setAttribute('href', dataStr);
-    dlAnchorElem.setAttribute('download', `${pluginId}-templates_${dateToUtcTime().unix()}.json`);
-    dlAnchorElem.click();
+    const dataStr = `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(templates))}`;
+    let a = document.createElement('a');
+    a.href = dataStr;
+    a.download = `${pluginId}-templates_${dateToUtcTime().unix()}.json`;
+    a.click();
   };
 
   const fileChangeHandler = (event) => {
     const file = event.target.files[0];
+
     if (file) {
       const fr = new FileReader();
       fr.onload = async () => {
@@ -137,12 +145,13 @@ const HomePage = () => {
   };
 
   let importLoading = false;
+
   const handleTemplatesFromImport = async () => {
     const tpls = importConfirmationModal;
     importLoading = true;
     let importedTemplates = [];
-    for (let i = 0; i < tpls.length; i++) {
-      const template = tpls[i];
+
+    tpls.forEach(async (template) => {
       const response = await request(`/${pluginId}/templates/${template.id}`, {
         // later templateId
         method: 'POST',
@@ -153,8 +162,9 @@ const HomePage = () => {
           import: true,
         },
       });
+
       importedTemplates.push(response);
-    }
+    });
 
     let newTemplates = [...templates, ...importedTemplates].map((data) => {
       data.enabled = data.enabled.toString();
@@ -162,15 +172,17 @@ const HomePage = () => {
         data.created_at,
         dateToUtcTime(data.created_at).isValid() ? undefined : dateFormats.date
       ).format('dddd, MMMM Do YYYY');
+
       return data;
     });
-    newTemplates = _.uniqBy(newTemplates, function (e) {
+
+    newTemplates = uniqBy(newTemplates, function (e) {
       return e.id;
     });
-    setTemplates((state) => newTemplates);
 
-    const email_templates_file_select = document.getElementById('email_templates_file_select');
-    email_templates_file_select.value = '';
+    setTemplates(newTemplates);
+
+    emailTemplatesFileSelect.current.value = '';
     setImportConfirmationModal(undefined);
     importLoading = false;
   };
@@ -193,8 +205,7 @@ const HomePage = () => {
         }}
         popUpWarningType="danger"
         toggleModal={() => {
-          const email_templates_file_select = document.getElementById('email_templates_file_select');
-          email_templates_file_select.value = '';
+          emailTemplatesFileSelect.current.value = '';
           setImportConfirmationModal(undefined);
         }}
         onConfirm={async () => {
@@ -202,7 +213,7 @@ const HomePage = () => {
         }}
       />
       <PopUpWarning
-        isOpen={typeof duplicateConfirmationModal === 'number'}
+        isOpen={!isEmpty(duplicateConfirmationModal)}
         content={{
           title: getTrad('pleaseConfirm'),
           message: getTrad('questions.sureToDuplicate'),
@@ -214,7 +225,7 @@ const HomePage = () => {
         }}
       />
       <PopUpWarning
-        isOpen={typeof deleteConfirmationModal === 'number'}
+        isOpen={!isEmpty(deleteConfirmationModal)}
         content={{
           title: getTrad('pleaseConfirm'),
           message: getTrad('questions.sureToDelete'),
@@ -246,7 +257,7 @@ const HomePage = () => {
 
       <Wrapper>
         <CustomTable
-          className={'remove-margin'}
+          className="remove-margin"
           headers={headers}
           rows={templates}
           // customRow={this.CustomRow}
@@ -258,9 +269,9 @@ const HomePage = () => {
               icon: (
                 <>
                   <div data-for="duplicate" data-tip={formatMessage({ id: getTrad('tooltip.duplicate') })}>
-                    <Duplicate fill={'#000000'} />
+                    <Duplicate fill="#000000" />
                   </div>
-                  <Tooltip id={'duplicate'} />
+                  <Tooltip id="duplicate" />
                 </>
               ),
               onClick: (data) => setDuplicateConfirmationModal(data.id),
@@ -271,7 +282,7 @@ const HomePage = () => {
                   <div data-for="edit" data-tip={formatMessage({ id: getTrad('tooltip.edit') })}>
                     <FontAwesomeIcon icon={faPencilAlt} />
                   </div>
-                  <Tooltip id={'edit'} />
+                  <Tooltip id="edit" />
                 </>
               ),
               onClick: (data) => {
@@ -284,7 +295,7 @@ const HomePage = () => {
                   <div data-for="copy_template_id" data-tip={formatMessage({ id: getTrad('tooltip.copyTemplateId') })}>
                     <FontAwesomeIcon icon={faLink} />
                   </div>
-                  <Tooltip id={'copy_template_id'} />
+                  <Tooltip id="copy_template_id" />
                 </>
               ),
               onClick: (data) => {
@@ -310,7 +321,7 @@ const HomePage = () => {
                   <div data-for="delete_template" data-tip={formatMessage({ id: getTrad('tooltip.delete') })}>
                     <FontAwesomeIcon icon={faTrashAlt} />
                   </div>
-                  <Tooltip id={'delete_template'} />
+                  <Tooltip id="delete_template" />
                 </>
               ),
               onClick: (data) => setDeleteConfirmationModal(data.id),
@@ -323,24 +334,23 @@ const HomePage = () => {
         <FooterButtonsWrapper>
           <Button
             onClick={() => exportTemplatesHandler()}
-            color={'success'}
+            color="success"
             icon={<FontAwesomeIcon icon={faFileExport} />}
           >
             {formatMessage({ id: getTrad('templates.exportTemplates') })}
           </Button>
-          <a id={'downloadAnchorElem'} style={{ display: 'none' }} />
+
           <Button
             onClick={() => {
-              const email_templates_file_select = document.getElementById('email_templates_file_select');
-              email_templates_file_select.click();
+              emailTemplatesFileSelect.current.click();
             }}
-            color={'delete'}
+            color="delete"
             icon={<FontAwesomeIcon icon={faFileImport} />}
           >
             {formatMessage({ id: getTrad('templates.importTemplates') })}
           </Button>
           <span style={{ display: 'none' }}>
-            <input type="file" id="email_templates_file_select" onChange={fileChangeHandler} />
+            <input type="file" ref={emailTemplatesFileSelect} onChange={fileChangeHandler} />
           </span>
         </FooterButtonsWrapper>
       </FooterWrapper>

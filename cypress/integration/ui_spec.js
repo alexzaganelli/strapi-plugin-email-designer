@@ -17,7 +17,7 @@ describe('Strapi Login flow', () => {
 
   it('Change language to english', () => {
     cy.get('div.adminPageRightWrapper').should('be.visible');
-    cy.get('button.localeDropdownContent').should('be.visible').click({force: true});
+    cy.get('button.localeDropdownContent').should('be.visible').click({ force: true });
     cy.get('button.localeToggleItem').should('be.visible').contains('English').click();
   });
 
