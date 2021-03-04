@@ -133,7 +133,9 @@ const EmailDesigner = () => {
               value={templateData?.name || ''}
               style={{ marginTop: 0, width: '50%' }}
             />
-            <Button onClick={saveDesign} color="success">{formatMessage({ id: getTrad('designer.action.saveTemplate') })}</Button>
+            <Button onClick={saveDesign} color="success">
+              {formatMessage({ id: getTrad('designer.action.saveTemplate') })}
+            </Button>
           </Bar>
 
           <TabsNav
@@ -149,7 +151,7 @@ const EmailDesigner = () => {
                 onClick: () => setMode('text'),
               },
             ]}
-            style={{ marginTop: '0.4rem' }}
+            style={{ marginTop: '0.4rem', height: '5rem' }}
           />
           <div style={{ height: '100%', display: mode === 'html' ? 'flex' : 'none' }}>
             <React.StrictMode>
@@ -163,7 +165,7 @@ const EmailDesigner = () => {
                   minWidth: '100%',
                   theme: 'light',
                 }}
-                locale={ strapi.currentLanguage }
+                locale={strapi.currentLanguage}
                 tools={{
                   image: {
                     enabled: true,

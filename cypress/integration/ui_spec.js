@@ -15,6 +15,12 @@ describe('Strapi Login flow', () => {
     cy.get('button[type="submit"]').click();
   });
 
+  it('Change language to english', () => {
+    cy.get('div.adminPageRightWrapper').should('be.visible');
+    cy.get('button.localeDropdownContent').should('be.visible').click({ force: true });
+    cy.get('button.localeToggleItem').should('be.visible').contains('English').click();
+  });
+
   it('Enter to the plugin Home Page', () => {
     cy.contains('Email designer', { timeout: 10000 }).click();
     cy.url().should('include', '/plugins/email-designer');

@@ -80,7 +80,7 @@ The **Email Designer** plugin should appear in the **Plugins** section of Strapi
 
 ## 💄 Usage
 
-1. Design your template with easy on the visual composer
+1. Design your template with easy on the visual composer. For variables use [lodash templating language](https://lodash.com/docs/4.17.15#template). **You can leave the text version blank to automatically generate a text version of your email from the HTML version.**
 
 2. Send email programmatically:
 
@@ -88,52 +88,26 @@ The **Email Designer** plugin should appear in the **Plugins** section of Strapi
 {
   // ...
 
-  const templateId = '[GET_THE_TEMPLATE_ID]',
-    to = 'john@doe.com',
-    from = 'me@example.com',
-    replyTo = 'no-reply@example.com',
-    subject = '[TEST] This is a test using strapi-email-designer',
-    userData = {
-      firstname: 'John',
-      lastname: 'Doe',
-      email: 'john@doe.com',
-    };
-
   try {
-    await strapi.plugins['email-designer'].services.email.send({
-      templateId,
-      to,
-      from,
-      replyTo,
-      subject,
-      data: userData,
-    });
+    await strapi.plugins['email-designer'].services.email.sendTemplatedEmail(
+      {
+        to: 'to@example.com', // required
+        from: 'from@example.com', // optional if /config/plugins.js -> email.settings.defaultFrom is set
+        replyTo: 'reply@example.com', // optional if /config/plugins.js -> email.settings.defaultReplyTo is set
+      },
+      {
+        templateId: 1, // required - you can get the template id from the admin panel
+        subject: `Welcome to My Project`, // subject can include variables like `Welcome to <%= project_name %>`
+      },
+      {
+        // this object should include all variables you're using in your email template
+        project_name: 'My Project',
+      }
+    );
   } catch (err) {
     strapi.log.debug('📺: ', err);
     return ctx.badRequest(null, err);
   }
-
-  // ...
-}
-```
-
-3. or simply get the composed body mail
-
-```javascript
-{
-  // ...
-
-  const templateId = '[GET_THE_TEMPLATE_ID]',
-    userData = {
-      firstname: 'John',
-      lastname: 'Doe',
-      email: 'john@doe.com',
-    };
-
-  const { composedHtml, composedText } = await strapi.plugins['email-designer'].services.email.compose({
-    templateId,
-    data: userData,
-  });
 
   // ...
 }
@@ -147,7 +121,7 @@ Complete installation requirements are exact same as for Strapi itself and can b
 
 **Supported Strapi versions**:
 
-- Strapi v3.4.x
+- Strapi v3.5.x
 
 (This plugin may work with the older Strapi versions, but these are not tested nor officially supported at this time.)
 

@@ -21,7 +21,8 @@ const Wrapper = styled.div`
     position: relative;
     display: flex;
     flex: 1 100%;
-    height: 3.6rem;
+    height: 4.6rem;
+    border: 1px solid rgb(222, 222, 222);
     border-radius: 2px 0 0 0;
     background-color: #f2f3f4;
     text-decoration: none !important;
@@ -29,6 +30,9 @@ const Wrapper = styled.div`
     font-weight: 500;
     color: #333740 !important;
     line-height: 1.6rem;
+    &:first-of-type {
+      border-right: 0;
+    }
     &.linkActive {
       z-index: 10;
       background-color: #ffffff !important;
