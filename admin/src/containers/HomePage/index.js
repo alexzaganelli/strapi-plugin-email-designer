@@ -21,7 +21,7 @@ import { Table, Button } from '@buffetjs/core';
 import { Duplicate } from '@buffetjs/icons';
 import { Tooltip } from '@buffetjs/styles';
 import { Header } from '@buffetjs/custom';
-import { isEmpty, pick, uniqBy } from 'lodash';
+import { isEmpty, isNil, pick, uniqBy } from 'lodash';
 
 import styled from 'styled-components';
 import getTrad from '../../utils/getTrad';
@@ -213,7 +213,7 @@ const HomePage = () => {
         }}
       />
       <PopUpWarning
-        isOpen={!isEmpty(duplicateConfirmationModal)}
+        isOpen={!isNil(duplicateConfirmationModal) && duplicateConfirmationModal !== false}
         content={{
           title: getTrad('pleaseConfirm'),
           message: getTrad('questions.sureToDuplicate'),
@@ -225,7 +225,7 @@ const HomePage = () => {
         }}
       />
       <PopUpWarning
-        isOpen={!isEmpty(deleteConfirmationModal)}
+        isOpen={!isNil(deleteConfirmationModal) && deleteConfirmationModal !== false}
         content={{
           title: getTrad('pleaseConfirm'),
           message: getTrad('questions.sureToDelete'),
