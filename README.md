@@ -97,10 +97,10 @@ The **Email Designer** plugin should appear in the **Plugins** section of Strapi
       },
       {
         templateId: 1, // required - you can get the template id from the admin panel
-        subject: `Welcome to My Project`, // subject can include variables like `Welcome to <%= project_name %>`
+        subject: `Welcome to My Project`, // If provided here will override the template's subject. Can include variables like `Welcome to <%= project_name %>`
       },
       {
-        // this object should include all variables you're using in your email template
+        // this object must include all variables you're using in your email template
         project_name: 'My Project',
       }
     );
