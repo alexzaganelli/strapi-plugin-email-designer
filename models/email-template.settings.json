@@ -2,7 +2,8 @@
   "kind": "collectionType",
   "collectionName": "email_templates",
   "info": {
-    "name": "emailTemplate"
+    "name": "emailTemplate",
+    "description": ""
   },
   "options": {
     "draftAndPublish": false,
@@ -15,20 +16,23 @@
       "type": "json"
     },
     "name": {
-      "type": "string",
-      "default": ""
+      "type": "string"
+    },
+    "subject": {
+      "type": "string"
     },
     "bodyHtml": {
-      "type": "text",
-      "default": ""
+      "type": "text"
     },
     "bodyText": {
-      "type": "text",
-      "default": ""
+      "type": "text"
     },
     "enabled": {
       "type": "boolean",
       "default": true
+    },
+    "tags": {
+      "type": "json"
     }
   }
 }

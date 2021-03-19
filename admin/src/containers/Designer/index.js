@@ -71,6 +71,7 @@ const EmailDesigner = () => {
           method: 'POST',
           body: {
             name: templateData?.name || formatMessage({ id: getTrad('noName') }),
+            subject: templateData?.subject || '',
             design,
             bodyText,
             bodyHtml: html,
@@ -128,10 +129,21 @@ const EmailDesigner = () => {
               onChange={({ target: { value } }) => {
                 setTemplateData((state) => ({ ...state, name: value }));
               }}
-              placeholder={getTrad('templateNameInputField')}
+              placeholder={getTrad('templateNameInputFieldPlaceholder')}
               type="text"
               value={templateData?.name || ''}
-              style={{ marginTop: 0, width: '50%' }}
+              style={{ marginTop: 0, width: '40%', marginRight: 10 }}
+            />
+            <InputText
+              // error={formErrors[input.name]}
+              name="subject"
+              onChange={({ target: { value } }) => {
+                setTemplateData((state) => ({ ...state, subject: value }));
+              }}
+              placeholder={getTrad('templateSubjectInputFieldPlaceholder')}
+              type="text"
+              value={templateData?.subject || ''}
+              style={{ marginTop: 0, width: '60%', marginRight: 10 }}
             />
             <Button onClick={saveDesign} color="success">
               {formatMessage({ id: getTrad('designer.action.saveTemplate') })}
