@@ -1,6 +1,6 @@
 {
   "name": "strapi-plugin-email-designer",
-  "version": "0.2.1",
+  "version": "0.2.7",
   "description": "Strapi Email designer plugin.",
   "homepage": "https://github.com/alexzaganelli/strapi-plugin-email-designer#readme",
   "strapi": {
@@ -9,9 +9,15 @@
     "description": "Design your own email templates directly from the Strapi admin panel and use the magic to send it programmatically in your controllers / services."
   },
   "scripts": {
-    "cypress": "./node_modules/cypress/bin/cypress open"
+    "cypress:install": "node ./node_modules/cypress/bin/cypress install",
+    "cypress:open": "cypress open",
+    "prettier:check": "prettier --check **/*.js",
+    "prettier:write": "prettier --write **/*.js"
   },
   "dependencies": {
+    "decode-html": "^2.0.0",
+    "html-to-text": "^7.0.0",
+    "lodash": "^4.17.21",
     "react-email-editor": "^1.2.0",
     "react-syntax-highlighter": "^15.4.3"
   },
@@ -48,7 +54,8 @@
   "license": "MIT",
   "funding": "https://paypal.me/AlexZaganelli",
   "devDependencies": {
-    "cypress": "^6.4.0",
+    "babel-eslint": "^10.1.0",
+    "cypress": "^6.5.0",
     "eslint": "^7.20.0",
     "prettier": "^2.2.1"
   }

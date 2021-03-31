@@ -16,9 +16,8 @@
   <a href="#">
     <img alt="Repo stars" src="https://img.shields.io/github/stars/alexzaganelli/strapi-plugin-email-designer?color=white&label=Github&style=plastic"></a>
   <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-  <a href="#contributors-">
-    <img alt="Contributors" src="https://img.shields.io/badge/all_contributors-3-orange.svg?style=plastic"></a>
-  <!-- ALL-CONTRIBUTORS-BADGE:END -->
+<a href="#contributors-"><img alt="Contributors" src="https://img.shields.io/badge/all_contributors-4-orange.svg?style=plastic"></a>
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 </p>
 
 Design your own email templates directly from the [Strapi CMS](https://github.com/strapi/strapi) admin panel and use the magic to send programmatically email from your controllers / services.
@@ -81,7 +80,7 @@ The **Email Designer** plugin should appear in the **Plugins** section of Strapi
 
 ## 💄 Usage
 
-1. Design your template with easy on the visual composer
+1. Design your template with easy on the visual composer. For variables use [lodash templating language](https://lodash.com/docs/4.17.15#template). **You can leave the text version blank to automatically generate a text version of your email from the HTML version.**
 
 2. Send email programmatically:
 
@@ -89,52 +88,26 @@ The **Email Designer** plugin should appear in the **Plugins** section of Strapi
 {
   // ...
 
-  const templateId = '[GET_THE_TEMPLATE_ID]',
-    to = 'jhon@doe.com',
-    from = 'me@example.com',
-    replyTo = 'no-reply@example.com',
-    subject = '[TEST] This is a test using strapi-email-designer',
-    userData = {
-      firstname: 'Alex',
-      lastname: 'Zaganelli',
-      email: 'blah@blah.com',
-    };
-
   try {
-    await strapi.plugins['email-designer'].services.email.send({
-      templateId,
-      to,
-      from,
-      replyTo,
-      subject,
-      data: userData,
-    });
+    await strapi.plugins['email-designer'].services.email.sendTemplatedEmail(
+      {
+        to: 'to@example.com', // required
+        from: 'from@example.com', // optional if /config/plugins.js -> email.settings.defaultFrom is set
+        replyTo: 'reply@example.com', // optional if /config/plugins.js -> email.settings.defaultReplyTo is set
+      },
+      {
+        templateId: 1, // required - you can get the template id from the admin panel
+        subject: `Welcome to My Project`, // If provided here will override the template's subject. Can include variables like `Welcome to <%= project_name %>`
+      },
+      {
+        // this object must include all variables you're using in your email template
+        project_name: 'My Project',
+      }
+    );
   } catch (err) {
     strapi.log.debug('📺: ', err);
     return ctx.badRequest(null, err);
   }
-
-  // ...
-}
-```
-
-3. or simply get the composed body mail
-
-```javascript
-{
-  // ...
-
-  const templateId = '[GET_THE_TEMPLATE_ID]',
-    userData = {
-      firstname: 'Alex',
-      lastname: 'Zaganelli',
-      email: 'blah@blah.com',
-    };
-
-  const { composedHtml, composedText } = await strapi.plugins['email-designer'].services.email.compose({
-    templateId,
-    data: userData,
-  });
 
   // ...
 }
@@ -148,7 +121,7 @@ Complete installation requirements are exact same as for Strapi itself and can b
 
 **Supported Strapi versions**:
 
-- Strapi v3.4.x
+- Strapi v3.5.x
 
 (This plugin may work with the older Strapi versions, but these are not tested nor officially supported at this time.)
 
@@ -158,6 +131,33 @@ Complete installation requirements are exact same as for Strapi itself and can b
 - NPM >= 6.x
 
 **We recommend always using the latest version of Strapi to start your new projects**.
+
+## 🚨 How to run the tests
+
+Create the `cypress.env.json` file to the root and add your variables following this schema:
+
+```json
+{
+  "adminUrl": "http://localhost:1337/admin/auth/login",
+  "user": {
+    "email": "john.doe@example.com",
+    "password": "P1pp0#2021"
+  }
+}
+```
+
+Now let's install and open Cypress
+
+```bash
+# with yarn
+yarn cypress:install
+yarn cypress:open
+
+# with npm
+npm run cypress:install
+npm run cypress:open
+
+```
 
 ## 🚧 Roadmap
 
@@ -206,6 +206,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://alexzaganelli.com"><img src="https://avatars.githubusercontent.com/u/1064582?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Alexandre Zaganelli</b></sub></a><br /><a href="#ideas-alexzaganelli" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/alexzaganelli/strapi-plugin-email-designer/commits?author=alexzaganelli" title="Code">💻</a> <a href="#design-alexzaganelli" title="Design">🎨</a> <a href="https://github.com/alexzaganelli/strapi-plugin-email-designer/issues?q=author%3Aalexzaganelli" title="Bug reports">🐛</a></td>
     <td align="center"><a href="http://www.tuhaogo.com/"><img src="https://avatars.githubusercontent.com/u/1281294?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Ron Chi</b></sub></a><br /><a href="https://github.com/alexzaganelli/strapi-plugin-email-designer/issues?q=author%3Abannerchi" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://github.com/pr0gr8mm3r"><img src="https://avatars.githubusercontent.com/u/37022952?v=4?s=100" width="100px;" alt=""/><br /><sub><b>p_0g_8mm3_</b></sub></a><br /><a href="#design-pr0gr8mm3r" title="Design">🎨</a> <a href="#ideas-pr0gr8mm3r" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="https://tobias-thiele.de/"><img src="https://avatars.githubusercontent.com/u/13473174?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Tobias Thiele</b></sub></a><br /><a href="https://github.com/alexzaganelli/strapi-plugin-email-designer/commits?author=creazy231" title="Code">💻</a> <a href="#design-creazy231" title="Design">🎨</a> <a href="#ideas-creazy231" title="Ideas, Planning, & Feedback">🤔</a></td>
   </tr>
 </table>
 
@@ -215,3 +216,11 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+
+## Stargazers ✨
+
+[![Stargazers repo roster for @alexzaganelli/strapi-plugin-email-designer](https://reporoster.com/stars/alexzaganelli/strapi-plugin-email-designer)](https://github.com/alexzaganelli/strapi-plugin-email-designer/stargazers)
+
+## Forkers ✨
+
+[![Forkers repo roster for @alexzaganelli/strapi-plugin-email-designer](https://reporoster.com/forks/alexzaganelli/strapi-plugin-email-designer)](https://github.com/alexzaganelli/strapi-plugin-email-designer/network/members)

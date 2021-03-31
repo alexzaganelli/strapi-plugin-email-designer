@@ -35,6 +35,17 @@
         "design",
         "ideas"
       ]
+    },
+    {
+      "login": "creazy231",
+      "name": "Tobias Thiele",
+      "avatar_url": "https://avatars.githubusercontent.com/u/13473174?v=4",
+      "profile": "https://tobias-thiele.de/",
+      "contributions": [
+        "code",
+        "design",
+        "ideas"
+      ]
     }
   ],
   "contributorsPerLine": 7,
@@ -43,5 +54,5 @@
   "repoType": "github",
   "repoHost": "https://github.com",
   "skipCi": true,
-  "badgeTemplate": "<a href="#contributors-"><img alt="Contributors" src="https://img.shields.io/badge/all_contributors-<%= contributors.length %>-orange.svg?style=plastic"></a>",
+  "badgeTemplate": "<a href=\"#contributors-\"><img alt=\"Contributors\" src=\"https://img.shields.io/badge/all_contributors-<%= contributors.length %>-orange.svg?style=plastic\"></a>"
 }

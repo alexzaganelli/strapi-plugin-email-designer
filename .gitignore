@@ -11,3 +11,4 @@ npm-debug.log
 .idea
 
 .dontpublish
+cypress.env.json
