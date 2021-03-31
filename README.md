@@ -162,6 +162,8 @@ module.exports = () => ({
 })
 ```
 
+See [Unlayer's documentation](https://docs.unlayer.com) for more options.
+
 ## 🚨 How to run the tests
 
 Create the `cypress.env.json` file to the root and add your variables following this schema:
