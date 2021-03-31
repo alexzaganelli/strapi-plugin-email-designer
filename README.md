@@ -143,9 +143,10 @@ module.exports = () => ({
     editor: {
       tools: {
         heading: {
-          font: {
-            label: "My cool font",
-            value: "'My cool font', sans-serif"
+          properties: {
+            text: {
+              value: 'This is the new default text!'
+            }
           }
         }
       },
