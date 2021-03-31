@@ -14,6 +14,7 @@ import styled from 'styled-components';
 import pluginId from '../../pluginId';
 import getTrad from '../../utils/getTrad';
 import TabsNav from '../../components/Tabs';
+import MediaLibrary from '../../components/MediaLibrary';
 
 const DesignerContainer = styled.div`
   padding: 18px 30px;
@@ -46,6 +47,8 @@ const EmailDesigner = () => {
   const [templateData, setTemplateData] = useState();
   const [enablePrompt, togglePrompt] = useState(false);
   const [bodyText, setBodyText] = useState('');
+
+  const [isMediaLibraryOpen, setIsMediaLibraryOpen] = useState(false);
 
   const [mode, setMode] = useState('html');
   const { formatMessage } = useGlobalContext();
@@ -111,10 +114,20 @@ const EmailDesigner = () => {
     // ⬇︎ workaround to avoid firing onLoad api before setting the editor ref
     setTimeout(() => {
       emailEditorRef.current?.editor?.addEventListener('onDesignLoad', onDesignLoad);
+      emailEditorRef.current?.editor?.registerCallback('selectImage', onSelectImageHandler);
 
       if (templateData) emailEditorRef.current.editor.loadDesign(templateData.design);
     }, 500);
   };
+  const onSelectImageHandler = (data, done) => {
+    console.log(data)
+    setIsMediaLibraryOpen(true)
+    done()
+  }
+  const handleMediaLibraryChange = (data) => {
+    console.log(data)
+  };
+  const handleToggleMediaLibrary = () => setIsMediaLibraryOpen((prev) => !prev);
 
   return (
     <>
@@ -198,6 +211,11 @@ const EmailDesigner = () => {
           </div>
         </>
       </DesignerContainer>
+      <MediaLibrary
+        onToggle={handleToggleMediaLibrary}
+        isOpen={isMediaLibraryOpen}
+        onChange={handleMediaLibraryChange}
+      />
     </>
   );
 };
