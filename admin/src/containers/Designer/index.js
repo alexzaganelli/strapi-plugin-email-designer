@@ -50,6 +50,44 @@ const EmailDesigner = () => {
   const [mode, setMode] = useState('html');
   const { formatMessage } = useGlobalContext();
 
+  const [configLoaded, setConfigLoaded] = useState(false);
+  const defaultEditorTools = {
+    image: {
+      enabled: true,
+      properties: {
+        src: {
+          value: {
+            url: `https://picsum.photos/600/350`,
+          },
+        },
+      },
+    },
+  }
+  const [editorTools, setEditorTools] = useState({ ...defaultEditorTools });
+  const [editorOptions, setEditorOptions] = useState({});
+  const isMounted = useRef(true);
+
+  useEffect(() => {
+    (async () => {
+      const editorConfig = (await request(`/${pluginId}/config`, { method: 'GET' })).config.editor;
+      if (isMounted.current && editorConfig) {
+        if (editorConfig.tools) {
+          setEditorTools({ ...defaultEditorTools, ...editorConfig.tools })
+        }
+        if (editorConfig.options) {
+          setEditorOptions({ ...editorConfig.options })
+        }
+      }
+      setConfigLoaded(true)
+    })();
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
+
   useEffect(() => {
     if (!emailEditorRef.current || templateId === '' || templateId === 'new') return;
 
@@ -165,7 +203,7 @@ const EmailDesigner = () => {
             ]}
             style={{ marginTop: '0.4rem', height: '5rem' }}
           />
-          <div style={{ height: '100%', display: mode === 'html' ? 'flex' : 'none' }}>
+          {configLoaded && <div style={{ height: '100%', display: mode === 'html' ? 'flex' : 'none' }}>
             <React.StrictMode>
               <EmailEditor
                 ref={emailEditorRef}
@@ -178,21 +216,11 @@ const EmailDesigner = () => {
                   theme: 'light',
                 }}
                 locale={strapi.currentLanguage}
-                tools={{
-                  image: {
-                    enabled: true,
-                    properties: {
-                      src: {
-                        value: {
-                          url: `https://picsum.photos/600/350`,
-                        },
-                      },
-                    },
-                  },
-                }}
+                tools={editorTools}
+                options={editorOptions}
               />
             </React.StrictMode>
-          </div>
+          </div>}
           <div style={{ display: mode === 'text' ? 'block' : 'none' }}>
             <Textarea name="textarea" onChange={({ target: { value } }) => setBodyText(value)} value={bodyText} />
           </div>

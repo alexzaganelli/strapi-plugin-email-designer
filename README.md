@@ -132,6 +132,36 @@ Complete installation requirements are exact same as for Strapi itself and can b
 
 **We recommend always using the latest version of Strapi to start your new projects**.
 
+## 🔧 Configuration
+
+You can pass configuration options directly to the editor that ist used by this plugin. To do so, in your `config/plugins.js` file of your project, configure the plugin like this:
+
+```javascript
+module.exports = () => ({
+  ...
+  'email-designer': {
+    editor: {
+      tools: {
+        heading: {
+          font: {
+            label: "My cool font",
+            value: "'My cool font', sans-serif"
+          }
+        }
+      },
+      options: {
+        features: {
+          colorPicker: {
+            presets: ['#D9E3F0', '#F47373', '#697689', '#37D67A']
+          }
+        }
+      }
+    }
+  },
+  ...
+})
+```
+
 ## 🚨 How to run the tests
 
 Create the `cypress.env.json` file to the root and add your variables following this schema:
