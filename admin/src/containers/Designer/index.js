@@ -8,6 +8,7 @@ import React, { useState, useEffect, memo, useRef } from 'react';
 import { Button, Textarea } from '@buffetjs/core';
 import { Prompt, useHistory, useParams } from 'react-router-dom';
 import { BackHeader, InputText, useGlobalContext, request } from 'strapi-helper-plugin';
+import { merge } from 'lodash';
 
 import EmailEditor from 'react-email-editor';
 import styled from 'styled-components';
@@ -53,7 +54,6 @@ const EmailDesigner = () => {
   const [configLoaded, setConfigLoaded] = useState(false);
   const defaultEditorTools = {
     image: {
-      enabled: true,
       properties: {
         src: {
           value: {
@@ -72,10 +72,10 @@ const EmailDesigner = () => {
       const editorConfig = (await request(`/${pluginId}/config`, { method: 'GET' })).config.editor;
       if (isMounted.current && editorConfig) {
         if (editorConfig.tools) {
-          setEditorTools({ ...defaultEditorTools, ...editorConfig.tools })
+          setEditorTools(merge(defaultEditorTools, editorConfig.tools))
         }
         if (editorConfig.options) {
-          setEditorOptions({ ...editorConfig.options })
+          setEditorOptions(editorConfig.options)
         }
       }
       setConfigLoaded(true)
