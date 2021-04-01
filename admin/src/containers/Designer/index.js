@@ -53,6 +53,8 @@ const EmailDesigner = () => {
   const [mode, setMode] = useState('html');
   const { formatMessage } = useGlobalContext();
 
+  const [filesToUpload, setFilesToUpload] = useState({});
+
   useEffect(() => {
     if (!emailEditorRef.current || templateId === '' || templateId === 'new') return;
 
@@ -114,20 +116,29 @@ const EmailDesigner = () => {
     // ⬇︎ workaround to avoid firing onLoad api before setting the editor ref
     setTimeout(() => {
       emailEditorRef.current?.editor?.addEventListener('onDesignLoad', onDesignLoad);
-      emailEditorRef.current?.editor?.registerCallback('selectImage', onSelectImageHandler);
+      emailEditorRef.current?.editor?.registerCallback('image', onImageImageHandler);
 
       if (templateData) emailEditorRef.current.editor.loadDesign(templateData.design);
     }, 500);
   };
-  const onSelectImageHandler = (data, done) => {
-    console.log(data)
-    setIsMediaLibraryOpen(true)
-    done()
+
+  const onImageImageHandler = (data, done) => {
+    const filesObject = Object.assign({}, data.accepted);
+    setFilesToUpload(filesObject);
+
+    console.log(done)
+    setIsMediaLibraryOpen(true);
   }
   const handleMediaLibraryChange = (data) => {
-    console.log(data)
+    console.log(data);
+    if (imageUploadDoneCallback) {
+      imageUploadDoneCallback({ progress: 100, url: data.url })
+      setImageUploadDoneCallback(undefined)
+    } else console.log(imageUploadDoneCallback)
   };
-  const handleToggleMediaLibrary = () => setIsMediaLibraryOpen((prev) => !prev);
+  const handleToggleMediaLibrary = () => {
+    setIsMediaLibraryOpen((prev) => !prev)
+  };
 
   return (
     <>
@@ -215,6 +226,7 @@ const EmailDesigner = () => {
         onToggle={handleToggleMediaLibrary}
         isOpen={isMediaLibraryOpen}
         onChange={handleMediaLibraryChange}
+        filesToUpload={filesToUpload}
       />
     </>
   );
