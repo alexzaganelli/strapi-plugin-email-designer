@@ -132,6 +132,39 @@ Complete installation requirements are exact same as for Strapi itself and can b
 
 **We recommend always using the latest version of Strapi to start your new projects**.
 
+## 🔧 Configuration
+
+You can pass configuration options directly to the editor that is used by this plugin. To do so, in your `config/plugins.js` file of your project, configure the plugin like this:
+
+```javascript
+module.exports = () => ({
+  ...
+  'email-designer': {
+    editor: {
+      tools: {
+        heading: {
+          properties: {
+            text: {
+              value: 'This is the new default text!'
+            }
+          }
+        }
+      },
+      options: {
+        features: {
+          colorPicker: {
+            presets: ['#D9E3F0', '#F47373', '#697689', '#37D67A']
+          }
+        }
+      }
+    }
+  },
+  ...
+})
+```
+
+See [Unlayer's documentation](https://docs.unlayer.com) for more options.
+
 ## 🚨 How to run the tests
 
 Create the `cypress.env.json` file to the root and add your variables following this schema:
