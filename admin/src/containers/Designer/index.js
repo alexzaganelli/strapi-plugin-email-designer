@@ -55,7 +55,7 @@ const EmailDesigner = () => {
   const { formatMessage } = useGlobalContext();
 
   const [filesToUpload, setFilesToUpload] = useState({});
-  
+
   const [configLoaded, setConfigLoaded] = useState(false);
   const defaultEditorTools = {
     image: {
@@ -160,20 +160,25 @@ const EmailDesigner = () => {
     }, 500);
   };
 
+  // Custom media uploads
+  const [imageUploadDoneCallback, setImageUploadDoneCallback] = useState(undefined);
+
   const onImageImageHandler = (data, done) => {
     const filesObject = Object.assign({}, data.accepted);
     setFilesToUpload(filesObject);
 
-    console.log(done)
+    setImageUploadDoneCallback(() => done);
+
     setIsMediaLibraryOpen(true);
-  }
+  };
+
   const handleMediaLibraryChange = (data) => {
-    console.log(data);
     if (imageUploadDoneCallback) {
       imageUploadDoneCallback({ progress: 100, url: data.url })
       setImageUploadDoneCallback(undefined)
     } else console.log(imageUploadDoneCallback)
   };
+
   const handleToggleMediaLibrary = () => {
     setIsMediaLibraryOpen((prev) => !prev)
   };
