@@ -102,7 +102,7 @@ const EmailDesigner = () => {
       setBodyText(_templateData.bodyText);
       emailEditorRef.current?.editor?.loadDesign(_templateData.design);
     })();
-  }, [templateId]);
+  }, [configLoaded, templateId]);
 
   const saveDesign = () => {
     emailEditorRef.current.editor.exportHtml(async (data) => {
