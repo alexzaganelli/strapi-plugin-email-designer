@@ -15,6 +15,7 @@ import styled from 'styled-components';
 import pluginId from '../../pluginId';
 import getTrad from '../../utils/getTrad';
 import TabsNav from '../../components/Tabs';
+import MediaLibrary from '../../components/MediaLibrary';
 
 const DesignerContainer = styled.div`
   padding: 18px 30px;
@@ -48,8 +49,12 @@ const EmailDesigner = () => {
   const [enablePrompt, togglePrompt] = useState(false);
   const [bodyText, setBodyText] = useState('');
 
+  const [isMediaLibraryOpen, setIsMediaLibraryOpen] = useState(false);
+
   const [mode, setMode] = useState('html');
   const { formatMessage } = useGlobalContext();
+
+  const [filesToUpload, setFilesToUpload] = useState({});
 
   const [configLoaded, setConfigLoaded] = useState(false);
   const defaultEditorTools = {
@@ -149,9 +154,33 @@ const EmailDesigner = () => {
     // ⬇︎ workaround to avoid firing onLoad api before setting the editor ref
     setTimeout(() => {
       emailEditorRef.current?.editor?.addEventListener('onDesignLoad', onDesignLoad);
+      emailEditorRef.current?.editor?.registerCallback('image', onImageImageHandler);
 
       if (templateData) emailEditorRef.current.editor.loadDesign(templateData.design);
     }, 500);
+  };
+
+  // Custom media uploads
+  const [imageUploadDoneCallback, setImageUploadDoneCallback] = useState(undefined);
+
+  const onImageImageHandler = (data, done) => {
+    const filesObject = Object.assign({}, data.accepted);
+    setFilesToUpload(filesObject);
+
+    setImageUploadDoneCallback(() => done);
+
+    setIsMediaLibraryOpen(true);
+  };
+
+  const handleMediaLibraryChange = (data) => {
+    if (imageUploadDoneCallback) {
+      imageUploadDoneCallback({ progress: 100, url: data.url })
+      setImageUploadDoneCallback(undefined)
+    } else console.log(imageUploadDoneCallback)
+  };
+
+  const handleToggleMediaLibrary = () => {
+    setIsMediaLibraryOpen((prev) => !prev)
   };
 
   return (
@@ -226,6 +255,12 @@ const EmailDesigner = () => {
           </div>
         </>
       </DesignerContainer>
+      <MediaLibrary
+        onToggle={handleToggleMediaLibrary}
+        isOpen={isMediaLibraryOpen}
+        onChange={handleMediaLibraryChange}
+        filesToUpload={filesToUpload}
+      />
     </>
   );
 };
