@@ -164,7 +164,6 @@ const EmailDesigner = () => {
   const [imageUploadDoneCallback, setImageUploadDoneCallback] = useState(undefined);
 
   const onSelectImageHandler = (data, done) => {
-    console.log(done)
     setImageUploadDoneCallback(() => done);
     setIsMediaLibraryOpen(true);
   };
