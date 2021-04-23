@@ -154,7 +154,7 @@ const EmailDesigner = () => {
     // ⬇︎ workaround to avoid firing onLoad api before setting the editor ref
     setTimeout(() => {
       emailEditorRef.current?.editor?.addEventListener('onDesignLoad', onDesignLoad);
-      emailEditorRef.current?.editor?.registerCallback('image', onImageImageHandler);
+      emailEditorRef.current?.editor?.registerCallback('selectImage', onSelectImageHandler);
 
       if (templateData) emailEditorRef.current.editor.loadDesign(templateData.design);
     }, 500);
@@ -163,18 +163,14 @@ const EmailDesigner = () => {
   // Custom media uploads
   const [imageUploadDoneCallback, setImageUploadDoneCallback] = useState(undefined);
 
-  const onImageImageHandler = (data, done) => {
-    const filesObject = Object.assign({}, data.accepted);
-    setFilesToUpload(filesObject);
-
+  const onSelectImageHandler = (data, done) => {
     setImageUploadDoneCallback(() => done);
-
     setIsMediaLibraryOpen(true);
   };
 
   const handleMediaLibraryChange = (data) => {
     if (imageUploadDoneCallback) {
-      imageUploadDoneCallback({ progress: 100, url: data.url })
+      imageUploadDoneCallback({ url: data.url })
       setImageUploadDoneCallback(undefined)
     } else console.log(imageUploadDoneCallback)
   };

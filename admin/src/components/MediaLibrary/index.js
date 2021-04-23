@@ -38,12 +38,9 @@ const MediaLibrary = ({ isOpen, onChange, onToggle, filesToUpload }) => {
   if (Component && isDisplayed) {
     return (
       <Component
-        step='upload'
-        filesToUpload={filesToUpload}
         allowedTypes={['images']}
         isOpen={isOpen}
         multiple={false}
-        noNavigation
         onClosed={handleClosed}
         onInputMediaChange={handleInputChange}
         onToggle={onToggle}
