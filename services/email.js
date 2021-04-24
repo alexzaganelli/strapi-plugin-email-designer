@@ -29,7 +29,7 @@ const sendTemplatedEmail = async (emailOptions = {}, emailTemplate = {}, data = 
   });
 
   const requiredAttributes = ['templateId'];
-  const attributes = [...requiredAttributes, 'text', 'html', 'subject'];
+  const attributes = ['text', 'html', 'subject'];
   const missingAttributes = _.difference(requiredAttributes, Object.keys(emailTemplate));
   if (missingAttributes.length > 0) {
     throw new Error(`Following attributes are missing from your email template : ${missingAttributes.join(', ')}`);

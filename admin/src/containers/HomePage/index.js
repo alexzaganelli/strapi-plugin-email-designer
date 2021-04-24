@@ -18,10 +18,11 @@ import { faLink, faFileExport, faFileImport, faPencilAlt, faTrashAlt } from '@fo
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, useHistory } from 'react-router-dom';
 import { Table, Button } from '@buffetjs/core';
-import { Duplicate } from '@buffetjs/icons';
+import { Duplicate, Remove } from '@buffetjs/icons';
 import { Tooltip } from '@buffetjs/styles';
 import { Header } from '@buffetjs/custom';
-import { isEmpty, isNil, pick, uniqBy } from 'lodash';
+import { isNil, pick, uniqBy } from 'lodash';
+import GitHubButton from 'react-github-btn';
 
 import styled from 'styled-components';
 import getTrad from '../../utils/getTrad';
@@ -56,6 +57,12 @@ const FooterButtonsWrapper = styled.div`
       margin-right: 0;
     }
   }
+`;
+
+const FooterGitHubWrapper = styled.div`
+  margin-bottom: 10px;
+  display: flex;
+  align-content: center;
 `;
 
 const HomePage = () => {
@@ -331,6 +338,7 @@ const HomePage = () => {
       </Wrapper>
       <FooterWrapper>
         <Link to={`/plugins/${pluginId}/how-to`}>{formatMessage({ id: getTrad('howToUse.link') })}</Link>
+
         <FooterButtonsWrapper>
           <Button
             onClick={() => exportTemplatesHandler()}
@@ -354,6 +362,28 @@ const HomePage = () => {
           </span>
         </FooterButtonsWrapper>
       </FooterWrapper>
+
+      <FooterGitHubWrapper>
+        <GitHubButton
+          href="https://github.com/alexzaganelli/strapi-plugin-email-designer"
+          data-show-count="true"
+          aria-label="Star alexzaganelli/strapi-plugin-email-designer on GitHub"
+        >
+          Star
+        </GitHubButton>
+        <>
+          <div
+            data-for="block"
+            data-tip="This is visible only on development env"
+            style={{
+              marginLeft: '8px',
+            }}
+          >
+            <Remove />
+          </div>
+          <Tooltip id="block" />
+        </>
+      </FooterGitHubWrapper>
     </div>
   );
 };

@@ -210,7 +210,6 @@ Feel free to fork and make a Pull Request to this plugin project. All the input 
 ## ⭐️ Show your support
 
 Give a star if this project helped you.
-You can also [offer me a beer](https://www.paypal.me/alexzaganelli/10) 🍻.
 
 ## 🔗 Links
 

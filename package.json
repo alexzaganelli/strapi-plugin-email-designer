@@ -1,6 +1,6 @@
 {
   "name": "strapi-plugin-email-designer",
-  "version": "0.3.0",
+  "version": "0.4.1",
   "description": "Strapi Email designer plugin.",
   "homepage": "https://github.com/alexzaganelli/strapi-plugin-email-designer#readme",
   "strapi": {
@@ -16,9 +16,10 @@
   },
   "dependencies": {
     "decode-html": "^2.0.0",
-    "html-to-text": "^7.0.0",
+    "html-to-text": "^7.1.1",
     "lodash": "^4.17.21",
     "react-email-editor": "^1.2.0",
+    "react-github-btn": "^1.2.0",
     "react-syntax-highlighter": "^15.4.3"
   },
   "author": {
@@ -55,8 +56,8 @@
   "funding": "https://paypal.me/AlexZaganelli",
   "devDependencies": {
     "babel-eslint": "^10.1.0",
-    "cypress": "^6.5.0",
-    "eslint": "^7.20.0",
+    "cypress": "^7.1.0",
+    "eslint": "^7.25.0",
     "prettier": "^2.2.1"
   }
 }
