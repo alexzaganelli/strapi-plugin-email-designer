@@ -67,7 +67,7 @@ const FooterGitHubWrapper = styled.div`
 
 const HomePage = () => {
   const { push } = useHistory();
-  const { formatMessage, plugins } = useGlobalContext();
+  const { formatMessage, plugins, currentEnvironment } = useGlobalContext();
   const [templates, setTemplates] = useState([]);
   const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
   const [duplicateConfirmationModal, setDuplicateConfirmationModal] = useState(false);
@@ -364,13 +364,15 @@ const HomePage = () => {
       </FooterWrapper>
 
       <FooterGitHubWrapper>
-        <GitHubButton
-          href="https://github.com/alexzaganelli/strapi-plugin-email-designer"
-          data-show-count="true"
-          aria-label="Star alexzaganelli/strapi-plugin-email-designer on GitHub"
-        >
-          Star
-        </GitHubButton>
+        {currentEnvironment !== 'production' && (
+          <GitHubButton
+            href="https://github.com/alexzaganelli/strapi-plugin-email-designer"
+            data-show-count="true"
+            aria-label="Star alexzaganelli/strapi-plugin-email-designer on GitHub"
+          >
+            Star
+          </GitHubButton>
+        )}
         <>
           <div
             data-for="block"
