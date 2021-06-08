@@ -72,6 +72,9 @@ const HomePage = () => {
   const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
   const [duplicateConfirmationModal, setDuplicateConfirmationModal] = useState(false);
   const [importConfirmationModal, setImportConfirmationModal] = useState(false);
+  const [importedTemplates, setImportedTemplates] = useState([]);
+  const [importLoading, setImportLoading] = useState(false);
+
   const emailTemplatesFileSelect = useRef();
 
   useEffect(() => {
@@ -144,21 +147,19 @@ const HomePage = () => {
       const fr = new FileReader();
       fr.onload = async () => {
         const content = JSON.parse(fr.result.toString());
-        setImportConfirmationModal(content);
+        setImportConfirmationModal(true);
+        setImportedTemplates(content);
       };
 
       fr.readAsText(file);
     }
   };
 
-  let importLoading = false;
+  const handleTemplatesImport = async () => {
+    setImportLoading(true);
+    let _importedTemplates = [];
 
-  const handleTemplatesFromImport = async () => {
-    const tpls = importConfirmationModal;
-    importLoading = true;
-    let importedTemplates = [];
-
-    tpls.forEach(async (template) => {
+    importedTemplates.forEach(async (template) => {
       const response = await request(`/${pluginId}/templates/${template.id}`, {
         // later templateId
         method: 'POST',
@@ -170,10 +171,10 @@ const HomePage = () => {
         },
       });
 
-      importedTemplates.push(response);
+      _importedTemplates.push(response);
     });
 
-    let newTemplates = [...templates, ...importedTemplates].map((data) => {
+    let newTemplates = [...templates, ..._importedTemplates].map((data) => {
       data.enabled = data.enabled.toString();
       data.created_at = dateToUtcTime(
         data.created_at,
@@ -190,8 +191,10 @@ const HomePage = () => {
     setTemplates(newTemplates);
 
     emailTemplatesFileSelect.current.value = '';
+    setImportedTemplates(undefined);
     setImportConfirmationModal(undefined);
-    importLoading = false;
+    setImportLoading(false);
+    window.location.reload(false);
   };
 
   const headers = [
@@ -205,7 +208,7 @@ const HomePage = () => {
     <div className="container-fluid" style={{ padding: '18px 30px 66px 30px' }}>
       <PopUpWarning
         isConfirmButtonLoading={importLoading}
-        isOpen={importConfirmationModal && importConfirmationModal.length > 0}
+        isOpen={importConfirmationModal && importedTemplates.length > 0}
         content={{
           title: getTrad('pleaseConfirm'),
           message: getTrad('notification.importTemplate'),
@@ -213,10 +216,11 @@ const HomePage = () => {
         popUpWarningType="danger"
         toggleModal={() => {
           emailTemplatesFileSelect.current.value = '';
+          setImportedTemplates(undefined);
           setImportConfirmationModal(undefined);
         }}
         onConfirm={async () => {
-          await handleTemplatesFromImport();
+          await handleTemplatesImport();
         }}
       />
       <PopUpWarning
