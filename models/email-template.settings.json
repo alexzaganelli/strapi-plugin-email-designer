@@ -5,6 +5,14 @@
     "name": "emailTemplate",
     "description": ""
   },
+  "pluginOptions": {
+    "content-manager": {
+      "visible": false
+    },
+    "content-type-builder": {
+      "visible": false
+    }
+  },
   "options": {
     "draftAndPublish": false,
     "timestamps": true,
