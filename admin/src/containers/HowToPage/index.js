@@ -15,7 +15,7 @@ const HowToPage = () => {
     to = "john@doe.com",
     from = "me@example.com",
     replyTo = "no-reply@example.com",
-    subject = "[TEST] This is a test using strapi-email-designer",
+    subject = "[TEST] This is a test using strapi-email-designer", // If provided here will override the template's subject. Can include variables like "Welcome to <%= project_name %>"
     userData = {
     firstname: "John",
     lastname: "Doe",

@@ -18,10 +18,18 @@ import { faLink, faFileExport, faFileImport, faPencilAlt, faTrashAlt } from '@fo
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, useHistory } from 'react-router-dom';
 import { Table, Button } from '@buffetjs/core';
+<<<<<<< HEAD
 import { Duplicate } from '@buffetjs/icons';
 import { Tooltip } from '@buffetjs/styles';
 import { Header } from '@buffetjs/custom';
 import { isEmpty, pick, uniqBy } from 'lodash';
+=======
+import { Duplicate, Remove } from '@buffetjs/icons';
+import { Tooltip } from '@buffetjs/styles';
+import { Header } from '@buffetjs/custom';
+import { isNil, pick, uniqBy } from 'lodash';
+import GitHubButton from 'react-github-btn';
+>>>>>>> main
 
 import styled from 'styled-components';
 import getTrad from '../../utils/getTrad';
@@ -58,13 +66,28 @@ const FooterButtonsWrapper = styled.div`
   }
 `;
 
+<<<<<<< HEAD
+=======
+const FooterGitHubWrapper = styled.div`
+  margin-bottom: 10px;
+  display: flex;
+  align-content: center;
+`;
+
+>>>>>>> main
 const HomePage = () => {
   const { push } = useHistory();
-  const { formatMessage, plugins } = useGlobalContext();
+  const { formatMessage, plugins, currentEnvironment } = useGlobalContext();
   const [templates, setTemplates] = useState([]);
   const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
   const [duplicateConfirmationModal, setDuplicateConfirmationModal] = useState(false);
   const [importConfirmationModal, setImportConfirmationModal] = useState(false);
+<<<<<<< HEAD
+=======
+  const [importedTemplates, setImportedTemplates] = useState([]);
+  const [importLoading, setImportLoading] = useState(false);
+
+>>>>>>> main
   const emailTemplatesFileSelect = useRef();
 
   useEffect(() => {
@@ -137,13 +160,19 @@ const HomePage = () => {
       const fr = new FileReader();
       fr.onload = async () => {
         const content = JSON.parse(fr.result.toString());
+<<<<<<< HEAD
         setImportConfirmationModal(content);
+=======
+        setImportConfirmationModal(true);
+        setImportedTemplates(content);
+>>>>>>> main
       };
 
       fr.readAsText(file);
     }
   };
 
+<<<<<<< HEAD
   let importLoading = false;
 
   const handleTemplatesFromImport = async () => {
@@ -152,6 +181,13 @@ const HomePage = () => {
     let importedTemplates = [];
 
     tpls.forEach(async (template) => {
+=======
+  const handleTemplatesImport = async () => {
+    setImportLoading(true);
+    let _importedTemplates = [];
+
+    importedTemplates.forEach(async (template) => {
+>>>>>>> main
       const response = await request(`/${pluginId}/templates/${template.id}`, {
         // later templateId
         method: 'POST',
@@ -163,10 +199,17 @@ const HomePage = () => {
         },
       });
 
+<<<<<<< HEAD
       importedTemplates.push(response);
     });
 
     let newTemplates = [...templates, ...importedTemplates].map((data) => {
+=======
+      _importedTemplates.push(response);
+    });
+
+    let newTemplates = [...templates, ..._importedTemplates].map((data) => {
+>>>>>>> main
       data.enabled = data.enabled.toString();
       data.created_at = dateToUtcTime(
         data.created_at,
@@ -183,8 +226,10 @@ const HomePage = () => {
     setTemplates(newTemplates);
 
     emailTemplatesFileSelect.current.value = '';
+    setImportedTemplates(undefined);
     setImportConfirmationModal(undefined);
-    importLoading = false;
+    setImportLoading(false);
+    window.location.reload(false);
   };
 
   const headers = [
@@ -198,7 +243,7 @@ const HomePage = () => {
     <div className="container-fluid" style={{ padding: '18px 30px 66px 30px' }}>
       <PopUpWarning
         isConfirmButtonLoading={importLoading}
-        isOpen={importConfirmationModal && importConfirmationModal.length > 0}
+        isOpen={importConfirmationModal && importedTemplates.length > 0}
         content={{
           title: getTrad('pleaseConfirm'),
           message: getTrad('notification.importTemplate'),
@@ -206,14 +251,15 @@ const HomePage = () => {
         popUpWarningType="danger"
         toggleModal={() => {
           emailTemplatesFileSelect.current.value = '';
+          setImportedTemplates(undefined);
           setImportConfirmationModal(undefined);
         }}
         onConfirm={async () => {
-          await handleTemplatesFromImport();
+          await handleTemplatesImport();
         }}
       />
       <PopUpWarning
-        isOpen={!isEmpty(duplicateConfirmationModal)}
+        isOpen={!isNil(duplicateConfirmationModal) && duplicateConfirmationModal !== false}
         content={{
           title: getTrad('pleaseConfirm'),
           message: getTrad('questions.sureToDuplicate'),
@@ -225,7 +271,7 @@ const HomePage = () => {
         }}
       />
       <PopUpWarning
-        isOpen={!isEmpty(deleteConfirmationModal)}
+        isOpen={!isNil(deleteConfirmationModal) && deleteConfirmationModal !== false}
         content={{
           title: getTrad('pleaseConfirm'),
           message: getTrad('questions.sureToDelete'),
@@ -354,6 +400,30 @@ const HomePage = () => {
           </span>
         </FooterButtonsWrapper>
       </FooterWrapper>
+
+      <FooterGitHubWrapper>
+        {currentEnvironment !== 'production' && (
+          <GitHubButton
+            href="https://github.com/alexzaganelli/strapi-plugin-email-designer"
+            data-show-count="true"
+            aria-label="Star alexzaganelli/strapi-plugin-email-designer on GitHub"
+          >
+            Star
+          </GitHubButton>
+        )}
+        <>
+          <div
+            data-for="block"
+            data-tip="This is visible only on development env"
+            style={{
+              marginLeft: '8px',
+            }}
+          >
+            <Remove />
+          </div>
+          <Tooltip id="block" />
+        </>
+      </FooterGitHubWrapper>
     </div>
   );
 };

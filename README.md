@@ -97,10 +97,10 @@ The **Email Designer** plugin should appear in the **Plugins** section of Strapi
       },
       {
         templateId: 1, // required - you can get the template id from the admin panel
-        subject: `Welcome to My Project`, // subject can include variables like `Welcome to <%= project_name %>`
+        subject: `Welcome to My Project`, // If provided here will override the template's subject. Can include variables like `Welcome to <%= project_name %>`
       },
       {
-        // this object should include all variables you're using in your email template
+        // this object must include all variables you're using in your email template
         project_name: 'My Project',
       }
     );
@@ -131,6 +131,39 @@ Complete installation requirements are exact same as for Strapi itself and can b
 - NPM >= 6.x
 
 **We recommend always using the latest version of Strapi to start your new projects**.
+
+## 🔧 Configuration
+
+You can pass configuration options directly to the editor that is used by this plugin. To do so, in your `config/plugins.js` file of your project, configure the plugin like this:
+
+```javascript
+module.exports = () => ({
+  ...
+  'email-designer': {
+    editor: {
+      tools: {
+        heading: {
+          properties: {
+            text: {
+              value: 'This is the new default text!'
+            }
+          }
+        }
+      },
+      options: {
+        features: {
+          colorPicker: {
+            presets: ['#D9E3F0', '#F47373', '#697689', '#37D67A']
+          }
+        }
+      }
+    }
+  },
+  ...
+})
+```
+
+See [Unlayer's documentation](https://docs.unlayer.com) for more options.
 
 ## 🚨 How to run the tests
 
@@ -177,7 +210,6 @@ Feel free to fork and make a Pull Request to this plugin project. All the input 
 ## ⭐️ Show your support
 
 Give a star if this project helped you.
-You can also [offer me a beer](https://www.paypal.me/alexzaganelli/10) 🍻.
 
 ## 🔗 Links
 
@@ -216,3 +248,11 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+
+## Stargazers ✨
+
+[![Stargazers repo roster for @alexzaganelli/strapi-plugin-email-designer](https://reporoster.com/stars/alexzaganelli/strapi-plugin-email-designer)](https://github.com/alexzaganelli/strapi-plugin-email-designer/stargazers)
+
+## Forkers ✨
+
+[![Forkers repo roster for @alexzaganelli/strapi-plugin-email-designer](https://reporoster.com/forks/alexzaganelli/strapi-plugin-email-designer)](https://github.com/alexzaganelli/strapi-plugin-email-designer/network/members)

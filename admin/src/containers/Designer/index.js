@@ -8,12 +8,14 @@ import React, { useState, useEffect, memo, useRef } from 'react';
 import { Button, Textarea } from '@buffetjs/core';
 import { Prompt, useHistory, useParams } from 'react-router-dom';
 import { BackHeader, InputText, useGlobalContext, request } from 'strapi-helper-plugin';
+import { merge } from 'lodash';
 
 import EmailEditor from 'react-email-editor';
 import styled from 'styled-components';
 import pluginId from '../../pluginId';
 import getTrad from '../../utils/getTrad';
 import TabsNav from '../../components/Tabs';
+import MediaLibrary from '../../components/MediaLibrary';
 
 const DesignerContainer = styled.div`
   padding: 18px 30px;
@@ -47,8 +49,49 @@ const EmailDesigner = () => {
   const [enablePrompt, togglePrompt] = useState(false);
   const [bodyText, setBodyText] = useState('');
 
+  const [isMediaLibraryOpen, setIsMediaLibraryOpen] = useState(false);
+
   const [mode, setMode] = useState('html');
   const { formatMessage } = useGlobalContext();
+
+  const [filesToUpload, setFilesToUpload] = useState({});
+
+  const [configLoaded, setConfigLoaded] = useState(false);
+  const defaultEditorTools = {
+    image: {
+      properties: {
+        src: {
+          value: {
+            url: `https://picsum.photos/600/350`,
+          },
+        },
+      },
+    },
+  };
+  const [editorTools, setEditorTools] = useState({ ...defaultEditorTools });
+  const [editorOptions, setEditorOptions] = useState({});
+  const isMounted = useRef(true);
+
+  useEffect(() => {
+    (async () => {
+      const editorConfig = (await request(`/${pluginId}/config`, { method: 'GET' })).config.editor;
+      if (isMounted.current && editorConfig) {
+        if (editorConfig.tools) {
+          setEditorTools(merge(defaultEditorTools, editorConfig.tools));
+        }
+        if (editorConfig.options) {
+          setEditorOptions(editorConfig.options);
+        }
+      }
+      setConfigLoaded(true);
+    })();
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
 
   useEffect(() => {
     if (!emailEditorRef.current || templateId === '' || templateId === 'new') return;
@@ -59,7 +102,7 @@ const EmailDesigner = () => {
       setBodyText(_templateData.bodyText);
       emailEditorRef.current?.editor?.loadDesign(_templateData.design);
     })();
-  }, [templateId]);
+  }, [configLoaded, templateId]);
 
   const saveDesign = () => {
     emailEditorRef.current.editor.exportHtml(async (data) => {
@@ -71,6 +114,7 @@ const EmailDesigner = () => {
           method: 'POST',
           body: {
             name: templateData?.name || formatMessage({ id: getTrad('noName') }),
+            subject: templateData?.subject || '',
             design,
             bodyText,
             bodyHtml: html,
@@ -110,9 +154,29 @@ const EmailDesigner = () => {
     // ⬇︎ workaround to avoid firing onLoad api before setting the editor ref
     setTimeout(() => {
       emailEditorRef.current?.editor?.addEventListener('onDesignLoad', onDesignLoad);
+      emailEditorRef.current?.editor?.registerCallback('selectImage', onSelectImageHandler);
 
       if (templateData) emailEditorRef.current.editor.loadDesign(templateData.design);
     }, 500);
+  };
+
+  // Custom media uploads
+  const [imageUploadDoneCallback, setImageUploadDoneCallback] = useState(undefined);
+
+  const onSelectImageHandler = (data, done) => {
+    setImageUploadDoneCallback(() => done);
+    setIsMediaLibraryOpen(true);
+  };
+
+  const handleMediaLibraryChange = (data) => {
+    if (imageUploadDoneCallback) {
+      imageUploadDoneCallback({ url: data.url });
+      setImageUploadDoneCallback(undefined);
+    } else console.log(imageUploadDoneCallback);
+  };
+
+  const handleToggleMediaLibrary = () => {
+    setIsMediaLibraryOpen((prev) => !prev);
   };
 
   return (
@@ -128,10 +192,21 @@ const EmailDesigner = () => {
               onChange={({ target: { value } }) => {
                 setTemplateData((state) => ({ ...state, name: value }));
               }}
-              placeholder={getTrad('templateNameInputField')}
+              placeholder={getTrad('templateNameInputFieldPlaceholder')}
               type="text"
               value={templateData?.name || ''}
-              style={{ marginTop: 0, width: '50%' }}
+              style={{ marginTop: 0, width: '40%', marginRight: 10 }}
+            />
+            <InputText
+              // error={formErrors[input.name]}
+              name="subject"
+              onChange={({ target: { value } }) => {
+                setTemplateData((state) => ({ ...state, subject: value }));
+              }}
+              placeholder={getTrad('templateSubjectInputFieldPlaceholder')}
+              type="text"
+              value={templateData?.subject || ''}
+              style={{ marginTop: 0, width: '60%', marginRight: 10 }}
             />
             <Button onClick={saveDesign} color="success">
               {formatMessage({ id: getTrad('designer.action.saveTemplate') })}
@@ -153,39 +228,37 @@ const EmailDesigner = () => {
             ]}
             style={{ marginTop: '0.4rem', height: '5rem' }}
           />
-          <div style={{ height: '100%', display: mode === 'html' ? 'flex' : 'none' }}>
-            <React.StrictMode>
-              <EmailEditor
-                ref={emailEditorRef}
-                onLoad={onLoadHandler}
-                style={{
-                  border: '1px solid #dedede',
-                }}
-                appearance={{
-                  minWidth: '100%',
-                  theme: 'light',
-                }}
-                locale={strapi.currentLanguage}
-                tools={{
-                  image: {
-                    enabled: true,
-                    properties: {
-                      src: {
-                        value: {
-                          url: `https://picsum.photos/600/350`,
-                        },
-                      },
-                    },
-                  },
-                }}
-              />
-            </React.StrictMode>
-          </div>
+          {configLoaded && (
+            <div style={{ height: '100%', display: mode === 'html' ? 'flex' : 'none' }}>
+              <React.StrictMode>
+                <EmailEditor
+                  ref={emailEditorRef}
+                  onLoad={onLoadHandler}
+                  style={{
+                    border: '1px solid #dedede',
+                  }}
+                  appearance={{
+                    minWidth: '100%',
+                    theme: 'light',
+                  }}
+                  locale={strapi.currentLanguage}
+                  tools={editorTools}
+                  options={editorOptions}
+                />
+              </React.StrictMode>
+            </div>
+          )}
           <div style={{ display: mode === 'text' ? 'block' : 'none' }}>
             <Textarea name="textarea" onChange={({ target: { value } }) => setBodyText(value)} value={bodyText} />
           </div>
         </>
       </DesignerContainer>
+      <MediaLibrary
+        onToggle={handleToggleMediaLibrary}
+        isOpen={isMediaLibraryOpen}
+        onChange={handleMediaLibraryChange}
+        filesToUpload={filesToUpload}
+      />
     </>
   );
 };

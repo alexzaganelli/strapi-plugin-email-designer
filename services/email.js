@@ -8,6 +8,7 @@ const _ = require('lodash');
 const isValidEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const decode = require('decode-html');
 const { htmlToText } = require('html-to-text');
+const { isEmpty } = require('lodash');
 
 /**
  * fill subject, text and html using lodash template
@@ -27,14 +28,14 @@ const sendTemplatedEmail = async (emailOptions = {}, emailTemplate = {}, data = 
     }
   });
 
-  const requiredAttributes = ['templateId', 'subject'];
-  const attributes = [...requiredAttributes, 'text', 'html'];
+  const requiredAttributes = ['templateId'];
+  const attributes = ['text', 'html', 'subject'];
   const missingAttributes = _.difference(requiredAttributes, Object.keys(emailTemplate));
   if (missingAttributes.length > 0) {
     throw new Error(`Following attributes are missing from your email template : ${missingAttributes.join(', ')}`);
   }
 
-  let { bodyHtml, bodyText } = await strapi
+  let { bodyHtml, bodyText, subject } = await strapi
     .query('email-template', 'email-designer')
     .findOne({ id: emailTemplate.templateId });
 
@@ -43,6 +44,10 @@ const sendTemplatedEmail = async (emailOptions = {}, emailTemplate = {}, data = 
 
   emailTemplate = {
     ...emailTemplate,
+    subject:
+      (!isEmpty(emailTemplate.subject) && emailTemplate.subject) ||
+      (!isEmpty(subject) && decode(subject)) ||
+      'No Subject',
     html: decode(bodyHtml),
     text: decode(bodyText),
   };

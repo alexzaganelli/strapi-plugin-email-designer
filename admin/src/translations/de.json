@@ -30,7 +30,7 @@
   "tooltip.edit": "Bearbeiten",
   "tooltip.copyTemplateId": "Vorlagen-ID kopieren",
   "tooltip.delete": "Vorlage löschen",
-  "templateNameInputField": "Identifikationsname",
+  "templateNameInputFieldPlaceholder": "Identifikationsname",
   "templates": "Vorlagen",
   "templates.importTemplates": "Vorlagen importieren",
   "templates.exportTemplates": "Vorlagen exportieren",
