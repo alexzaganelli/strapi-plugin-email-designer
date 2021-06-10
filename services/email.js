@@ -68,21 +68,51 @@ const sendTemplatedEmail = async (emailOptions = {}, emailTemplate = {}, data = 
  * Promise to retrieve a composed HTML email.
  * @return {Promise}
  */
-const compose = async ({ templateId, data }) => {
+const compose = async (emailOptions = {}, emailTemplate = {}, data = {}) => {
   strapi.log.debug(`⚠️: `, `The 'compose' function is deprecated and may be removed or changed in the future.`);
 
-  if (!templateId) throw new Error("No email template's id provided");
-  let composedHtml, composedText;
-  try {
-    const template = await strapi.query('email-template', 'email-designer').findOne({ id: templateId });
-    composedHtml = _.template(decode(template.bodyHtml))({ ...data });
-    composedText = _.template(decode(template.bodyText))({ ...data });
-  } catch (error) {
-    strapi.log.debug(error);
-    throw new Error('Email template not found with id: ' + templateId);
+  Object.entries(emailOptions).forEach(([key, address]) => {
+    if (Array.isArray(address)) {
+      address.forEach((email) => {
+        if (!isValidEmail.test(email)) throw new Error(`Invalid "${key}" email address with value "${email}"`);
+      });
+    } else {
+      if (!isValidEmail.test(address)) throw new Error(`Invalid "${key}" email address with value "${address}"`);
+    }
+  });
+
+  const requiredAttributes = ['templateId'];
+  const attributes = ['text', 'html', 'subject'];
+  const missingAttributes = _.difference(requiredAttributes, Object.keys(emailTemplate));
+  if (missingAttributes.length > 0) {
+    throw new Error(`Following attributes are missing from your email template : ${missingAttributes.join(', ')}`);
   }
 
-  return { composedHtml, composedText };
+  let { bodyHtml, bodyText, subject } = await strapi
+    .query('email-template', 'email-designer')
+    .findOne({ id: emailTemplate.templateId });
+
+  if ((!bodyText || !bodyText.length) && bodyHtml && bodyHtml.length)
+    bodyText = htmlToText(bodyHtml, { wordwrap: 130, trimEmptyLines: true });
+
+  emailTemplate = {
+    ...emailTemplate,
+    subject:
+      (!isEmpty(emailTemplate.subject) && emailTemplate.subject) ||
+      (!isEmpty(subject) && decode(subject)) ||
+      'No Subject',
+    html: decode(bodyHtml),
+    text: decode(bodyText),
+  };
+
+  const templatedAttributes = attributes.reduce(
+    (compiled, attribute) =>
+      emailTemplate[attribute]
+        ? Object.assign(compiled, { [attribute]: _.template(emailTemplate[attribute])(data) })
+        : compiled,
+    {}
+  );
+  return templatedAttributes;
 };
 
 /**
