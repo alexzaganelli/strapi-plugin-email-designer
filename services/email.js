@@ -40,7 +40,7 @@ const sendTemplatedEmail = async (emailOptions = {}, emailTemplate = {}, data = 
     .findOne({ id: emailTemplate.templateId });
 
   if ((!bodyText || !bodyText.length) && bodyHtml && bodyHtml.length)
-    bodyText = htmlToText(bodyHtml, { wordwrap: 130, trimEmptyLines: true });
+    bodyText = htmlToText(bodyHtml, { wordwrap: 130, trimEmptyLines: true, uppercaseHeadings: false });
 
   emailTemplate = {
     ...emailTemplate,
