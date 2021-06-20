@@ -46,6 +46,16 @@
         "design",
         "ideas"
       ]
+    },
+    {
+      "login": "GuilleAngulo",
+      "name": "Guillermo Angulo",
+      "avatar_url": "https://avatars.githubusercontent.com/u/50624358?v=4",
+      "profile": "http://guilleangulo.me",
+      "contributions": [
+        "bug",
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,

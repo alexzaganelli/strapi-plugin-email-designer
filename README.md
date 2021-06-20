@@ -16,7 +16,7 @@
   <a href="#">
     <img alt="Repo stars" src="https://img.shields.io/github/stars/alexzaganelli/strapi-plugin-email-designer?color=white&label=Github&style=plastic"></a>
   <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-<a href="#contributors-"><img alt="Contributors" src="https://img.shields.io/badge/all_contributors-4-orange.svg?style=plastic"></a>
+<a href="#contributors-"><img alt="Contributors" src="https://img.shields.io/badge/all_contributors-5-orange.svg?style=plastic"></a>
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 </p>
 
@@ -82,6 +82,15 @@ The **Email Designer** plugin should appear in the **Plugins** section of Strapi
 
 1. Design your template with easy on the visual composer. For variables use [lodash templating language](https://lodash.com/docs/4.17.15#template). **You can leave the text version blank to automatically generate a text version of your email from the HTML version.**
 
+Tips: in the template's body is possible to iterate array like this:
+
+```javascript
+<% _.forEach(order.products, function(product) { %>
+	<li><%- product.name %></li>
+	<li><%- product.price %></li>
+<% }); %>
+```
+
 2. Send email programmatically:
 
 ```javascript
@@ -97,11 +106,22 @@ The **Email Designer** plugin should appear in the **Plugins** section of Strapi
       },
       {
         templateId: 1, // required - you can get the template id from the admin panel
-        subject: `Welcome to My Project`, // If provided here will override the template's subject. Can include variables like `Welcome to <%= project_name %>`
+        subject: `Thank you for your order`, // If provided here will override the template's subject. Can include variables like `Thank you for your order <%= user.firstName %>!`
       },
       {
         // this object must include all variables you're using in your email template
-        project_name: 'My Project',
+        user: {
+          firstName: 'John',
+          lastName: 'Doe',
+        },
+        order: {
+          products: [
+            { name: 'Article 1', price: 9.99 },
+            { name: 'Article 2', price: 5.55 },
+          ],
+        },
+        shippingCost: 5,
+        total: 20.54,
       }
     );
   } catch (err) {
@@ -195,7 +215,7 @@ npm run cypress:open
 ## 🚧 Roadmap
 
 - [x] Template composer helper
-- [ ] Import design feature
+- [x] Import design feature
 - [ ] Override Strapi's core email system feature
 - [ ] Preview email with real data feature
 - [ ] Tags feature
@@ -239,6 +259,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="http://www.tuhaogo.com/"><img src="https://avatars.githubusercontent.com/u/1281294?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Ron Chi</b></sub></a><br /><a href="https://github.com/alexzaganelli/strapi-plugin-email-designer/issues?q=author%3Abannerchi" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://github.com/pr0gr8mm3r"><img src="https://avatars.githubusercontent.com/u/37022952?v=4?s=100" width="100px;" alt=""/><br /><sub><b>p_0g_8mm3_</b></sub></a><br /><a href="#design-pr0gr8mm3r" title="Design">🎨</a> <a href="#ideas-pr0gr8mm3r" title="Ideas, Planning, & Feedback">🤔</a></td>
     <td align="center"><a href="https://tobias-thiele.de/"><img src="https://avatars.githubusercontent.com/u/13473174?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Tobias Thiele</b></sub></a><br /><a href="https://github.com/alexzaganelli/strapi-plugin-email-designer/commits?author=creazy231" title="Code">💻</a> <a href="#design-creazy231" title="Design">🎨</a> <a href="#ideas-creazy231" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="http://guilleangulo.me"><img src="https://avatars.githubusercontent.com/u/50624358?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Guillermo Angulo</b></sub></a><br /><a href="https://github.com/alexzaganelli/strapi-plugin-email-designer/issues?q=author%3AGuilleAngulo" title="Bug reports">🐛</a> <a href="https://github.com/alexzaganelli/strapi-plugin-email-designer/commits?author=GuilleAngulo" title="Code">💻</a></td>
   </tr>
 </table>
 
