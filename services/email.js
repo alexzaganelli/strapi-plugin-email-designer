@@ -10,6 +10,12 @@ const decode = require('decode-html');
 const { htmlToText } = require('html-to-text');
 const { isEmpty } = require('lodash');
 
+const { mantainLegacyTemplate = true } = (strapi.plugins['email-designer'] || {}).config || {};
+
+_.templateSettings.evaluate = /\{\{(.+?)\}\}/g;
+_.templateSettings.interpolate = /\{\{=(.+?)\}\}/g;
+_.templateSettings.escape = /\{\{-(.+?)\}\}/g;
+
 /**
  * fill subject, text and html using lodash template
  * @param {object} emailOptions - to, from and replyto...
@@ -38,6 +44,12 @@ const sendTemplatedEmail = async (emailOptions = {}, emailTemplate = {}, data = 
   let { bodyHtml, bodyText, subject } = await strapi
     .query('email-template', 'email-designer')
     .findOne({ id: emailTemplate.templateId });
+
+  if (mantainLegacyTemplate) {
+    bodyHtml = bodyHtml.replace(/<%/g, '{{').replace(/%>/g, '}}');
+    bodyText = bodyText.replace(/<%/g, '{{').replace(/%>/g, '}}');
+    subject = subject.replace(/<%/g, '{{').replace(/%>/g, '}}');
+  }
 
   if ((!bodyText || !bodyText.length) && bodyHtml && bodyHtml.length)
     bodyText = htmlToText(bodyHtml, { wordwrap: 130, trimEmptyLines: true, uppercaseHeadings: false });
@@ -72,14 +84,20 @@ const compose = async ({ templateId, data }) => {
   strapi.log.debug(`⚠️: `, `The 'compose' function is deprecated and may be removed or changed in the future.`);
 
   if (!templateId) throw new Error("No email template's id provided");
-  let composedHtml, composedText;
+  let composedHtml, composedText, composedSubject;
   try {
-    const template = await strapi.query('email-template', 'email-designer').findOne({ id: templateId });
-    composedHtml = _.template(decode(template.bodyHtml))({ ...data });
-    composedText = _.template(decode(template.bodyText))({ ...data });
+    let { bodyHtml, bodyText } = await strapi.query('email-template', 'email-designer').findOne({ id: templateId });
+
+    if (mantainLegacyTemplate) {
+      bodyHtml = bodyHtml.replace(/<%/g, '{{').replace(/%>/g, '}}');
+      bodyText = bodyText.replace(/<%/g, '{{').replace(/%>/g, '}}');
+    }
+
+    composedHtml = _.template(decode(bodyHtml))({ ...data });
+    composedText = _.template(decode(bodyText))({ ...data });
   } catch (error) {
     strapi.log.debug(error);
-    throw new Error('Email template not found with id: ' + templateId);
+    throw new Error('Error composing the email:\n' + error + '\nTemplate ID: ' + templateId);
   }
 
   return { composedHtml, composedText };

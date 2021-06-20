@@ -26,7 +26,8 @@ const App = () => {
       <Switch>
         <Route path={`/plugins/${pluginId}`} component={HomePage} exact />
         <Route path={`/plugins/${pluginId}/how-to`} component={HowToPage} exact />
-        <Route path={`/plugins/${pluginId}/design/:templateId`} component={() => <Designer isNew />} exact />
+        <Route path={`/plugins/${pluginId}/design/:templateId`} component={() => <Designer />} exact />
+        <Route path={`/plugins/${pluginId}/core/:coreMessageType`} component={() => <Designer isCore />} exact />
         <Route component={NotFound} />
       </Switch>
     </Container>
