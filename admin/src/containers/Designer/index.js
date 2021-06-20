@@ -20,7 +20,7 @@ import pluginId from '../../pluginId';
 import getTrad from '../../utils/getTrad';
 import TabsNav from '../../components/Tabs';
 import MediaLibrary from '../../components/MediaLibrary';
-import { standardEmailRegistrationTemplate } from '../../../../config/settings';
+import { standardEmailRegistrationTemplate } from '../../../../helpers/coreTemplateHelper';
 
 const DesignerContainer = styled.div`
   padding: 18px 30px;
@@ -153,7 +153,7 @@ const EmailDesigner = ({ isCore = false }) => {
           .replace(/"/g, "'")
           .replace(/<%|&#x3C;%/g, '{{')
           .replace(/%>|%&#x3E;/g, '}}')
-          .replace(/\n/g, '');
+          .replace(/\n/g, '<br />');
 
         _templateData.design = JSON.parse(
           JSON.stringify(standardEmailRegistrationTemplate).replace('__PLACEHOLDER__', _message)
@@ -207,7 +207,6 @@ const EmailDesigner = ({ isCore = false }) => {
               subject: templateData?.subject || '',
               design,
               message: html,
-              bodyHtml: html,
               bodyText,
             },
           });

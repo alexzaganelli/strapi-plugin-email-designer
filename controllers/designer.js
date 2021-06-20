@@ -120,10 +120,10 @@ module.exports = {
     let data = await pluginStore.get({ key: 'email' }).then((storeEmail) => storeEmail[pluginStoreEmailKey]);
 
     data = {
-      ...data,
-      coreMessageType,
       ...(data && data.options
         ? {
+            from: data.options.from,
+            message: data.options.message,
             subject: data.options.object.replace(/<%|&#x3C;%/g, '{{').replace(/%>|%&#x3E;/g, '}}'),
             bodyHtml: data.options.message.replace(/<%|&#x3C;%/g, '{{').replace(/%>|%&#x3E;/g, '}}'),
             bodyText: htmlToText(data.options.message.replace(/<%|&#x3C;%/g, '{{').replace(/%>|%&#x3E;/g, '}}'), {
@@ -133,6 +133,8 @@ module.exports = {
             }),
           }
         : {}),
+      coreMessageType,
+      design: data.design,
     };
 
     ctx.send(data);
@@ -158,12 +160,16 @@ module.exports = {
     });
 
     const emailsConfig = await pluginStore.get({ key: 'email' });
+    const config = strapi.plugins['email-designer'].services.config.getConfig();
 
     emailsConfig[pluginStoreEmailKey] = {
+      ...emailsConfig[pluginStoreEmailKey],
       options: {
         ...(emailsConfig[pluginStoreEmailKey] ? emailsConfig[pluginStoreEmailKey].options : {}),
         message: ctx.request.body.message.replace(/{{/g, '<%').replace(/}}/g, '%>'),
         object: ctx.request.body.subject.replace(/{{/g, '<%').replace(/}}/g, '%>'),
+        // @todo from: ctx.request.from,
+        // @todo response_email: ctx.request.response_email,
       },
       design: ctx.request.body.design,
     };
