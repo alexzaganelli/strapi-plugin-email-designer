@@ -10,6 +10,12 @@ const decode = require('decode-html');
 const { htmlToText } = require('html-to-text');
 const { isEmpty } = require('lodash');
 
+const { mantainLegacyTemplate = true } = (strapi.plugins['email-designer'] || {}).config || {};
+
+_.templateSettings.evaluate = /\{\{(.+?)\}\}/g;
+_.templateSettings.interpolate = /\{\{=(.+?)\}\}/g;
+_.templateSettings.escape = /\{\{-(.+?)\}\}/g;
+
 /**
  * fill subject, text and html using lodash template
  * @param {object} emailOptions - to, from and replyto...
@@ -38,6 +44,12 @@ const sendTemplatedEmail = async (emailOptions = {}, emailTemplate = {}, data = 
   let { bodyHtml, bodyText, subject } = await strapi
     .query('email-template', 'email-designer')
     .findOne({ id: emailTemplate.templateId });
+
+  if (mantainLegacyTemplate) {
+    bodyHtml = bodyHtml.replace(/<%/g, '{{').replace(/%>/g, '}}');
+    bodyText = bodyText.replace(/<%/g, '{{').replace(/%>/g, '}}');
+    subject = subject.replace(/<%/g, '{{').replace(/%>/g, '}}');
+  }
 
   if ((!bodyText || !bodyText.length) && bodyHtml && bodyHtml.length)
     bodyText = htmlToText(bodyHtml, { wordwrap: 130, trimEmptyLines: true, uppercaseHeadings: false });
@@ -71,21 +83,21 @@ const sendTemplatedEmail = async (emailOptions = {}, emailTemplate = {}, data = 
 const compose = async (emailOptions = {}, emailTemplate = {}, data = {}) => {
   strapi.log.debug(`⚠️: `, `The 'compose' function is deprecated and may be removed or changed in the future.`);
 
-  Object.entries(emailOptions).forEach(([key, address]) => {
-    if (Array.isArray(address)) {
-      address.forEach((email) => {
-        if (!isValidEmail.test(email)) throw new Error(`Invalid "${key}" email address with value "${email}"`);
-      });
-    } else {
-      if (!isValidEmail.test(address)) throw new Error(`Invalid "${key}" email address with value "${address}"`);
-    }
-  });
+  if (!templateId) throw new Error("No email template's id provided");
+  let composedHtml, composedText, composedSubject;
+  try {
+    let { bodyHtml, bodyText } = await strapi.query('email-template', 'email-designer').findOne({ id: templateId });
 
-  const requiredAttributes = ['templateId'];
-  const attributes = ['text', 'html', 'subject'];
-  const missingAttributes = _.difference(requiredAttributes, Object.keys(emailTemplate));
-  if (missingAttributes.length > 0) {
-    throw new Error(`Following attributes are missing from your email template : ${missingAttributes.join(', ')}`);
+    if (mantainLegacyTemplate) {
+      bodyHtml = bodyHtml.replace(/<%/g, '{{').replace(/%>/g, '}}');
+      bodyText = bodyText.replace(/<%/g, '{{').replace(/%>/g, '}}');
+    }
+
+    composedHtml = _.template(decode(bodyHtml))({ ...data });
+    composedText = _.template(decode(bodyText))({ ...data });
+  } catch (error) {
+    strapi.log.debug(error);
+    throw new Error('Error composing the email:\n' + error + '\nTemplate ID: ' + templateId);
   }
 
   let { bodyHtml, bodyText, subject } = await strapi

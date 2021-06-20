@@ -85,10 +85,10 @@ The **Email Designer** plugin should appear in the **Plugins** section of Strapi
 Tips: in the template's body is possible to iterate array like this:
 
 ```javascript
-<% _.forEach(order.products, function(product) { %>
-	<li><%- product.name %></li>
-	<li><%- product.price %></li>
-<% }); %>
+{{ _.forEach(order.products, function(product) { }}
+	<li>{{- product.name }}</li>
+	<li>{{- product.price }}</li>
+{{ }); }}
 ```
 
 2. Send email programmatically:
@@ -106,7 +106,7 @@ Tips: in the template's body is possible to iterate array like this:
       },
       {
         templateId: 1, // required - you can get the template id from the admin panel
-        subject: `Thank you for your order`, // If provided here will override the template's subject. Can include variables like `Thank you for your order <%= user.firstName %>!`
+        subject: `Thank you for your order`, // If provided here will override the template's subject. Can include variables like `Thank you for your order {{= user.firstName }}!`
       },
       {
         // this object must include all variables you're using in your email template
@@ -175,6 +175,29 @@ module.exports = () => ({
           colorPicker: {
             presets: ['#D9E3F0', '#F47373', '#697689', '#37D67A']
           }
+        },
+        fonts: {
+          showDefaultFonts: false,
+          customFonts: [
+            {
+              label: "Anton",
+              value: "'Anton', sans-serif",
+              url: "https://fonts.googleapis.com/css?family=Anton",
+            },
+            {
+              label: "Lato",
+              value: "'Lato', Tahoma, Verdana, sans-serif",
+              url: "https://fonts.googleapis.com/css?family=Lato",
+            },
+          ],
+        },
+      },
+      appearance: {
+        theme: "dark",
+        panels: {
+          tools: {
+            dock: 'left'
+          }
         }
       }
     }
@@ -216,7 +239,7 @@ npm run cypress:open
 
 - [x] Template composer helper
 - [x] Import design feature
-- [ ] Override Strapi's core email system feature
+- [x] Override Strapi's core email system feature
 - [ ] Preview email with real data feature
 - [ ] Tags feature
 - [ ] Custom components extension
