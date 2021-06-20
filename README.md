@@ -240,11 +240,11 @@ npm run cypress:open
 - [x] Template composer helper
 - [x] Import design feature
 - [x] Override Strapi's core email system feature
-- [ ] Preview email with real data feature
+- [x] Preview email with real data feature
 - [ ] Tags feature
 - [ ] Custom components extension
 - [ ] Complete UI tests
-- [ ] i18n translations
+- [ ] i18n translations (help wanted!)
 
 ## 🤝 Contributing
 

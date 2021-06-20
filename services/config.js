@@ -5,7 +5,7 @@
  */
 
 module.exports = {
-    getConfig() {
-        return strapi.plugins["email-designer"].config
-    }
-}
+  getConfig() {
+    return strapi.plugins['email-designer'].config;
+  },
+};
