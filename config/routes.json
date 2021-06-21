@@ -5,7 +5,7 @@
       "path": "/templates",
       "handler": "designer.getTemplates",
       "config": {
-        "policies": []
+        "policies": ["admin::isAuthenticatedAdmin"]
       }
     },
     {
@@ -13,7 +13,7 @@
       "path": "/templates/:templateId",
       "handler": "designer.getTemplate",
       "config": {
-        "policies": []
+        "policies": ["admin::isAuthenticatedAdmin"]
       }
     },
     {
@@ -21,7 +21,7 @@
       "path": "/templates/:templateId",
       "handler": "designer.saveTemplate",
       "config": {
-        "policies": []
+        "policies": ["admin::isAuthenticatedAdmin"]
       }
     },
     {
@@ -29,7 +29,7 @@
       "path": "/templates/:templateId",
       "handler": "designer.deleteTemplate",
       "config": {
-        "policies": []
+        "policies": ["admin::isAuthenticatedAdmin"]
       }
     },
     {
@@ -37,7 +37,7 @@
       "path": "/templates/duplicate/:sourceTemplateId",
       "handler": "designer.duplicateTemplate",
       "config": {
-        "policies": []
+        "policies": ["admin::isAuthenticatedAdmin"]
       }
     },
     {
@@ -45,9 +45,23 @@
       "path": "/config",
       "handler": "config.getConfig",
       "config": {
-        "policies": [
-          "admin::isAuthenticatedAdmin"
-        ]
+        "policies": ["admin::isAuthenticatedAdmin"]
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/core/:coreMessageType",
+      "handler": "designer.getcoreMessageType",
+      "config": {
+        "policies": ["admin::isAuthenticatedAdmin"]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/core/:coreMessageType",
+      "handler": "designer.savecoreMessageType",
+      "config": {
+        "policies": ["admin::isAuthenticatedAdmin"]
       }
     }
   ]

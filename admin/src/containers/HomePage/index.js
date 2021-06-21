@@ -25,6 +25,7 @@ import { isNil, pick, uniqBy } from 'lodash';
 import GitHubButton from 'react-github-btn';
 
 import styled from 'styled-components';
+import TabsNav from '../../components/Tabs';
 import getTrad from '../../utils/getTrad';
 import pluginId from '../../pluginId';
 
@@ -74,6 +75,7 @@ const HomePage = () => {
   const [importConfirmationModal, setImportConfirmationModal] = useState(false);
   const [importedTemplates, setImportedTemplates] = useState([]);
   const [importLoading, setImportLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState('customEmailTemplates');
 
   const emailTemplatesFileSelect = useRef();
 
@@ -204,6 +206,18 @@ const HomePage = () => {
     { name: formatMessage({ id: getTrad('table.createdAt') }), value: 'created_at' },
   ];
 
+  const headersCore = [{ name: formatMessage({ id: getTrad('table.coreMessageType') }), value: 'name' }];
+  const coreMessages = [
+    {
+      coreMessageType: 'user-address-confirmation',
+      name: formatMessage({ id: getTrad('user-address-confirmation') }),
+    },
+    {
+      coreMessageType: 'reset-password',
+      name: formatMessage({ id: getTrad('reset-password') }),
+    },
+  ];
+
   return (
     <div className="container-fluid" style={{ padding: '18px 30px 66px 30px' }}>
       <PopUpWarning
@@ -250,13 +264,17 @@ const HomePage = () => {
       <Header
         isLoading={!plugins[pluginId].isReady}
         actions={[
-          {
-            label: formatMessage({ id: getTrad('newTemplate') }),
-            onClick: () => push(getUrl(`design/new`)),
-            color: 'primary',
-            type: 'button',
-            icon: true,
-          },
+          ...(activeTab === 'customEmailTemplates'
+            ? [
+                {
+                  label: formatMessage({ id: getTrad('newTemplate') }),
+                  onClick: () => push(getUrl(`design/new`)),
+                  color: 'primary',
+                  type: 'button',
+                  icon: true,
+                },
+              ]
+            : []),
         ]}
         title={{
           label: formatMessage({ id: getTrad('plugin.name') }),
@@ -266,7 +284,49 @@ const HomePage = () => {
 
       {!plugins[pluginId].isReady && <LoadingIndicator />}
 
-      <Wrapper>
+      <TabsNav
+        style={{ display: 'flex-inline', marginTop: '0.4rem', marginBottom: '2rem' }}
+        links={[
+          {
+            isActive: activeTab === 'customEmailTemplates',
+            name: getTrad('customEmailTemplates'),
+            onClick: () => setActiveTab('customEmailTemplates'),
+          },
+          {
+            isActive: activeTab === 'coreEmailTemplates',
+            name: getTrad('coreEmailTemplates'),
+            onClick: () => setActiveTab('coreEmailTemplates'),
+          },
+        ]}
+      />
+
+      <Wrapper style={{ display: activeTab === 'coreEmailTemplates' ? 'block' : 'none' }}>
+        <CustomTable
+          className="remove-margin"
+          headers={headersCore}
+          rows={coreMessages}
+          onClickRow={(e, data) => {
+            push(getUrl(`core/${data.coreMessageType}`));
+          }}
+          rowLinks={[
+            {
+              icon: (
+                <>
+                  <div data-for="edit" data-tip={formatMessage({ id: getTrad('tooltip.edit') })}>
+                    <FontAwesomeIcon icon={faPencilAlt} />
+                  </div>
+                  <Tooltip id="edit" />
+                </>
+              ),
+              onClick: (data) => {
+                push(getUrl(`core/${data.coreMessageType}`));
+              },
+            },
+          ]}
+        />
+      </Wrapper>
+
+      <Wrapper style={{ display: activeTab === 'customEmailTemplates' ? 'block' : 'none' }}>
         <CustomTable
           className="remove-margin"
           headers={headers}
@@ -340,31 +400,34 @@ const HomePage = () => {
           ]}
         />
       </Wrapper>
+
       <FooterWrapper>
         <Link to={`/plugins/${pluginId}/how-to`}>{formatMessage({ id: getTrad('howToUse.link') })}</Link>
 
-        <FooterButtonsWrapper>
-          <Button
-            onClick={() => exportTemplatesHandler()}
-            color="success"
-            icon={<FontAwesomeIcon icon={faFileExport} />}
-          >
-            {formatMessage({ id: getTrad('templates.exportTemplates') })}
-          </Button>
+        {activeTab === 'customEmailTemplates' && (
+          <FooterButtonsWrapper>
+            <Button
+              onClick={() => exportTemplatesHandler()}
+              color="success"
+              icon={<FontAwesomeIcon icon={faFileExport} />}
+            >
+              {formatMessage({ id: getTrad('designer.exportTemplates') })}
+            </Button>
 
-          <Button
-            onClick={() => {
-              emailTemplatesFileSelect.current.click();
-            }}
-            color="delete"
-            icon={<FontAwesomeIcon icon={faFileImport} />}
-          >
-            {formatMessage({ id: getTrad('templates.importTemplates') })}
-          </Button>
-          <span style={{ display: 'none' }}>
-            <input type="file" ref={emailTemplatesFileSelect} onChange={fileChangeHandler} />
-          </span>
-        </FooterButtonsWrapper>
+            <Button
+              onClick={() => {
+                emailTemplatesFileSelect.current.click();
+              }}
+              color="delete"
+              icon={<FontAwesomeIcon icon={faFileImport} />}
+            >
+              {formatMessage({ id: getTrad('designer.importTemplates') })}
+            </Button>
+            <span style={{ display: 'none' }}>
+              <input type="file" ref={emailTemplatesFileSelect} onChange={fileChangeHandler} />
+            </span>
+          </FooterButtonsWrapper>
+        )}
       </FooterWrapper>
 
       <FooterGitHubWrapper>

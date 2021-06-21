@@ -1,5 +1,6 @@
 'use strict';
 const _ = require('lodash');
+const { htmlToText } = require('html-to-text');
 
 /**
  * email-designer.js controller
@@ -89,5 +90,92 @@ module.exports = {
     return toClone
       ? strapi.query('email-template', 'email-designer').create({ ...toClone, name: `${toClone.name} copy` })
       : null;
+  },
+
+  /**
+   * Strapi's core templates
+   */
+
+  /**
+   * Get strapi's core message template action.
+   *
+   * @return {Object}
+   */
+  getcoreMessageType: async (ctx) => {
+    // const { coreMessageType } = ctx.query;
+    const { coreMessageType } = ctx.params;
+
+    if (!['user-address-confirmation', 'reset-password'].includes(coreMessageType))
+      return ctx.badRequest('No valid core message key');
+
+    const pluginStoreEmailKey =
+      coreMessageType === 'user-address-confirmation' ? 'email_confirmation' : 'reset_password';
+
+    const pluginStore = await strapi.store({
+      environment: '',
+      type: 'plugin',
+      name: 'users-permissions',
+    });
+
+    let data = await pluginStore.get({ key: 'email' }).then((storeEmail) => storeEmail[pluginStoreEmailKey]);
+
+    data = {
+      ...(data && data.options
+        ? {
+            from: data.options.from,
+            message: data.options.message,
+            subject: data.options.object.replace(/<%|&#x3C;%/g, '{{').replace(/%>|%&#x3E;/g, '}}'),
+            bodyHtml: data.options.message.replace(/<%|&#x3C;%/g, '{{').replace(/%>|%&#x3E;/g, '}}'),
+            bodyText: htmlToText(data.options.message.replace(/<%|&#x3C;%/g, '{{').replace(/%>|%&#x3E;/g, '}}'), {
+              wordwrap: 130,
+              trimEmptyLines: true,
+              uppercaseHeadings: false,
+            }),
+          }
+        : {}),
+      coreMessageType,
+      design: data.design,
+    };
+
+    ctx.send(data);
+  },
+
+  /**
+   * Save strapi's core message template action.
+   *
+   * @return {Object}
+   */
+  savecoreMessageType: async (ctx) => {
+    const { coreMessageType } = ctx.params;
+    if (!['user-address-confirmation', 'reset-password'].includes(coreMessageType))
+      return ctx.badRequest('No valid core message key');
+
+    const pluginStoreEmailKey =
+      coreMessageType === 'user-address-confirmation' ? 'email_confirmation' : 'reset_password';
+
+    const pluginStore = await strapi.store({
+      environment: '',
+      type: 'plugin',
+      name: 'users-permissions',
+    });
+
+    const emailsConfig = await pluginStore.get({ key: 'email' });
+    const config = strapi.plugins['email-designer'].services.config.getConfig();
+
+    emailsConfig[pluginStoreEmailKey] = {
+      ...emailsConfig[pluginStoreEmailKey],
+      options: {
+        ...(emailsConfig[pluginStoreEmailKey] ? emailsConfig[pluginStoreEmailKey].options : {}),
+        message: ctx.request.body.message.replace(/{{/g, '<%').replace(/}}/g, '%>'),
+        object: ctx.request.body.subject.replace(/{{/g, '<%').replace(/}}/g, '%>'),
+        // @todo from: ctx.request.from,
+        // @todo response_email: ctx.request.response_email,
+      },
+      design: ctx.request.body.design,
+    };
+
+    await pluginStore.set({ key: 'email', value: emailsConfig });
+
+    ctx.send({ message: 'Saved' });
   },
 };
