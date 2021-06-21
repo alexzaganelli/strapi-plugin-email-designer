@@ -80,7 +80,7 @@ The **Email Designer** plugin should appear in the **Plugins** section of Strapi
 
 ## 💄 Usage
 
-1. Design your template with easy on the visual composer. For variables use [lodash templating language](https://lodash.com/docs/4.17.15#template). **You can leave the text version blank to automatically generate a text version of your email from the HTML version.**
+1. Design your template with easy on the visual composer. For variables use [lodash templating language](https://lodash.com/docs/4.17.15#template) with the double curly braces tags ( `{{` and `}}` ). **You can leave the text version blank to automatically generate a text version of your email from the HTML version.**
 
 Tips: in the template's body is possible to iterate array like this:
 
@@ -103,6 +103,7 @@ Tips: in the template's body is possible to iterate array like this:
         to: 'to@example.com', // required
         from: 'from@example.com', // optional if /config/plugins.js -> email.settings.defaultFrom is set
         replyTo: 'reply@example.com', // optional if /config/plugins.js -> email.settings.defaultReplyTo is set
+        attachments: [], // optional array of files
       },
       {
         templateId: 1, // required - you can get the template id from the admin panel
@@ -110,9 +111,9 @@ Tips: in the template's body is possible to iterate array like this:
       },
       {
         // this object must include all variables you're using in your email template
-        user: {
-          firstName: 'John',
-          lastName: 'Doe',
+        USER: {
+          firstname: 'John',
+          lastname: 'Doe',
         },
         order: {
           products: [
@@ -154,7 +155,7 @@ Complete installation requirements are exact same as for Strapi itself and can b
 
 ## 🔧 Configuration
 
-You can pass configuration options directly to the editor that is used by this plugin. To do so, in your `config/plugins.js` file of your project, configure the plugin like this:
+You can pass configuration options directly to the editor that is used by this plugin. To do so, in your `config/plugins.js` file of your project, configure the plugin like this example:
 
 ```javascript
 module.exports = () => ({
@@ -189,8 +190,17 @@ module.exports = () => ({
               value: "'Lato', Tahoma, Verdana, sans-serif",
               url: "https://fonts.googleapis.com/css?family=Lato",
             },
+            // ...
           ],
         },
+        mergeTags: [
+          {
+            name: 'Email',
+            value: '{{= USER.username }}',
+            sample: 'john@doe.com',
+          },
+          // ...
+        ]
       },
       appearance: {
         theme: "dark",
@@ -241,7 +251,7 @@ npm run cypress:open
 - [x] Import design feature
 - [x] Override Strapi's core email system feature
 - [x] Preview email with real data feature
-- [ ] Tags feature
+- [x] Tags feature
 - [ ] Custom components extension
 - [ ] Complete UI tests
 - [ ] i18n translations (help wanted!)

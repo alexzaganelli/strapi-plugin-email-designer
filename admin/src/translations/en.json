@@ -1,7 +1,7 @@
 {
   "addNewTemplate": "Add new template",
-  "coreEmailTemplates": "Email di sistema",
-  "customEmailTemplates": "Template personali",
+  "coreEmailTemplates": "Strapi's core templates",
+  "customEmailTemplates": "Custom templates",
   "designer.action.saveTemplate": "Save design",
   "designer.exportTemplates": "Export Templates",
   "designer.importTemplates": "Import Templates",

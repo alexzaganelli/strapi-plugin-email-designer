@@ -167,13 +167,13 @@ const EmailDesigner = ({ isCore = false }) => {
 
       if (isMounted.current && editorConfigApi) {
         if (editorConfigApi.tools) {
-          setEditorTools((state) => merge(state, editorConfigApi.tools));
+          setEditorTools((state) => merge({}, state, editorConfigApi.tools));
         }
         if (editorConfigApi.options) {
-          setEditorOptions((state) => merge(state, editorConfigApi.options));
+          setEditorOptions((state) => merge({}, state, editorConfigApi.options));
         }
         if (editorConfigApi.appearance) {
-          setEditorAppearance((state) => merge(state, editorConfigApi.appearance));
+          setEditorAppearance((state) => merge({}, state, editorConfigApi.appearance));
         }
       }
 
