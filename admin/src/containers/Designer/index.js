@@ -20,7 +20,7 @@ import pluginId from '../../pluginId';
 import getTrad from '../../utils/getTrad';
 import TabsNav from '../../components/Tabs';
 import MediaLibrary from '../../components/MediaLibrary';
-import { standardEmailRegistrationTemplate } from '../../../../helpers/coreTemplateHelper';
+import { standardEmailRegistrationTemplate } from '../../helpers/coreTemplateHelper';
 
 const DesignerContainer = styled.div`
   padding: 18px 30px;
