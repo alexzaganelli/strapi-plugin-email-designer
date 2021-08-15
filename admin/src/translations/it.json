@@ -36,6 +36,7 @@
   "table.enabled": "Attivo",
   "table.name": "Nome",
   "table.templateId": "ID Template",
+  "table.sourceCodeToTemplateId": "ID Template - Source Code",
   "templates": "Templates",
   "tooltip.copyTemplateId": "Copia ID del Template",
   "tooltip.delete": "Elimina Template",
