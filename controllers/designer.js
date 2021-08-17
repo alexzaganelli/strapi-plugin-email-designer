@@ -10,20 +10,6 @@ const { htmlToText } = require('html-to-text');
 
 module.exports = {
   /**
-   * Default action.
-   *
-   * @return {Object}
-   */
-
-  index: async (ctx) => {
-    // Add your own logic here.
-
-    // Send 200 `ok`
-    ctx.send({
-      message: 'ok',
-    });
-  },
-  /**
    * Get template design action.
    *
    * @return {Object}
@@ -32,6 +18,7 @@ module.exports = {
     const templates = await strapi.plugins['email-designer'].services.template.fetchAll();
     ctx.send(templates);
   },
+
   /**
    * Get template design action.
    *
@@ -48,7 +35,7 @@ module.exports = {
    * @return {Object}
    */
   deleteTemplate: async (ctx) => {
-    const template = await strapi.plugins['email-designer'].services.template.remove({ id: ctx.params.templateId });
+    await strapi.plugins['email-designer'].services.template.remove({ id: ctx.params.templateId });
     ctx.send({ removed: true });
   },
 

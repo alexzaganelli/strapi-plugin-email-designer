@@ -1,11 +1,3 @@
-/* eslint-disable no-useless-escape */
-/* eslint-disable prettier/prettier */
-/*
- *
- * Designer
- *
- */
-
 import React, { useState, useEffect, memo, useRef } from 'react';
 import { Button, Textarea } from '@buffetjs/core';
 import { Prompt, useHistory, useParams } from 'react-router-dom';
@@ -194,6 +186,7 @@ const EmailDesigner = ({ isCore = false }) => {
             method: 'POST',
             body: {
               name: templateData?.name || formatMessage({ id: getTrad('noName') }),
+              sourceCodeToTemplateId: templateData?.sourceCodeToTemplateId,
               subject: templateData?.subject || '',
               design,
               bodyText,
@@ -221,11 +214,21 @@ const EmailDesigner = ({ isCore = false }) => {
         if (templateId === 'new' && templateId !== response.id)
           history.replace(`/plugins/${pluginId}/design/${response.id}`);
       } catch (err) {
-        console.error(err);
-        strapi.notification.toggle({
-          type: 'warning',
-          message: { id: 'notification.error' },
-        });
+        console.error(err.response.payload);
+        const errorMessage = err.response.payload.message;
+        if (errorMessage) {
+          strapi.notification.toggle({
+            type: 'warning',
+            title: 'Error',
+            message: errorMessage,
+          });
+        } else {
+          strapi.notification.toggle({
+            type: 'warning',
+            title: 'Error',
+            message: { id: 'notification.error' },
+          });
+        }
       }
     });
   };
@@ -278,7 +281,19 @@ const EmailDesigner = ({ isCore = false }) => {
         <>
           <Bar>
             <InputText
-              // error={formErrors[input.name]}
+              name="sourceCodeToTemplateId"
+              disabled={isCore}
+              onChange={({ target: { value } }) =>
+                setTemplateData((state) => ({ ...state, sourceCodeToTemplateId: value }))
+              }
+              placeholder={
+                isCore ? getTrad(coreMessageType) : getTrad('designer.sourceCodeToTemplateIdInputFieldPlaceholder')
+              }
+              type="number"
+              value={templateData?.sourceCodeToTemplateId}
+              style={{ marginTop: 0, width: '5%', marginRight: 10 }}
+            />
+            <InputText
               name="name"
               disabled={isCore}
               onChange={({ target: { value } }) => {
@@ -290,7 +305,6 @@ const EmailDesigner = ({ isCore = false }) => {
               style={{ marginTop: 0, width: '40%', marginRight: 10 }}
             />
             <InputText
-              // error={formErrors[input.name]}
               name="subject"
               onChange={({ target: { value } }) => {
                 setTemplateData((state) => ({ ...state, subject: value }));

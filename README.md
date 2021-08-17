@@ -106,7 +106,8 @@ Tips: in the template's body is possible to iterate array like this:
         attachments: [], // optional array of files
       },
       {
-        templateId: 1, // required - you can get the template id from the admin panel
+        templateId: 1, // required - you can get the template id from the admin panel (can change on import)
+        sourceCodeToTemplateId: 55, // ID that can be defined in the template designer (won't change on import)
         subject: `Thank you for your order`, // If provided here will override the template's subject. Can include variables like `Thank you for your order {{= user.firstName }}!`
       },
       {

@@ -20,6 +20,11 @@
     "comment": ""
   },
   "attributes": {
+    "sourceCodeToTemplateId": {
+      "type": "integer",
+      "required": false,
+      "unique": true
+    },
     "design": {
       "type": "json"
     },

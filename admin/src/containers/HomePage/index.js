@@ -1,10 +1,3 @@
-/*
- *
- * HomePage
- *
- * Reference: https://strapi.io/documentation/developer-docs/latest/plugin-development/frontend-development.html#environment-setup
- */
-
 import React, { memo, useRef, useState, useEffect, useCallback } from 'react';
 import {
   PopUpWarning,
@@ -88,7 +81,9 @@ const HomePage = () => {
         data.enabled = data.enabled.toString();
         data.created_at = dateToUtcTime(data.created_at).format(dateFormats.date);
       });
-      setTemplates(templatesData.map((row) => pick(row, ['id', 'name', 'enabled', 'created_at'])));
+      setTemplates(
+        templatesData.map((row) => pick(row, ['id', 'sourceCodeToTemplateId', 'name', 'enabled', 'created_at']))
+      );
     })();
   }, []);
 
@@ -202,6 +197,7 @@ const HomePage = () => {
   const headers = [
     { name: formatMessage({ id: getTrad('table.name') }), value: 'name' },
     { name: formatMessage({ id: getTrad('table.templateId') }), value: 'id' },
+    { name: formatMessage({ id: getTrad('table.sourceCodeToTemplateId') }), value: 'sourceCodeToTemplateId' },
     { name: formatMessage({ id: getTrad('table.enabled') }), value: 'enabled' },
     { name: formatMessage({ id: getTrad('table.createdAt') }), value: 'created_at' },
   ];
