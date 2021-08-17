@@ -1,7 +1,7 @@
 import React, { useState, useEffect, memo, useRef } from 'react';
 import { Button, Textarea } from '@buffetjs/core';
 import { Prompt, useHistory, useParams } from 'react-router-dom';
-import { BackHeader, InputText, useGlobalContext, request, auth } from 'strapi-helper-plugin';
+import { BackHeader, InputText, InputNumber, useGlobalContext, request, auth } from 'strapi-helper-plugin';
 import { isEmpty, merge } from 'lodash';
 import PropTypes from 'prop-types';
 import striptags from 'striptags';
@@ -280,7 +280,7 @@ const EmailDesigner = ({ isCore = false }) => {
         <Prompt message={formatMessage({ id: getTrad('prompt.unsaved') })} when={enablePrompt} />
         <>
           <Bar>
-            <InputText
+            <InputNumber
               name="sourceCodeToTemplateId"
               disabled={isCore}
               onChange={({ target: { value } }) =>
@@ -289,9 +289,8 @@ const EmailDesigner = ({ isCore = false }) => {
               placeholder={
                 isCore ? getTrad(coreMessageType) : getTrad('designer.sourceCodeToTemplateIdInputFieldPlaceholder')
               }
-              type="number"
               value={templateData?.sourceCodeToTemplateId}
-              style={{ marginTop: 0, width: '5%', marginRight: 10 }}
+              style={{ marginTop: 0, width: '15%', marginRight: 10 }}
             />
             <InputText
               name="name"
@@ -300,7 +299,6 @@ const EmailDesigner = ({ isCore = false }) => {
                 setTemplateData((state) => ({ ...state, name: value }));
               }}
               placeholder={isCore ? getTrad(coreMessageType) : getTrad('designer.templateNameInputFieldPlaceholder')}
-              type="text"
               value={templateData?.name || ''}
               style={{ marginTop: 0, width: '40%', marginRight: 10 }}
             />
@@ -310,7 +308,6 @@ const EmailDesigner = ({ isCore = false }) => {
                 setTemplateData((state) => ({ ...state, subject: value }));
               }}
               placeholder={getTrad('designer.templateSubjectInputFieldPlaceholder')}
-              type="text"
               value={templateData?.subject || ''}
               style={{ marginTop: 0, width: '60%', marginRight: 10 }}
             />

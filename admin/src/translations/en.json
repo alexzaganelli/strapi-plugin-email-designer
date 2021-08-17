@@ -5,7 +5,7 @@
   "designer.action.saveTemplate": "Save design",
   "designer.exportTemplates": "Export Templates",
   "designer.importTemplates": "Import Templates",
-  "designer.sourceCodeToTemplateIdInputFieldPlaceholder": "ID of the template to use in the code",
+  "designer.sourceCodeToTemplateIdInputFieldPlaceholder": "Source code ID",
   "designer.templateNameInputFieldPlaceholder": "Identification name",
   "designer.templateSubjectInputFieldPlaceholder": "Email subject",
   "designer.version.html": "HTML version",
