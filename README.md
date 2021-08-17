@@ -16,7 +16,7 @@
   <a href="#">
     <img alt="Repo stars" src="https://img.shields.io/github/stars/alexzaganelli/strapi-plugin-email-designer?color=white&label=Github&style=plastic"></a>
   <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-<a href="#contributors-"><img alt="Contributors" src="https://img.shields.io/badge/all_contributors-7-orange.svg?style=plastic"></a>
+<a href="#contributors-"><img alt="Contributors" src="https://img.shields.io/badge/all_contributors-8-orange.svg?style=plastic"></a>
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 </p>
 
@@ -296,6 +296,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="http://guilleangulo.me"><img src="https://avatars.githubusercontent.com/u/50624358?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Guillermo Angulo</b></sub></a><br /><a href="https://github.com/alexzaganelli/strapi-plugin-email-designer/issues?q=author%3AGuilleAngulo" title="Bug reports">🐛</a> <a href="https://github.com/alexzaganelli/strapi-plugin-email-designer/commits?author=GuilleAngulo" title="Code">💻</a></td>
     <td align="center"><a href="https://www.linkedin.com/in/xaviercivit/"><img src="https://avatars.githubusercontent.com/u/54951764?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Xavier Civit</b></sub></a><br /><a href="https://github.com/alexzaganelli/strapi-plugin-email-designer/issues?q=author%3Axcivit" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://github.com/jpizzle34"><img src="https://avatars.githubusercontent.com/u/48883158?v=4?s=100" width="100px;" alt=""/><br /><sub><b>jpizzle34</b></sub></a><br /><a href="https://github.com/alexzaganelli/strapi-plugin-email-designer/commits?author=jpizzle34" title="Code">💻</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://www.linkedin.com/in/moritzeck"><img src="https://avatars.githubusercontent.com/u/22457755?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Moritz Eck</b></sub></a><br /><a href="https://github.com/alexzaganelli/strapi-plugin-email-designer/commits?author=meck93" title="Code">💻</a></td>
   </tr>
 </table>
 
