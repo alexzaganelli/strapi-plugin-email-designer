@@ -3,7 +3,7 @@
   "designer.action.saveTemplate": "Design speichern",
   "designer.exportTemplates": "Vorlagen exportieren",
   "designer.importTemplates": "Vorlagen importieren",
-  "designer.sourceCodeToTemplateIdInputFieldPlaceholder": "ID, welche im Sourcecode verwendet wird.",
+  "designer.sourceCodeToTemplateIdInputFieldPlaceholder": "Source Code ID",
   "designer.templateNameInputFieldPlaceholder": "Identifikationsname",
   "designer.templateSubjectInputFieldPlaceholder": "Email Betreff",
   "designer.version.html": "HTML-Version",
