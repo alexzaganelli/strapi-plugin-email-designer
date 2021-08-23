@@ -3,42 +3,66 @@
     {
       "method": "GET",
       "path": "/templates",
-      "handler": "designer.getTemplates"
+      "handler": "designer.getTemplates",
+      "config": {
+        "policies": []
+      }
     },
     {
       "method": "GET",
       "path": "/templates/:templateId",
-      "handler": "designer.getTemplate"
+      "handler": "designer.getTemplate",
+      "config": {
+        "policies": []
+      }
     },
     {
       "method": "POST",
       "path": "/templates/:templateId",
-      "handler": "designer.saveTemplate"
+      "handler": "designer.saveTemplate",
+      "config": {
+        "policies": []
+      }
     },
     {
       "method": "DELETE",
       "path": "/templates/:templateId",
-      "handler": "designer.deleteTemplate"
+      "handler": "designer.deleteTemplate",
+      "config": {
+        "policies": []
+      }
     },
     {
       "method": "POST",
       "path": "/templates/duplicate/:sourceTemplateId",
-      "handler": "designer.duplicateTemplate"
+      "handler": "designer.duplicateTemplate",
+      "config": {
+        "policies": []
+      }
     },
     {
       "method": "GET",
       "path": "/config",
-      "handler": "config.getConfig"
+      "handler": "config.getConfig",
+      "config": {
+        "policies": []
+      }
     },
     {
       "method": "GET",
       "path": "/core/:coreMessageType",
-      "handler": "designer.getcoreMessageType"
+      "handler": "designer.getcoreMessageType",
+      "config": {
+        "policies": []
+      }
     },
     {
       "method": "POST",
       "path": "/core/:coreMessageType",
-      "handler": "designer.savecoreMessageType"
+      "handler": "designer.savecoreMessageType",
+      "config": {
+        "policies": []
+      }
     }
   ]
 }
