@@ -68,15 +68,20 @@ module.exports = {
    * @return {Object}
    */
   duplicateTemplate: async (ctx) => {
-    if (_.isEmpty(ctx.params.sourceTemplateId)) return ctx.badRequest('No source template Id given');
+    if (_.isEmpty(ctx.params.sourceTemplateId)) {
+      return ctx.badRequest('No source template Id given');
+    }
 
     const { __v, _id, id, updatedAt, createdAt, ...toClone } = await strapi
       .query('email-template', 'email-designer')
       .findOne({ id: ctx.params.sourceTemplateId });
 
-    return toClone
-      ? strapi.query('email-template', 'email-designer').create({ ...toClone, name: `${toClone.name} copy` })
-      : null;
+    if (toClone) {
+      return strapi
+        .query('email-template', 'email-designer')
+        .create({ ...toClone, name: `${toClone.name} copy`, sourceCodeToTemplateId: null });
+    }
+    return null;
   },
 
   /**
