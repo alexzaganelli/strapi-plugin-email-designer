@@ -9,8 +9,6 @@ const decode = require('decode-html');
 const { htmlToText } = require('html-to-text');
 const { isEmpty } = require('lodash');
 
-const { mantainLegacyTemplate = true } = (strapi.plugins['email-designer'] || {}).config || {};
-
 const templateSettings = {
   evaluate: /\{\{(.+?)\}\}/g,
   interpolate: /\{\{=(.+?)\}\}/g,
@@ -18,6 +16,8 @@ const templateSettings = {
 };
 
 const templater = (tmpl) => _.template(tmpl, templateSettings);
+
+const isMantainLegacyTemplateActive = () => _.get(strapi.plugins, 'email-designer.config.mantainLegacyTemplate', true)
 
 /**
  * fill subject, text and html using lodash template
@@ -60,7 +60,7 @@ const sendTemplatedEmail = async (emailOptions = {}, emailTemplate = {}, data = 
     ({ bodyHtml, bodyText, subject } = response);
   }
 
-  if (mantainLegacyTemplate) {
+  if (isMantainLegacyTemplateActive()) {
     bodyHtml = bodyHtml.replace(/<%/g, '{{').replace(/%>/g, '}}');
     bodyText = bodyText.replace(/<%/g, '{{').replace(/%>/g, '}}');
     subject = subject.replace(/<%/g, '{{').replace(/%>/g, '}}');
@@ -103,7 +103,7 @@ const compose = async ({ templateId, data = {} }) => {
     .query('email-template', 'email-designer')
     .findOne({ id: templateId });
 
-  if (mantainLegacyTemplate) {
+  if (isMantainLegacyTemplateActive()) {
     bodyHtml = bodyHtml.replace(/<%/g, '{{').replace(/%>/g, '}}');
     bodyText = bodyText.replace(/<%/g, '{{').replace(/%>/g, '}}');
     subject = subject.replace(/<%/g, '{{').replace(/%>/g, '}}');
