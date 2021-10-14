@@ -45,19 +45,31 @@ module.exports = {
    * @return {Object}
    */
   saveTemplate: async (ctx) => {
-    if (!_.isEmpty(ctx.params.templateId) && ctx.request.body.import) {
-      const foundTemplate = await strapi.plugins['email-designer'].services.template.fetch({
-        id: ctx.params.templateId,
+    let { templateId } = ctx.params;
+    const { sourceCodeToTemplateId, import: importTemplate } = ctx.request.body;
+
+    if (sourceCodeToTemplateId !== null) {
+      const foundTemplate = await strapi.plugins["email-designer"].services.template.fetch({
+        sourceCodeToTemplateId,
       });
-      if (!foundTemplate || foundTemplate.name !== ctx.request.body.name) ctx.params.templateId = 'new';
+
+      if (!_.isEmpty(foundTemplate)) {
+        if (templateId === "new") return ctx.badRequest("SourceCodeTemplateId is already taken");
+        
+        // override the existing entry with imported data
+        if (importTemplate) templateId = foundTemplate.id;
+      }
+      else {
+        templateId = "new";
+      }
     }
 
     const template =
-      _.isEmpty(ctx.params.templateId) || ctx.params.templateId === 'new'
-        ? await strapi.plugins['email-designer'].services.template.add(ctx.request.body)
-        : await strapi.plugins['email-designer'].services.template.edit(
-            { id: ctx.params.templateId },
-            { ...ctx.request.body, id: ctx.params.templateId }
+      templateId === "new"
+        ? await strapi.plugins["email-designer"].services.template.add(ctx.request.body )  
+        : await strapi.plugins["email-designer"].services.template.edit(
+            { id: templateId },
+            ctx.request.body
           );
     ctx.send(template);
   },
