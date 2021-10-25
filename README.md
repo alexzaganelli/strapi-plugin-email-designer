@@ -299,6 +299,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   </tr>
   <tr>
     <td align="center"><a href="https://www.linkedin.com/in/moritzeck"><img src="https://avatars.githubusercontent.com/u/22457755?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Moritz Eck</b></sub></a><br /><a href="https://github.com/alexzaganelli/strapi-plugin-email-designer/commits?author=meck93" title="Code">💻</a></td>
+    <td align="center"><a href="https://nihey.org"><img src="https://avatars.githubusercontent.com/u/5278570?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Nihey Takizawa</b></sub></a><br /><a href="https://github.com/alexzaganelli/strapi-plugin-email-designer/commits?author=nihey" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/ggirodda"><img src="https://avatars.githubusercontent.com/u/12408871?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Ciro Alabrese</b></sub></a><br /><a href="https://github.com/alexzaganelli/strapi-plugin-email-designer/commits?author=ggirodda" title="Code">💻</a></td>
   </tr>
 </table>
