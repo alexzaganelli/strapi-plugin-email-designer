@@ -99,6 +99,7 @@ const EmailDesigner = ({ isCore = false }) => {
   const [filesToUpload /* , setFilesToUpload */] = useState({});
 
   const [configLoaded, setConfigLoaded] = useState(false);
+  const [serverConfigLoaded, setServerConfigLoaded] = useState(false);
 
   const [editorAppearance, setEditorAppearance] = useState({ ...defaultEditorAppearance });
   const [editorTools, setEditorTools] = useState({ ...defaultEditorTools });
@@ -167,6 +168,7 @@ const EmailDesigner = ({ isCore = false }) => {
         if (editorConfigApi.appearance) {
           setEditorAppearance((state) => merge({}, state, editorConfigApi.appearance));
         }
+        setServerConfigLoaded(true);
       }
 
       emailEditorRef.current?.editor?.loadDesign(_templateData.design);
@@ -335,6 +337,7 @@ const EmailDesigner = ({ isCore = false }) => {
             <div style={{ height: '100%', display: mode === 'html' ? 'flex' : 'none' }}>
               <React.StrictMode>
                 <EmailEditor
+                  key={serverConfigLoaded ? 'server-config' : 'default-config'}
                   ref={emailEditorRef}
                   onLoad={onLoadHandler}
                   style={{ border: '1px solid #dedede' }}
