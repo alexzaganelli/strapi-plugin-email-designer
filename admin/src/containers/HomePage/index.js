@@ -156,7 +156,7 @@ const HomePage = () => {
     setImportLoading(true);
     let _importedTemplates = [];
 
-    importedTemplates.forEach(async (template) => {
+    for (const template of importedTemplates) {
       const response = await request(`/${pluginId}/templates/${template.id}`, {
         // later templateId
         method: 'POST',
@@ -169,7 +169,7 @@ const HomePage = () => {
       });
 
       _importedTemplates.push(response);
-    });
+    }
 
     let newTemplates = [...templates, ..._importedTemplates].map((data) => {
       data.enabled = data.enabled.toString();
@@ -188,10 +188,9 @@ const HomePage = () => {
     setTemplates(newTemplates);
 
     emailTemplatesFileSelect.current.value = '';
-    setImportedTemplates(undefined);
     setImportConfirmationModal(undefined);
     setImportLoading(false);
-    window.location.reload(false);
+    setImportedTemplates(undefined);
   };
 
   const headers = [
