@@ -110,6 +110,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "nikzaugg",
+      "name": "Nik Zaugg",
+      "avatar_url": "https://avatars.githubusercontent.com/u/22471485?v=4",
+      "profile": "https://zaeck.ch/",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
