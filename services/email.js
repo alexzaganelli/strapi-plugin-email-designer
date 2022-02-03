@@ -27,9 +27,11 @@ const isMantainLegacyTemplateActive = () => _.get(strapi.plugins, 'email-designe
  * @returns {{ subject, text, subject }}
  */
 const sendTemplatedEmail = async (emailOptions = {}, emailTemplate = {}, data = {}) => {
+  const keysToIgnore = ['attachment', 'attachments'];
+
   Object.entries(emailOptions).forEach(([key, address]) => {
     // ⬇︎ Thanks to @xcivit 's #39 suggestion
-    if (key !== 'attachments') {
+    if (!keysToIgnore.includes(key)) {
       if (Array.isArray(address)) {
         address.forEach((email) => {
           if (!isValidEmail.test(email)) throw new Error(`Invalid "${key}" email address with value "${email}"`);
