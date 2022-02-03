@@ -16,7 +16,7 @@
   <a href="#">
     <img alt="Repo stars" src="https://img.shields.io/github/stars/alexzaganelli/strapi-plugin-email-designer?color=white&label=Github&style=plastic"></a>
   <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-<a href="#contributors-"><img alt="Contributors" src="https://img.shields.io/badge/all_contributors-9-orange.svg?style=plastic"></a>
+<a href="#contributors-"><img alt="Contributors" src="https://img.shields.io/badge/all_contributors-12-orange.svg?style=plastic"></a>
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 </p>
 
@@ -302,6 +302,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/B0rk3"><img src="https://avatars.githubusercontent.com/u/40357504?v=4?s=100" width="100px;" alt=""/><br /><sub><b>B0rk3</b></sub></a><br /><a href="https://github.com/alexzaganelli/strapi-plugin-email-designer/commits?author=B0rk3" title="Code">💻</a></td>
     <td align="center"><a href="https://nihey.org"><img src="https://avatars.githubusercontent.com/u/5278570?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Nihey Takizawa</b></sub></a><br /><a href="https://github.com/alexzaganelli/strapi-plugin-email-designer/commits?author=nihey" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/ggirodda"><img src="https://avatars.githubusercontent.com/u/12408871?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Ciro Alabrese</b></sub></a><br /><a href="https://github.com/alexzaganelli/strapi-plugin-email-designer/commits?author=ggirodda" title="Code">💻</a></td>
+    <td align="center"><a href="https://zaeck.ch/"><img src="https://avatars.githubusercontent.com/u/22471485?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Nik Zaugg</b></sub></a><br /><a href="https://github.com/alexzaganelli/strapi-plugin-email-designer/commits?author=nikzaugg" title="Code">💻</a></td>
   </tr>
 </table>
 
