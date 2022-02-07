@@ -26,5 +26,5 @@ describe('Strapi Login flow', () => {
     cy.url().should('include', '/plugins/email-designer');
   });
 
-  // @todo add [ CREATE | EDIT | DELETE ] tests
+  // TODO: add [ CREATE | EDIT | DELETE ] tests
 });

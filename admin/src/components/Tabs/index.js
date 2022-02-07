@@ -6,7 +6,6 @@
 
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { darken } from 'strapi-helper-plugin';
 import { map } from 'lodash';
 
 import PropTypes from 'prop-types';
@@ -18,8 +17,6 @@ function TabsNav({ links, style }) {
   return (
     <Wrapper style={style}>
       {map(links, (link) => {
-        linkColor = darken(linkColor, 1.5);
-
         return (
           <button
             key={link.name}

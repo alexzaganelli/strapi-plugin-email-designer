@@ -2,8 +2,10 @@
   "kind": "collectionType",
   "collectionName": "email_templates",
   "info": {
-    "name": "emailTemplate",
-    "description": ""
+    "singularName": "email-template",
+    "pluralName": "email-templates",
+    "displayName": "Email-template",
+    "name": "email-template"
   },
   "pluginOptions": {
     "content-manager": {
@@ -20,7 +22,7 @@
     "comment": ""
   },
   "attributes": {
-    "sourceCodeToTemplateId": {
+    "templateReferenceId": {
       "type": "integer",
       "required": false,
       "unique": true

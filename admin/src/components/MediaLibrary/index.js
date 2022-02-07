@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useStrapi, prefixFileUrlWithBackendUrl } from 'strapi-helper-plugin';
+import { useStrapi, prefixFileUrlWithBackendUrl } from '@strapi/helper-plugin';
 
 const MediaLibrary = ({ isOpen, onChange, onToggle, filesToUpload }) => {
   const {
@@ -18,7 +18,7 @@ const MediaLibrary = ({ isOpen, onChange, onToggle, filesToUpload }) => {
 
   const Component = getComponent('media-library').Component;
 
-  const handleInputChange = data => {
+  const handleInputChange = (data) => {
     if (data) {
       const { url } = data;
 

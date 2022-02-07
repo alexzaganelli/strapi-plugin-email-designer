@@ -1,12 +1,13 @@
 {
   "name": "strapi-plugin-email-designer",
-  "version": "1.1.9",
+  "version": "2.0.0",
   "description": "Strapi Email designer plugin.",
   "homepage": "https://github.com/alexzaganelli/strapi-plugin-email-designer#readme",
   "strapi": {
     "name": "email-designer",
     "icon": "envelope",
-    "description": "Design your own email templates directly from the Strapi admin panel and use the magic to send it programmatically in your controllers / services."
+    "description": "Design your own email templates directly from the Strapi admin panel and use the magic to send it programmatically in your controllers / services.",
+    "kind": "plugin"
   },
   "scripts": {
     "cypress:install": "node ./node_modules/cypress/bin/cypress install",
@@ -36,7 +37,7 @@
     }
   ],
   "engines": {
-    "node": ">=10.16.0 <=14.x.x",
+    "node": ">=12.x.x <=16.x.x",
     "npm": ">=6.0.0"
   },
   "repository": {

@@ -1,36 +1,31 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { NotFound } from 'strapi-helper-plugin';
+import { NotFound } from '@strapi/helper-plugin';
 
 // Utils
-import { Fonts } from '@buffetjs/styles';
 import styled from 'styled-components';
 import pluginId from '../../pluginId';
 
-// Containers
+// Pages
 import HomePage from '../HomePage';
-import HowToPage from '../HowToPage';
 import Designer from '../Designer';
-
-const Container = styled.div`
-  display: flex;
-  height: 100%;
-`;
+// import HowToPage from '../HowToPage';
 
 const App = () => {
-  return (
-    <Container>
-      <Fonts />
-      {/* <GlobalStyle /> */}
+  const PluginViewWrapper = styled.div`
+    min-height: 100vh;
+  `;
 
+  return (
+    <PluginViewWrapper>
       <Switch>
         <Route path={`/plugins/${pluginId}`} component={HomePage} exact />
-        <Route path={`/plugins/${pluginId}/how-to`} component={HowToPage} exact />
         <Route path={`/plugins/${pluginId}/design/:templateId`} component={() => <Designer />} exact />
-        <Route path={`/plugins/${pluginId}/core/:coreMessageType`} component={() => <Designer isCore />} exact />
+        <Route path={`/plugins/${pluginId}/core/:coreEmailType`} component={() => <Designer isCore />} exact />
+        {/* <Route path={`/plugins/${pluginId}/how-to`} component={HowToPage} exact /> */}
         <Route component={NotFound} />
       </Switch>
-    </Container>
+    </PluginViewWrapper>
   );
 };
 

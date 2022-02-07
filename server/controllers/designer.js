@@ -1,6 +1,7 @@
 'use strict';
 const _ = require('lodash');
 const { htmlToText } = require('html-to-text');
+const { isNil } = require('lodash');
 
 /**
  * email-designer.js controller
@@ -15,7 +16,7 @@ module.exports = {
    * @return {Object}
    */
   getTemplates: async (ctx) => {
-    const templates = await strapi.plugins['email-designer'].services.template.fetchAll();
+    const templates = await strapi.plugin('email-designer').service('template').findMany();
     ctx.send(templates);
   },
 
@@ -25,7 +26,7 @@ module.exports = {
    * @return {Object}
    */
   getTemplate: async (ctx) => {
-    const template = await strapi.plugins['email-designer'].services.template.fetch({ id: ctx.params.templateId });
+    const template = await strapi.plugin('email-designer').service('template').findOne({ id: ctx.params.templateId });
     ctx.send(template);
   },
 
@@ -35,7 +36,7 @@ module.exports = {
    * @return {Object}
    */
   deleteTemplate: async (ctx) => {
-    await strapi.plugins['email-designer'].services.template.remove({ id: ctx.params.templateId });
+    await strapi.plugin('email-designer').service('template').delete({ id: ctx.params.templateId });
     ctx.send({ removed: true });
   },
 
@@ -46,32 +47,38 @@ module.exports = {
    */
   saveTemplate: async (ctx) => {
     let { templateId } = ctx.params;
-    const { sourceCodeToTemplateId, import: importTemplate } = ctx.request.body;
 
-    if (sourceCodeToTemplateId !== null) {
-      const foundTemplate = await strapi.plugins["email-designer"].services.template.fetch({
-        sourceCodeToTemplateId,
-      });
+    const { templateReferenceId, import: importTemplate } = ctx.request.body;
 
-      if (!_.isEmpty(foundTemplate)) {
-        if (templateId === "new") return ctx.badRequest("SourceCodeTemplateId is already taken");
-        
-        // override the existing entry with imported data
-        if (importTemplate) templateId = foundTemplate.id;
-      }
-      else {
-        templateId = "new";
+    if (importTemplate === true) {
+      if (!isNil(templateReferenceId)) {
+        const foundTemplate = await strapi.plugin('email-designer').service('template').findOne({
+          templateReferenceId,
+        });
+
+        if (!_.isEmpty(foundTemplate)) {
+          if (templateId === 'new') return ctx.badRequest('Template reference ID is already taken');
+
+          // override the existing entry with imported data
+          templateId = foundTemplate.id;
+        } else {
+          templateId = 'new';
+        }
+      } else {
+        templateId = 'new';
       }
     }
 
-    const template =
-      templateId === "new"
-        ? await strapi.plugins["email-designer"].services.template.add(ctx.request.body )  
-        : await strapi.plugins["email-designer"].services.template.edit(
-            { id: templateId },
-            ctx.request.body
-          );
-    ctx.send(template);
+    try {
+      const template =
+        templateId === 'new'
+          ? await strapi.plugin('email-designer').service('template').create(ctx.request.body)
+          : await strapi.plugin('email-designer').service('template').update({ id: templateId }, ctx.request.body);
+
+      ctx.send(template || {});
+    } catch (error) {
+      ctx.badRequest(null, error);
+    }
   },
 
   /**
@@ -85,13 +92,15 @@ module.exports = {
     }
 
     const { __v, _id, id, updatedAt, createdAt, ...toClone } = await strapi
-      .query('email-template', 'email-designer')
+      .plugin('email-designer')
+      .service('template')
       .findOne({ id: ctx.params.sourceTemplateId });
 
     if (toClone) {
       return strapi
-        .query('email-template', 'email-designer')
-        .create({ ...toClone, name: `${toClone.name} copy`, sourceCodeToTemplateId: null });
+        .plugin('email-designer')
+        .service('template')
+        .create({ ...toClone, name: `${toClone.name} copy`, templateReferenceId: null });
     }
     return null;
   },
@@ -105,15 +114,13 @@ module.exports = {
    *
    * @return {Object}
    */
-  getcoreMessageType: async (ctx) => {
-    // const { coreMessageType } = ctx.query;
-    const { coreMessageType } = ctx.params;
-
-    if (!['user-address-confirmation', 'reset-password'].includes(coreMessageType))
+  getCoreEmailType: async (ctx) => {
+    const { coreEmailTypeType } = ctx.params;
+    if (!['user-address-confirmation', 'reset-password'].includes(coreEmailTypeType))
       return ctx.badRequest('No valid core message key');
 
     const pluginStoreEmailKey =
-      coreMessageType === 'user-address-confirmation' ? 'email_confirmation' : 'reset_password';
+      coreEmailTypeType === 'user-address-confirmation' ? 'email_confirmation' : 'reset_password';
 
     const pluginStore = await strapi.store({
       environment: '',
@@ -137,7 +144,7 @@ module.exports = {
             }),
           }
         : {}),
-      coreMessageType,
+      coreEmailTypeType,
       design: data.design,
     };
 
@@ -149,13 +156,13 @@ module.exports = {
    *
    * @return {Object}
    */
-  savecoreMessageType: async (ctx) => {
-    const { coreMessageType } = ctx.params;
-    if (!['user-address-confirmation', 'reset-password'].includes(coreMessageType))
+  saveCoreEmailType: async (ctx) => {
+    const { coreEmailTypeType } = ctx.params;
+    if (!['user-address-confirmation', 'reset-password'].includes(coreEmailTypeType))
       return ctx.badRequest('No valid core message key');
 
     const pluginStoreEmailKey =
-      coreMessageType === 'user-address-confirmation' ? 'email_confirmation' : 'reset_password';
+      coreEmailTypeType === 'user-address-confirmation' ? 'email_confirmation' : 'reset_password';
 
     const pluginStore = await strapi.store({
       environment: '',
@@ -164,7 +171,7 @@ module.exports = {
     });
 
     const emailsConfig = await pluginStore.get({ key: 'email' });
-    const config = strapi.plugins['email-designer'].services.config.getConfig();
+    const config = strapi.plugin('email-designer').services.config.getConfig();
 
     emailsConfig[pluginStoreEmailKey] = {
       ...emailsConfig[pluginStoreEmailKey],
@@ -172,8 +179,8 @@ module.exports = {
         ...(emailsConfig[pluginStoreEmailKey] ? emailsConfig[pluginStoreEmailKey].options : {}),
         message: ctx.request.body.message.replace(/{{/g, '<%').replace(/}}/g, '%>'),
         object: ctx.request.body.subject.replace(/{{/g, '<%').replace(/}}/g, '%>'),
-        // @todo from: ctx.request.from,
-        // @todo response_email: ctx.request.response_email,
+        // TODO: from: ctx.request.from,
+        // TODO: response_email: ctx.request.response_email,
       },
       design: ctx.request.body.design,
     };

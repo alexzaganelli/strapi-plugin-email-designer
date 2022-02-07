@@ -1,15 +1,14 @@
 import React, { memo } from 'react';
-import { BackHeader, useGlobalContext } from 'strapi-helper-plugin';
 import { useHistory } from 'react-router-dom';
-import { Header } from '@buffetjs/custom';
+// import { Header } from '@buffetjs/custom';
+import { BaseHeaderLayout } from '@strapi/design-system/Layout';
+
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import sunburst from 'react-syntax-highlighter/dist/esm/styles/prism/material-dark';
 
-import getTrad from '../../utils/getTrad';
+import getMessage from '../../utils/getMessage';
 
 const HowToPage = () => {
-  const { formatMessage } = useGlobalContext();
-
   const exampleCode = `{
     const templateId = "[GET_THE_TEMPLATE_ID]",
     to = "john@doe.com",
@@ -39,14 +38,31 @@ const HowToPage = () => {
 
   return (
     <>
-      <BackHeader onClick={useHistory().goBack} />
       <div className="container-fluid" style={{ padding: '18px 30px 66px 30px' }}>
-        <Header
+        <Box background="neutral100">
+          <BaseHeaderLayout
+            navigationAction={
+              <Link startIcon={<ArrowLeft />} to="/">
+                Go back
+              </Link>
+            }
+            // primaryAction={<Button startIcon={<Plus />}>Add an entry</Button>}
+            // secondaryAction={
+            //   <Button variant="tertiary" startIcon={<Pencil />}>
+            //     Edit
+            //   </Button>
+            // }
+            title={getTrad('howToUse')}
+            // subtitle="36 entries found"
+            as="h2"
+          />
+        </Box>
+        {/* <Header
           title={{
-            label: formatMessage({ id: getTrad('howToUse') }),
+            label: ,
           }}
-          content={formatMessage({ id: getTrad('howToUse.content') })}
-        />
+          content={getTrad('howToUse.content') })}
+        /> */}
         <SyntaxHighlighter language="javascript" style={sunburst}>
           {exampleCode}
         </SyntaxHighlighter>

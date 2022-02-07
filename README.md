@@ -1,4 +1,4 @@
-# Strapi email designer plugin 💅
+# Strapi Email Designer plugin 💅
 
 <p align="left">
   <a href="https://www.npmjs.org/package/strapi-plugin-email-designer">
@@ -25,6 +25,13 @@ Design your own email templates directly from the [Strapi CMS](https://github.co
 <img src="https://raw.githubusercontent.com/alexzaganelli/strapi-plugin-email-designer/main/public/assets/designer-screenshot.jpg" alt="Designer screenshot" />
 
 _Visual composer provided by [Unlayer](https://unlayer.com/)_
+
+&nbsp;
+
+## ⚙️ Versions
+
+- **Strapi v4** - (current) - [v2.x](https://github.com/alexzaganelli/strapi-plugin-email-designer)
+- **Strapi v3** - [v1.x](https://github.com/alexzaganelli/strapi-plugin-email-designer/tree/strapi-v3)
 
 &nbsp;
 
@@ -107,7 +114,7 @@ Tips: in the template's body is possible to iterate array like this:
       },
       {
         templateId: 1, // required - you can get the template id from the admin panel (can change on import)
-        sourceCodeToTemplateId: 55, // ID that can be defined in the template designer (won't change on import)
+        templateReferenceId: 55, // ID that can be defined in the template designer (won't change on import)
         subject: `Thank you for your order`, // If provided here will override the template's subject. Can include variables like `Thank you for your order {{= user.firstName }}!`
       },
       {
@@ -320,3 +327,9 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 ## Forkers ✨
 
 [![Forkers repo roster for @alexzaganelli/strapi-plugin-email-designer](https://reporoster.com/forks/alexzaganelli/strapi-plugin-email-designer)](https://github.com/alexzaganelli/strapi-plugin-email-designer/network/members)
+
+## Support Me ✨
+
+If you like this plugin I'd like to drink a virtual beer w/ u. Thank you in advance!
+
+[!["Buy Me A Beer"](https://img.buymeacoffee.com/button-api/?text=Buy+me+a+beer&emoji=🍺&slug=alexzaganelli&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff)](https://www.buymeacoffee.com/alexzaganelli)
