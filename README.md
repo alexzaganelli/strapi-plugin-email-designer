@@ -63,17 +63,6 @@ yarn add strapi-plugin-email-designer@latest
 npm i -S strapi-plugin-email-designer@latest
 ```
 
-- activate the plugin from your `config/plugins.js` file:
-
-```javascript
-module.exports = ({ env }) => ({
-  'email-designer': {
-    enabled: true,
-    resolve: './node_modules/strapi-plugin-email-designer/',
-  },
-});
-```
-
 - you may need also to add to the unlayer domain to the _Content Security Policy_. Update the config file `config/middleware.js` as:
 
 ```diff
