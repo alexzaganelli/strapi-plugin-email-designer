@@ -74,6 +74,42 @@ module.exports = ({ env }) => ({
 });
 ```
 
+- you may need also to add to the unlayer domain to the _Content Security Policy_. Update the config file `config/middleware.js` as:
+
+```diff
+// ...
+- "strapi::security",
++ {
++     name: "strapi::security",
++     config: {
++       contentSecurityPolicy: {
++         directives: {
++           "script-src": [
++             "'self'",
++             "'unsafe-inline'",
++             "editor.unlayer.com"
++           ],
++           "frame-src": [
++             "'self'",
++             "'unsafe-
++             inline'",
++             "editor.unlayer.com"
++           ],
++           "img-src": [
++             "'self'",
++             "data:",
++             "cdn.jsdelivr.net",
++             "strapi.io",
++             "s3.amazonaws.com",
++             `${env("AWS_BUCKET")}.s3.${env("AWS_REGION")}.amazonaws.com`
++           ],
++         },
++       },
++     },
++   },
+// ...
+```
+
 - After successful installation you've to build a fresh package that includes plugin UI. To archive that simply use:
 
 ```bash
