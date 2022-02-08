@@ -16,6 +16,7 @@
     "prettier:write": "prettier --write **/*.js"
   },
   "dependencies": {
+    "@strapi/strapi": "^4.0.7",
     "dayjs": "^1.10.7",
     "decode-html": "^2.0.0",
     "html-to-text": "^8.0.0",
