@@ -63,6 +63,17 @@ yarn add strapi-plugin-email-designer@latest
 npm i -S strapi-plugin-email-designer@latest
 ```
 
+- activate the plugin from your `config/plugins.js` file:
+
+```javascript
+module.exports = ({ env }) => ({
+  'email-designer': {
+    enabled: true,
+    resolve: './node_modules/strapi-plugin-email-designer/',
+  },
+});
+```
+
 - After successful installation you've to build a fresh package that includes plugin UI. To archive that simply use:
 
 ```bash
@@ -330,6 +341,6 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 
 ## Support Me ✨
 
-If you like this plugin I'd like to drink a virtual beer w/ u. Thank you in advance!
+If you like this plugin I'm very happy, so we can drink a beer 🍻. _Alla salute!_
 
 [!["Buy Me A Beer"](https://img.buymeacoffee.com/button-api/?text=Buy+me+a+beer&emoji=🍺&slug=alexzaganelli&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff)](https://www.buymeacoffee.com/alexzaganelli)
