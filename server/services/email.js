@@ -56,13 +56,9 @@ module.exports = ({ strapi }) => {
 
     const { templateReferenceId } = emailTemplate || {};
 
-    if (templateReferenceId) {
-      const response = await strapi.query('email-template', 'email-designer').findOne({ templateReferenceId });
-      ({ bodyHtml, bodyText, subject } = response);
-    } else {
-      const response = await strapi.query('email-template', 'email-designer').findOne({ id: emailTemplate.templateId });
-      ({ bodyHtml, bodyText, subject } = response);
-    }
+    const queryParams = templateReferenceId ? { templateReferenceId } : { id: emailTemplate.templateId };
+    const response = await strapi.db.query('plugin::email-designer.email-template').findOne(queryParams);
+    ({ bodyHtml, bodyText, subject } = response);
 
     if (isMantainLegacyTemplateActive()) {
       bodyHtml = bodyHtml.replace(/<%/g, '{{').replace(/%>/g, '}}');
@@ -99,13 +95,13 @@ module.exports = ({ strapi }) => {
    * Promise to retrieve a composed HTML email.
    * @return {Promise}
    */
-  const compose = async ({ templateId, data = {} }) => {
+  const compose = async ({ templateReferenceId, data = {} }) => {
     strapi.log.debug(`⚠️: `, `The 'compose' function is deprecated and may be removed or changed in the future.`);
-    if (!templateId) throw new Error("No email template's id provided");
+    if (!templateReferenceId) throw new Error("No email template's id provided");
 
     let { bodyHtml, bodyText, subject } = await strapi
-      .query('email-template', 'email-designer')
-      .findOne({ id: templateId });
+      .query('plugin::email-designer.email-template')
+      .findOne({ templateReferenceId });
 
     if (isMantainLegacyTemplateActive()) {
       bodyHtml = bodyHtml.replace(/<%/g, '{{').replace(/%>/g, '}}');
