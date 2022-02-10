@@ -54,7 +54,7 @@ const HomePage = () => {
   const [importedTemplates, setImportedTemplates] = useState([]);
   const [importLoading, setImportLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('customEmailTemplates');
-  const toggleNotification = useNotification();
+  const toggleNotification = useNotification(); // FIXME: useNotification cause re-rendering
 
   const emailTemplatesFileSelect = useRef(null);
 

@@ -9,6 +9,7 @@ import { Button } from '@strapi/design-system/Button';
 import { Link } from '@strapi/design-system/Link';
 import { isEmpty, isFinite, merge } from 'lodash';
 import { ArrowLeft } from '@strapi/icons';
+import { standardEmailRegistrationTemplate } from '../../helpers/coreTemplateHelper';
 
 import PropTypes from 'prop-types';
 import striptags from 'striptags';
@@ -18,7 +19,7 @@ import styled from 'styled-components';
 import pluginId from '../../pluginId';
 import getMessage from '../../utils/getMessage';
 // import MediaLibrary from '../../components/MediaLibrary';
-import { standardEmailRegistrationTemplate } from '../../helpers/coreTemplateHelper';
+const __DEV__ = process.env.NODE_ENV !== 'production';
 
 const DesignerContainer = styled.div`
   padding: 18px 30px;
@@ -89,12 +90,10 @@ const currentTemplateTags = {
 };
 
 const EmailDesignerPage = ({ isCore = false }) => {
+  const emailEditorRef = useRef();
   const history = useHistory();
-  const toggleNotification = useNotification();
 
   const { templateId, coreEmailType } = useParams();
-
-  const emailEditorRef = useRef(null);
   const [templateData, setTemplateData] = useState();
   const [referenceIdEmpty, setReferenceIdEmpty] = useState('');
   const [enablePrompt, togglePrompt] = useState(false);
@@ -106,12 +105,138 @@ const EmailDesignerPage = ({ isCore = false }) => {
   const [editorOptions, setEditorOptions] = useState({ ...defaultEditorOptions, ...currentTemplateTags });
   const [isMediaLibraryOpen, setIsMediaLibraryOpen] = useState(false);
   const [filesToUpload /* , setFilesToUpload */] = useState({});
+  const toggleNotification = useNotification();
 
-  useEffect(() => {
-    return () => {
-      emailEditorRef.current = false; // release react-email-editor on unmount
-    };
+  const saveDesign = async () => {
+    if (!templateData?.templateReferenceId) {
+      /*
+      FIXME: useNotification cause re-rendering so I temporarly commented all toggleNotification blocks
+      toggleNotification({
+        type: 'warning',
+        message: `${pluginId}.notification.templateReferenceIdNotEmpty`,
+      }); */
+
+      setReferenceIdEmpty(' '); // trigger error on TextInput field
+      return;
+    }
+    setReferenceIdEmpty('');
+
+    let design, html;
+
+    try {
+      await new Promise((resolve) => {
+        emailEditorRef.current.editor.exportHtml((data) => {
+          ({ design, html } = data);
+          resolve();
+        });
+      });
+    } catch (error) {
+      console.log(error);
+      return;
+    }
+
+    try {
+      let response;
+
+      if (templateId) {
+        response = await request(`/${pluginId}/templates/${templateId}`, {
+          method: 'POST',
+          body: {
+            name: templateData?.name || getMessage('noName'),
+            templateReferenceId: templateData?.templateReferenceId,
+            subject: templateData?.subject || '',
+            design,
+            bodyText,
+            bodyHtml: html,
+          },
+        });
+      } else if (coreEmailType) {
+        response = await request(`/${pluginId}/core/${coreEmailType}`, {
+          method: 'POST',
+          body: {
+            subject: templateData?.subject || '',
+            design,
+            message: html,
+            bodyText,
+          },
+        });
+      }
+
+      /*
+      FIXME: useNotification cause re-rendering so I temporarly commented all toggleNotification blocks
+      toggleNotification({
+        type: 'success',
+        message: `${pluginId}.notification.success.submit`,
+      });
+      */
+
+      togglePrompt(false);
+
+      /*
+      TODO: restore this once useNotification is fixed
+      if (templateId === 'new' && templateId !== response.id)
+        history.replace(`/plugins/${pluginId}/design/${response.id}`);
+        */
+      history.push(`/plugins/${pluginId}/`);
+    } catch (err) {
+      console.error(err?.response?.payload);
+
+      const errorMessage = err?.response?.payload?.message;
+      if (errorMessage) {
+        toggleNotification({
+          type: 'warning',
+          title: 'Error',
+          message: errorMessage,
+        });
+      } else {
+        toggleNotification({
+          type: 'warning',
+          title: 'Error',
+          message: `${pluginId}.notification.error`,
+        });
+      }
+    }
+  };
+
+  const onDesignLoad = () => {
+    // eslint-disable-next-line no-unused-vars
+    emailEditorRef.current.editor.addEventListener('design:updated', (data) => {
+      /*
+      let { type, item, changes } = data;
+      console.log("design:updated", type, item, changes);
+      */
+      togglePrompt(true);
+    });
+  };
+
+  const onLoadHandler = useCallback(() => {
+    // ⬇︎ workaround to avoid firing onLoad api before setting the editor ref
+    setTimeout(() => {
+      emailEditorRef.current?.editor?.addEventListener('onDesignLoad', onDesignLoad);
+      emailEditorRef.current?.editor?.registerCallback('selectImage', onSelectImageHandler);
+
+      if (templateData) emailEditorRef.current.editor.loadDesign(templateData.design);
+    }, 500);
   }, []);
+
+  // Custom media uploads
+  const [imageUploadDoneCallback, setImageUploadDoneCallback] = useState(undefined);
+
+  const onSelectImageHandler = (data, done) => {
+    setImageUploadDoneCallback(() => done);
+    setIsMediaLibraryOpen(true);
+  };
+
+  const handleMediaLibraryChange = (data) => {
+    if (imageUploadDoneCallback) {
+      imageUploadDoneCallback({ url: data.url });
+      setImageUploadDoneCallback(undefined);
+    } else console.log(imageUploadDoneCallback);
+  };
+
+  const handleToggleMediaLibrary = () => {
+    setIsMediaLibraryOpen((prev) => !prev);
+  };
 
   useEffect(() => {
     if (
@@ -175,123 +300,13 @@ const EmailDesignerPage = ({ isCore = false }) => {
         emailEditorRef.current.editor.loadDesign(templateData.design);
       }
     }, 600);
-  }, [templateData, emailEditorRef.current?.editor]);
+  }, [templateData]);
 
-  const saveDesign = async () => {
-    if (!templateData.templateReferenceId) {
-      toggleNotification({
-        type: 'warning',
-        message: `${pluginId}.notification.templateReferenceIdNotEmpty`,
-      });
-      setReferenceIdEmpty(getMessage('notification.templateReferenceIdNotEmpty'));
-      return;
-    }
-    setReferenceIdEmpty('');
-
-    let design, html;
-
-    try {
-      emailEditorRef.current.editor.exportHtml((data) => ({ design, html } = data));
-    } catch (error) {
-      console.log(error);
-      return;
-    }
-
-    try {
-      // strapi.lockAppWithOverlay();
-      let response;
-
-      if (templateId) {
-        response = await request(`/${pluginId}/templates/${templateId}`, {
-          method: 'POST',
-          body: {
-            name: templateData?.name || getMessage('noName'),
-            templateReferenceId: templateData?.templateReferenceId,
-            subject: templateData?.subject || '',
-            design,
-            bodyText,
-            bodyHtml: html,
-          },
-        });
-      } else if (coreEmailType) {
-        response = await request(`/${pluginId}/core/${coreEmailType}`, {
-          method: 'POST',
-          body: {
-            subject: templateData?.subject || '',
-            design,
-            message: html,
-            bodyText,
-          },
-        });
-      }
-
-      toggleNotification({
-        type: 'success',
-        message: `${pluginId}.notification.success.submit`,
-      });
-      togglePrompt(false);
-
-      if (templateId === 'new' && templateId !== response.id)
-        history.replace(`/plugins/${pluginId}/design/${response.id}`);
-    } catch (err) {
-      console.error(err?.response?.payload);
-
-      const errorMessage = err?.response?.payload?.message;
-      if (errorMessage) {
-        toggleNotification({
-          type: 'warning',
-          title: 'Error',
-          message: errorMessage,
-        });
-      } else {
-        toggleNotification({
-          type: 'warning',
-          title: 'Error',
-          message: `${pluginId}.notification.error`,
-        });
-      }
-    }
-  };
-
-  const onDesignLoad = () => {
-    // eslint-disable-next-line no-unused-vars
-    emailEditorRef.current.editor.addEventListener('design:updated', (data) => {
-      /*
-      let { type, item, changes } = data;
-      console.log("design:updated", type, item, changes);
-      */
-      togglePrompt(true);
-    });
-  };
-
-  const onLoadHandler = useCallback(() => {
-    // ⬇︎ workaround to avoid firing onLoad api before setting the editor ref
-    setTimeout(() => {
-      emailEditorRef.current?.editor?.addEventListener('onDesignLoad', onDesignLoad);
-      emailEditorRef.current?.editor?.registerCallback('selectImage', onSelectImageHandler);
-
-      if (templateData) emailEditorRef.current.editor.loadDesign(templateData.design);
-    }, 500);
+  useEffect(() => {
+    return () => {
+      emailEditorRef.current = false; // release react-email-editor on unmount
+    };
   }, []);
-
-  // Custom media uploads
-  const [imageUploadDoneCallback, setImageUploadDoneCallback] = useState(undefined);
-
-  const onSelectImageHandler = (data, done) => {
-    setImageUploadDoneCallback(() => done);
-    setIsMediaLibraryOpen(true);
-  };
-
-  const handleMediaLibraryChange = (data) => {
-    if (imageUploadDoneCallback) {
-      imageUploadDoneCallback({ url: data.url });
-      setImageUploadDoneCallback(undefined);
-    } else console.log(imageUploadDoneCallback);
-  };
-
-  const handleToggleMediaLibrary = () => {
-    setIsMediaLibraryOpen((prev) => !prev);
-  };
 
   return !templateData && !templateId === 'new' ? (
     <LoadingIndicatorPage />
@@ -390,7 +405,7 @@ const EmailDesignerPage = ({ isCore = false }) => {
               >
                 <EmailDesigner
                   key={serverConfigLoaded ? 'server-config' : 'default-config'}
-                  innerRef={emailEditorRef}
+                  ref={emailEditorRef}
                   onLoad={onLoadHandler}
                   locale={strapi.currentLanguage}
                   appearance={editorAppearance}
@@ -421,7 +436,7 @@ const EmailDesignerPage = ({ isCore = false }) => {
   );
 };
 
-export default memo(EmailDesignerPage, shallowEqual);
+export default memo(EmailDesignerPage, shallowIsEqual);
 
 EmailDesignerPage.propTypes = {
   isCore: PropTypes.bool,
@@ -431,43 +446,38 @@ EmailDesignerPage.defaultProps = {
   isCore: false,
 };
 
-const EmailDesigner = memo(function Designer(props) {
-  const {
-    serverConfigLoaded,
-    innerRef: emailEditorRef,
-    onLoadHandler,
-    editorAppearance,
-    editorTools,
-    editorOptions,
-  } = props;
+const EmailDesigner = memo(
+  React.forwardRef((props, ref) => {
+    const { serverConfigLoaded, onLoadHandler, editorAppearance, editorTools, editorOptions } = props;
 
-  return (
-    <EmailEditor
-      key={serverConfigLoaded ? 'server-config' : 'default-config'}
-      ref={emailEditorRef}
-      onLoad={onLoadHandler}
-      locale={currentLanguage}
-      appearance={editorAppearance}
-      tools={editorTools}
-      options={editorOptions}
-    />
-  );
-}, shallowEqual);
+    return (
+      <EmailEditor
+        key={serverConfigLoaded ? 'server-config' : 'default-config'}
+        ref={ref}
+        onLoad={onLoadHandler}
+        locale={currentLanguage}
+        appearance={editorAppearance}
+        tools={editorTools}
+        options={editorOptions}
+      />
+    );
+  }),
+  shallowIsEqual
+);
 
-function shallowEqual(object1, object2) {
+function shallowIsEqual(object1, object2) {
   const keys1 = Object.keys(object1);
   const keys2 = Object.keys(object2);
   if (keys1.length !== keys2.length) {
-    console.log('shallowEqual: keys1.length !== keys2.length');
+    if (__DEV__) console.log('shallowIsEqual: keys1.length !== keys2.length');
     return false;
   }
-  for (let key of keys1) {
+  for (const key of keys1) {
     if (object1[key] !== object2[key]) {
-      console.log(`shallowEqual: ${key}`, object1[key], ' !== ', object2[key]);
+      if (__DEV__) console.log(`shallowIsEqual: ${key}`, object1[key], ' !== ', object2[key]);
       return false;
     }
   }
 
-  console.log('Props are equal');
   return true;
 }
