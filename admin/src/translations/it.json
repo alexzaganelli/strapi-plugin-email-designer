@@ -34,7 +34,7 @@
   "reset-password": "Reset della password utente",
   "settings": "Preferenze",
   "table.actions": "Azioni",
-  "table.coreEmailTypeType": "Tipo di messaggio",
+  "table.coreEmailType": "Tipo di messaggio",
   "table.createdAt": "Creato il",
   "table.description": "Descrizione",
   "table.enabled": "Attivo",

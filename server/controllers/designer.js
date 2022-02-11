@@ -115,12 +115,11 @@ module.exports = {
    * @return {Object}
    */
   getCoreEmailType: async (ctx) => {
-    const { coreEmailTypeType } = ctx.params;
-    if (!['user-address-confirmation', 'reset-password'].includes(coreEmailTypeType))
+    const { coreEmailType } = ctx.params;
+    if (!['user-address-confirmation', 'reset-password'].includes(coreEmailType))
       return ctx.badRequest('No valid core message key');
 
-    const pluginStoreEmailKey =
-      coreEmailTypeType === 'user-address-confirmation' ? 'email_confirmation' : 'reset_password';
+    const pluginStoreEmailKey = coreEmailType === 'user-address-confirmation' ? 'email_confirmation' : 'reset_password';
 
     const pluginStore = await strapi.store({
       environment: '',
@@ -144,7 +143,7 @@ module.exports = {
             }),
           }
         : {}),
-      coreEmailTypeType,
+      coreEmailType,
       design: data.design,
     };
 
@@ -157,12 +156,11 @@ module.exports = {
    * @return {Object}
    */
   saveCoreEmailType: async (ctx) => {
-    const { coreEmailTypeType } = ctx.params;
-    if (!['user-address-confirmation', 'reset-password'].includes(coreEmailTypeType))
+    const { coreEmailType } = ctx.params;
+    if (!['user-address-confirmation', 'reset-password'].includes(coreEmailType))
       return ctx.badRequest('No valid core message key');
 
-    const pluginStoreEmailKey =
-      coreEmailTypeType === 'user-address-confirmation' ? 'email_confirmation' : 'reset_password';
+    const pluginStoreEmailKey = coreEmailType === 'user-address-confirmation' ? 'email_confirmation' : 'reset_password';
 
     const pluginStore = await strapi.store({
       environment: '',

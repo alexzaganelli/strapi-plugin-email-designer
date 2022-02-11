@@ -108,7 +108,7 @@ const EmailDesignerPage = ({ isCore = false }) => {
   const toggleNotification = useNotification();
 
   const saveDesign = async () => {
-    if (!templateData?.templateReferenceId) {
+    if (!coreEmailType && !templateData?.templateReferenceId) {
       /*
       FIXME: useNotification cause re-rendering so I temporarly commented all toggleNotification blocks
       toggleNotification({
@@ -179,7 +179,7 @@ const EmailDesignerPage = ({ isCore = false }) => {
         */
       history.push(`/plugins/${pluginId}/`);
     } catch (err) {
-      console.error(err?.response?.payload);
+      console.error(err);
 
       const errorMessage = err?.response?.payload?.message;
       if (errorMessage) {
