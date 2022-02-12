@@ -22,7 +22,7 @@
 
 Design your own email templates directly from the [Strapi CMS](https://github.com/strapi/strapi) admin panel and use the magic to send programmatically email from your controllers / services.
 
-<img src="https://raw.githubusercontent.com/alexzaganelli/strapi-plugin-email-designer/main/public/assets/designer-screenshot.jpg" alt="Designer screenshot" />
+<img src="https://raw.githubusercontent.com/alexzaganelli/strapi-plugin-email-designer/main/public/assets/strapi-email-designer-v4.jpg" alt="Designer screenshot" />
 
 _Visual composer provided by [Unlayer](https://unlayer.com/)_
 
@@ -73,25 +73,9 @@ npm i -S strapi-plugin-email-designer@latest
 +     config: {
 +       contentSecurityPolicy: {
 +         directives: {
-+           "script-src": [
-+             "'self'",
-+             "'unsafe-inline'",
-+             "editor.unlayer.com"
-+           ],
-+           "frame-src": [
-+             "'self'",
-+             "'unsafe-
-+             inline'",
-+             "editor.unlayer.com"
-+           ],
-+           "img-src": [
-+             "'self'",
-+             "data:",
-+             "cdn.jsdelivr.net",
-+             "strapi.io",
-+             "s3.amazonaws.com",
-+             `${env("AWS_BUCKET")}.s3.${env("AWS_REGION")}.amazonaws.com`
-+           ],
++           'script-src': ['editor.unlayer.com'],
++           'frame-src': ['editor.unlayer.com'],
++           'img-src': ['data:', 'cdn.jsdelivr.net', 'strapi.io', 's3.amazonaws.com'],
 +         },
 +       },
 +     },
@@ -141,34 +125,47 @@ Tips: in the template's body is possible to iterate array like this:
   // ...
 
   try {
-    await strapi.plugins['email-designer'].services.email.sendTemplatedEmail(
-      {
-        to: 'to@example.com', // required
-        from: 'from@example.com', // optional if /config/plugins.js -> email.settings.defaultFrom is set
-        replyTo: 'reply@example.com', // optional if /config/plugins.js -> email.settings.defaultReplyTo is set
-        attachments: [], // optional array of files
-      },
-      {
-        templateId: 1, // required - you can get the template id from the admin panel (can change on import)
-        templateReferenceId: 55, // ID that can be defined in the template designer (won't change on import)
-        subject: `Thank you for your order`, // If provided here will override the template's subject. Can include variables like `Thank you for your order {{= user.firstName }}!`
-      },
-      {
-        // this object must include all variables you're using in your email template
-        USER: {
-          firstname: 'John',
-          lastname: 'Doe',
+    await strapi
+      .plugin('email-designer')
+      .service('email')
+      .sendTemplatedEmail(
+        {
+          // required
+          to: 'to@example.com',
+
+          // optional if /config/plugins.js -> email.settings.defaultFrom is set
+          from: 'from@example.com',
+
+          // optional if /config/plugins.js -> email.settings.defaultReplyTo is set
+          replyTo: 'reply@example.com',
+
+          // optional array of files
+          attachments: [],
         },
-        order: {
-          products: [
-            { name: 'Article 1', price: 9.99 },
-            { name: 'Article 2', price: 5.55 },
-          ],
+        {
+          // required - Ref ID defined in the template designer (won't change on import)
+          templateReferenceId: 9,
+
+          // If provided here will override the template's subject.
+          // Can include variables like `Thank you for your order {{= USER.firstName }}!`
+          subject: `Thank you for your order`,
         },
-        shippingCost: 5,
-        total: 20.54,
-      }
-    );
+        {
+          // this object must include all variables you're using in your email template
+          USER: {
+            firstname: 'John',
+            lastname: 'Doe',
+          },
+          order: {
+            products: [
+              { name: 'Article 1', price: 9.99 },
+              { name: 'Article 2', price: 5.55 },
+            ],
+          },
+          shippingCost: 5,
+          total: 20.54,
+        }
+      );
   } catch (err) {
     strapi.log.debug('📺: ', err);
     return ctx.badRequest(null, err);
@@ -186,13 +183,13 @@ Complete installation requirements are exact same as for Strapi itself and can b
 
 **Supported Strapi versions**:
 
-- Strapi v3.5.x
+- Strapi v4.0.x
 
 (This plugin may work with the older Strapi versions, but these are not tested nor officially supported at this time.)
 
 **Node / NPM versions**:
 
-- NodeJS >= 12.10 <= 14
+- NodeJS >= 12.10 < 17
 - NPM >= 6.x
 
 **We recommend always using the latest version of Strapi to start your new projects**.
@@ -202,62 +199,67 @@ Complete installation requirements are exact same as for Strapi itself and can b
 You can pass configuration options directly to the editor that is used by this plugin. To do so, in your `config/plugins.js` file of your project, configure the plugin like this example:
 
 ```javascript
-module.exports = () => ({
-  ...
+module.exports = ({ env }) => ({
+  // ...
   'email-designer': {
-    editor: {
-      tools: {
-        heading: {
-          properties: {
-            text: {
-              value: 'This is the new default text!'
-            }
-          }
-        }
-      },
-      options: {
-        features: {
-          colorPicker: {
-            presets: ['#D9E3F0', '#F47373', '#697689', '#37D67A']
-          }
-        },
-        fonts: {
-          showDefaultFonts: false,
-          customFonts: [
-            {
-              label: "Anton",
-              value: "'Anton', sans-serif",
-              url: "https://fonts.googleapis.com/css?family=Anton",
+    enabled: true,
+
+    // ⬇︎ Add the config property
+    config: {
+      editor: {
+        tools: {
+          heading: {
+            properties: {
+              text: {
+                value: 'This is the new default text!',
+              },
             },
+          },
+        },
+        options: {
+          features: {
+            colorPicker: {
+              presets: ['#D9E3F0', '#F47373', '#697689', '#37D67A'],
+            },
+          },
+          fonts: {
+            showDefaultFonts: false,
+            customFonts: [
+              {
+                label: 'Anton',
+                value: "'Anton', sans-serif",
+                url: 'https://fonts.googleapis.com/css?family=Anton',
+              },
+              {
+                label: 'Lato',
+                value: "'Lato', Tahoma, Verdana, sans-serif",
+                url: 'https://fonts.googleapis.com/css?family=Lato',
+              },
+              // ...
+            ],
+          },
+          mergeTags: [
             {
-              label: "Lato",
-              value: "'Lato', Tahoma, Verdana, sans-serif",
-              url: "https://fonts.googleapis.com/css?family=Lato",
+              name: 'Email',
+              value: '{{= USER.username }}',
+              sample: 'john@doe.com',
             },
             // ...
           ],
         },
-        mergeTags: [
-          {
-            name: 'Email',
-            value: '{{= USER.username }}',
-            sample: 'john@doe.com',
+        appearance: {
+          theme: 'dark',
+          panels: {
+            tools: {
+              dock: 'left',
+            },
           },
-          // ...
-        ]
+        },
       },
-      appearance: {
-        theme: "dark",
-        panels: {
-          tools: {
-            dock: 'left'
-          }
-        }
-      }
-    }
+    },
   },
-  ...
-})
+  // ...
+});
 ```
 
 See [Unlayer's documentation](https://docs.unlayer.com) for more options.

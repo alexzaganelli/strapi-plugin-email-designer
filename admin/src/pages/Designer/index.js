@@ -59,25 +59,7 @@ const defaultEditorTools = {
 };
 
 const defaultEditorAppearance = { minWidth: '100%', theme: 'light' };
-const defaultEditorOptions = {
-  fonts: {
-    showDefaultFonts: false,
-    /*
-     * If you want use a custom font you need a premium unlayer account and pass a projectId number :-(
-     * May we need to migrate to another editor?
-     * 
-
-    projectId: [UNLAYER_PROJECT_ID],
-    customFonts: [
-      {
-        label: 'DotGothic16',
-        value: "'DotGothic16',cursive",
-        url: 'https://fonts.googleapis.com/css?family=DotGothic16',
-      },
-    ],
-     */
-  },
-};
+const defaultEditorOptions = { fonts: { showDefaultFonts: false } };
 const currentTemplateTags = {
   mergeTags: [
     {
@@ -154,10 +136,8 @@ const EmailDesignerPage = ({ isCore = false }) => {
     }
 
     try {
-      let response;
-
       if (templateId) {
-        response = await request(`/${pluginId}/templates/${templateId}`, {
+        await request(`/${pluginId}/templates/${templateId}`, {
           method: 'POST',
           body: {
             name: templateData?.name || getMessage('noName'),
@@ -169,7 +149,7 @@ const EmailDesignerPage = ({ isCore = false }) => {
           },
         });
       } else if (coreEmailType) {
-        response = await request(`/${pluginId}/core/${coreEmailType}`, {
+        await request(`/${pluginId}/core/${coreEmailType}`, {
           method: 'POST',
           body: {
             subject: templateData?.subject || '',
@@ -256,18 +236,13 @@ const EmailDesignerPage = ({ isCore = false }) => {
     setIsMediaLibraryOpen((prev) => !prev);
   };
 
+  /* useEffects */
   useEffect(() => {
-    if (
-      (!templateId && !coreEmailType) ||
-      (coreEmailType && !['user-address-confirmation', 'reset-password'].includes(coreEmailType)) ||
-      templateId === 'new'
-    )
-      return;
-
+    // load the editor config
     (async () => {
-      const editorConfigApi = (await request(`/${pluginId}/config`, { method: 'GET' })).config.editor;
+      const editorConfigApi = await request(`/${pluginId}/config/editor`, { method: 'GET' });
 
-      if (emailEditorRef.current && editorConfigApi) {
+      if (editorConfigApi) {
         if (editorConfigApi.tools) {
           setEditorTools((state) => merge({}, state, editorConfigApi.tools));
         }
@@ -279,7 +254,22 @@ const EmailDesignerPage = ({ isCore = false }) => {
         }
         setServerConfigLoaded(true);
       }
+    })();
 
+    return () => {
+      emailEditorRef.current = false; // release react-email-editor on unmount
+    };
+  }, []);
+
+  useEffect(() => {
+    if (
+      (!templateId && !coreEmailType) ||
+      (coreEmailType && !['user-address-confirmation', 'reset-password'].includes(coreEmailType)) ||
+      templateId === 'new'
+    )
+      return;
+
+    (async () => {
       let _templateData = {};
 
       if (templateId) _templateData = await request(`/${pluginId}/templates/${templateId}`, { method: 'GET' });
@@ -319,12 +309,6 @@ const EmailDesignerPage = ({ isCore = false }) => {
       }
     }, 600);
   }, [templateData]);
-
-  useEffect(() => {
-    return () => {
-      emailEditorRef.current = false; // release react-email-editor on unmount
-    };
-  }, []);
 
   return !templateData && !templateId === 'new' ? (
     <LoadingIndicatorPage />
@@ -421,17 +405,18 @@ const EmailDesignerPage = ({ isCore = false }) => {
                   border: '1px solid #dedede',
                 }}
               >
-                <React.StrictMode>
-                  <EmailEditor
-                    key={serverConfigLoaded ? 'server-config' : 'default-config'}
-                    ref={emailEditorRef}
-                    onLoad={onLoadHandler}
-                    locale={strapi.currentLanguage}
-                    appearance={editorAppearance}
-                    tools={editorTools}
-                    options={editorOptions}
-                  />
-                </React.StrictMode>
+                {serverConfigLoaded && (
+                  <React.StrictMode>
+                    <EmailEditor
+                      ref={emailEditorRef}
+                      onLoad={onLoadHandler}
+                      locale={strapi.currentLanguage}
+                      appearance={editorAppearance}
+                      tools={editorTools}
+                      options={editorOptions}
+                    />
+                  </React.StrictMode>
+                )}
               </Box>
 
               <Box style={{ display: mode === 'text' ? 'flex' : 'none' }}>

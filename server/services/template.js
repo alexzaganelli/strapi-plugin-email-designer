@@ -13,7 +13,7 @@ module.exports = ({ strapi }) => {
      * @return {Promise}
      */
     findOne(params) {
-      return strapi.db.query('plugin::email-designer.email-template').findOne({ where: params });
+      return strapi.query('plugin::email-designer.email-template').findOne({ where: params });
     },
 
     /**
@@ -21,7 +21,7 @@ module.exports = ({ strapi }) => {
      * @return {Promise}
      */
     findMany(params) {
-      return strapi.db.query('plugin::email-designer.email-template').findMany({ where: params });
+      return strapi.query('plugin::email-designer.email-template').findMany({ where: params });
     },
 
     /**
@@ -29,7 +29,7 @@ module.exports = ({ strapi }) => {
      * @return {Promise}
      */
     async create(values) {
-      return strapi.db.query('plugin::email-designer.email-template').create({ data: values });
+      return strapi.query('plugin::email-designer.email-template').create({ data: values });
     },
 
     /**
@@ -38,7 +38,7 @@ module.exports = ({ strapi }) => {
      */
     async update(params, values) {
       // FIXME: ⬇︎ avoid duplicating templateReferenceId field
-      return strapi.db.query('plugin::email-designer.email-template').update({ where: params, data: values });
+      return strapi.query('plugin::email-designer.email-template').update({ where: params, data: values });
     },
 
     /**
@@ -46,7 +46,7 @@ module.exports = ({ strapi }) => {
      * @return {Promise}
      */
     async delete(params) {
-      return strapi.db.query('plugin::email-designer.email-template').delete({ where: params });
+      return strapi.query('plugin::email-designer.email-template').delete({ where: params });
     },
   };
 };

@@ -32,7 +32,6 @@ module.exports = ({ strapi }) => {
     const keysToIgnore = ['attachment', 'attachments'];
 
     Object.entries(emailOptions).forEach(([key, address]) => {
-      // ⬇︎ Thanks to @xcivit 's #39 suggestion
       if (!keysToIgnore.includes(key)) {
         if (Array.isArray(address)) {
           address.forEach((email) => {
@@ -44,7 +43,7 @@ module.exports = ({ strapi }) => {
       }
     });
 
-    const requiredAttributes = ['templateId'];
+    const requiredAttributes = ['templateReferenceId'];
     const attributes = ['text', 'html', 'subject'];
     const missingAttributes = _.difference(requiredAttributes, Object.keys(emailTemplate));
 
@@ -56,8 +55,15 @@ module.exports = ({ strapi }) => {
 
     const { templateReferenceId } = emailTemplate || {};
 
-    const queryParams = templateReferenceId ? { templateReferenceId } : { id: emailTemplate.templateId };
-    const response = await strapi.db.query('plugin::email-designer.email-template').findOne(queryParams);
+    const response = await strapi.db
+      .query('plugin::email-designer.email-template')
+      .findOne({ where: { templateReferenceId } });
+
+    if (!response) {
+      strapi.log.error(`No email template found with referenceId "${templateReferenceId}"`);
+      return null;
+    }
+
     ({ bodyHtml, bodyText, subject } = response);
 
     if (isMantainLegacyTemplateActive()) {
@@ -87,7 +93,7 @@ module.exports = ({ strapi }) => {
       {}
     );
 
-    return strapi.plugins.email.provider.send({ ...emailOptions, ...templatedAttributes });
+    return strapi.plugin('email').provider.send({ ...emailOptions, ...templatedAttributes });
   };
 
   /**
@@ -101,7 +107,7 @@ module.exports = ({ strapi }) => {
 
     let { bodyHtml, bodyText, subject } = await strapi
       .query('plugin::email-designer.email-template')
-      .findOne({ templateReferenceId });
+      .findOne({ where: { templateReferenceId } });
 
     if (isMantainLegacyTemplateActive()) {
       bodyHtml = bodyHtml.replace(/<%/g, '{{').replace(/%>/g, '}}');
