@@ -59,7 +59,25 @@ const defaultEditorTools = {
 };
 
 const defaultEditorAppearance = { minWidth: '100%', theme: 'light' };
-const defaultEditorOptions = { fonts: { showDefaultFonts: false } };
+const defaultEditorOptions = {
+  fonts: {
+    showDefaultFonts: false,
+    /*
+     * If you want use a custom font you need a premium unlayer account and pass a projectId number :-(
+     * May we need to migrate to another editor?
+     * 
+
+    projectId: [UNLAYER_PROJECT_ID],
+    customFonts: [
+      {
+        label: 'DotGothic16',
+        value: "'DotGothic16',cursive",
+        url: 'https://fonts.googleapis.com/css?family=DotGothic16',
+      },
+    ],
+     */
+  },
+};
 const currentTemplateTags = {
   mergeTags: [
     {
@@ -403,15 +421,17 @@ const EmailDesignerPage = ({ isCore = false }) => {
                   border: '1px solid #dedede',
                 }}
               >
-                <EmailDesigner
-                  key={serverConfigLoaded ? 'server-config' : 'default-config'}
-                  ref={emailEditorRef}
-                  onLoad={onLoadHandler}
-                  locale={strapi.currentLanguage}
-                  appearance={editorAppearance}
-                  tools={editorTools}
-                  options={editorOptions}
-                />
+                <React.StrictMode>
+                  <EmailEditor
+                    key={serverConfigLoaded ? 'server-config' : 'default-config'}
+                    ref={emailEditorRef}
+                    onLoad={onLoadHandler}
+                    locale={strapi.currentLanguage}
+                    appearance={editorAppearance}
+                    tools={editorTools}
+                    options={editorOptions}
+                  />
+                </React.StrictMode>
               </Box>
 
               <Box style={{ display: mode === 'text' ? 'flex' : 'none' }}>
@@ -445,25 +465,6 @@ EmailDesignerPage.propTypes = {
 EmailDesignerPage.defaultProps = {
   isCore: false,
 };
-
-const EmailDesigner = memo(
-  React.forwardRef((props, ref) => {
-    const { serverConfigLoaded, onLoadHandler, editorAppearance, editorTools, editorOptions } = props;
-
-    return (
-      <EmailEditor
-        key={serverConfigLoaded ? 'server-config' : 'default-config'}
-        ref={ref}
-        onLoad={onLoadHandler}
-        locale={currentLanguage}
-        appearance={editorAppearance}
-        tools={editorTools}
-        options={editorOptions}
-      />
-    );
-  }),
-  shallowIsEqual
-);
 
 function shallowIsEqual(object1, object2) {
   const keys1 = Object.keys(object1);

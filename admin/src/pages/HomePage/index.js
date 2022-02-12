@@ -46,7 +46,7 @@ const FooterButtonsWrapper = styled.div`
 `;
 
 const HomePage = () => {
-  const { push } = useHistory();
+  const { push, goBack } = useHistory();
   const [emailTemplates, setEmailTemplates] = useState([]);
   const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
   const [duplicateConfirmationModal, setDuplicateConfirmationModal] = useState(false);
@@ -297,8 +297,8 @@ const HomePage = () => {
 
           <BaseHeaderLayout
             navigationAction={
-              <Link startIcon={<ArrowLeft />} to="/">
-                Go back
+              <Link startIcon={<ArrowLeft />} to="#" onClick={goBack}>
+                {getMessage('goBack')}
               </Link>
             }
             primaryAction={

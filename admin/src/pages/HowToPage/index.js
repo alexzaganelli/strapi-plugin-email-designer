@@ -1,14 +1,16 @@
 import React, { memo } from 'react';
-import { useHistory } from 'react-router-dom';
-// import { Header } from '@buffetjs/custom';
+import { Link } from '@strapi/design-system/Link';
+import { Box } from '@strapi/design-system/Box';
+import { ArrowLeft } from '@strapi/icons';
 import { BaseHeaderLayout } from '@strapi/design-system/Layout';
-
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { useHistory } from 'react-router-dom';
 import sunburst from 'react-syntax-highlighter/dist/esm/styles/prism/material-dark';
-
 import getMessage from '../../utils/getMessage';
 
 const HowToPage = () => {
+  const { goBack } = useHistory();
+
   const exampleCode = `{
     const templateId = "[GET_THE_TEMPLATE_ID]",
     to = "john@doe.com",
@@ -37,37 +39,29 @@ const HowToPage = () => {
 }`;
 
   return (
-    <>
-      <div className="container-fluid" style={{ padding: '18px 30px 66px 30px' }}>
-        <Box background="neutral100">
-          <BaseHeaderLayout
-            navigationAction={
-              <Link startIcon={<ArrowLeft />} to="/">
-                Go back
-              </Link>
-            }
-            // primaryAction={<Button startIcon={<Plus />}>Add an entry</Button>}
-            // secondaryAction={
-            //   <Button variant="tertiary" startIcon={<Pencil />}>
-            //     Edit
-            //   </Button>
-            // }
-            title={getTrad('howToUse')}
-            // subtitle="36 entries found"
-            as="h2"
-          />
-        </Box>
-        {/* <Header
-          title={{
-            label: ,
-          }}
-          content={getTrad('howToUse.content') })}
-        /> */}
-        <SyntaxHighlighter language="javascript" style={sunburst}>
+    <Box background="neutral100">
+      <BaseHeaderLayout
+        navigationAction={
+          <Link startIcon={<ArrowLeft />} to="#" onClick={goBack}>
+            {getMessage('goBack')}
+          </Link>
+        }
+        title={getMessage('howToUse')}
+        subtitle={getMessage('howToUse.content')}
+        as="h2"
+      />
+
+      <Box padding={10} paddingTop={0} background="neutral100" hasRadius>
+        <SyntaxHighlighter
+          lineProps={{ style: { wordBreak: 'break-all', whiteSpace: 'pre-wrap' } }}
+          wrapLines={true}
+          language="javascript"
+          style={sunburst}
+        >
           {exampleCode}
         </SyntaxHighlighter>
-      </div>
-    </>
+      </Box>
+    </Box>
   );
 };
 

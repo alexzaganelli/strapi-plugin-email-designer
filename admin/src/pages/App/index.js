@@ -9,7 +9,7 @@ import pluginId from '../../pluginId';
 // Pages
 import HomePage from '../HomePage';
 import Designer from '../Designer';
-// import HowToPage from '../HowToPage';
+import HowToPage from '../HowToPage';
 
 const App = () => {
   const PluginViewWrapper = styled.div`
@@ -22,7 +22,7 @@ const App = () => {
         <Route path={`/plugins/${pluginId}`} component={HomePage} exact />
         <Route path={`/plugins/${pluginId}/design/:templateId`} component={() => <Designer />} exact />
         <Route path={`/plugins/${pluginId}/core/:coreEmailType`} component={() => <Designer isCore />} exact />
-        {/* <Route path={`/plugins/${pluginId}/how-to`} component={HowToPage} exact /> */}
+        <Route path={`/plugins/${pluginId}/how-to`} component={HowToPage} exact />
         <Route component={NotFound} />
       </Switch>
     </PluginViewWrapper>
