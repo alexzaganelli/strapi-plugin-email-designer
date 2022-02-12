@@ -7,7 +7,7 @@
 module.exports = ({ strapi }) => {
   return {
     getConfig(key = 'editor') {
-      return strapi.plugin('email-designer').config(key);
+      return strapi.plugin('email-designer').config(key) ?? {};
     },
   };
 };
