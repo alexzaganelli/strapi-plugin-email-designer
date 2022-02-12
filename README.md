@@ -207,6 +207,9 @@ module.exports = ({ env }) => ({
     // ⬇︎ Add the config property
     config: {
       editor: {
+        // optional - if you have a premium unlayer account
+        projectId: [UNLAYER_PROJECT_ID],
+
         tools: {
           heading: {
             properties: {
@@ -224,6 +227,9 @@ module.exports = ({ env }) => ({
           },
           fonts: {
             showDefaultFonts: false,
+            /*
+             * If you want use a custom font you need a premium unlayer account and pass a projectId number :-(
+             */
             customFonts: [
               {
                 label: 'Anton',
