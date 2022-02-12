@@ -1,6 +1,6 @@
 {
   "name": "strapi-plugin-email-designer",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "description": "Strapi Email designer plugin.",
   "homepage": "https://github.com/alexzaganelli/strapi-plugin-email-designer#readme",
   "strapi": {

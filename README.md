@@ -73,9 +73,15 @@ npm i -S strapi-plugin-email-designer@latest
 +     config: {
 +       contentSecurityPolicy: {
 +         directives: {
-+           'script-src': ['editor.unlayer.com'],
-+           'frame-src': ['editor.unlayer.com'],
-+           'img-src': ['data:', 'cdn.jsdelivr.net', 'strapi.io', 's3.amazonaws.com'],
++           "script-src": ["'self'", "editor.unlayer.com"],
++           "frame-src": ["'self'", "editor.unlayer.com"],
++           "img-src": [
++             "'self'",
++             "data:",
++             "cdn.jsdelivr.net",
++             "strapi.io",
++             "s3.amazonaws.com",
++           ],
 +         },
 +       },
 +     },
