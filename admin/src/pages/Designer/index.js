@@ -59,7 +59,118 @@ const defaultEditorTools = {
 };
 
 const defaultEditorAppearance = { minWidth: '100%', theme: 'light' };
-const defaultEditorOptions = { fonts: { showDefaultFonts: false } };
+const defaultEditorOptions = {
+  fonts: {
+    showDefaultFonts: false,
+    customFonts: [
+      {
+        label: 'Andale Mono',
+        value: 'andale mono,times',
+      },
+      {
+        label: 'Arial',
+        value: 'arial,helvetica,sans-serif',
+      },
+      {
+        label: 'Arial Black',
+        value: 'arial black,avant garde,arial',
+      },
+      {
+        label: 'Book Antiqua',
+        value: 'book antiqua,palatino',
+      },
+      {
+        label: 'Comic Sans MS',
+        value: 'comic sans ms,sans-serif',
+      },
+      {
+        label: 'Courier New',
+        value: 'courier new,courier',
+      },
+      { label: 'Georgia', value: 'georgia,palatino' },
+      {
+        label: 'Helvetica',
+        value: 'helvetica,sans-serif',
+      },
+      { label: 'Impact', value: 'impact,chicago' },
+      { label: 'Symbol', value: 'symbol' },
+      {
+        label: 'Tahoma',
+        value: 'tahoma,arial,helvetica,sans-serif',
+      },
+      { label: 'Terminal', value: 'terminal,monaco' },
+      {
+        label: 'Times New Roman',
+        value: 'times new roman,times',
+      },
+      {
+        label: 'Trebuchet MS',
+        value: 'trebuchet ms,geneva',
+      },
+      { label: 'Verdana', value: 'verdana,geneva' },
+      {
+        label: 'Lobster Two',
+        value: "'Lobster Two',cursive",
+        url: 'https://fonts.googleapis.com/css?family=Lobster+Two:400,700&display=swap',
+      },
+      {
+        label: 'Playfair Display',
+        value: "'Playfair Display',serif",
+        url: 'https://fonts.googleapis.com/css?family=Playfair+Display:400,700&display=swap',
+      },
+      {
+        label: 'Rubik',
+        value: "'Rubik',sans-serif",
+        url: 'https://fonts.googleapis.com/css?family=Rubik:400,700&display=swap',
+      },
+      {
+        label: 'Source Sans Pro',
+        value: "'Source Sans Pro',sans-serif",
+        url: 'https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700&display=swap',
+      },
+      {
+        label: 'Open Sans',
+        value: "'Open Sans',sans-serif",
+        url: 'https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap',
+      },
+      {
+        label: 'Crimson Text',
+        value: "'Crimson Text',serif",
+        url: 'https://fonts.googleapis.com/css?family=Crimson+Text:400,700&display=swap',
+      },
+      {
+        label: 'Montserrat',
+        value: "'Montserrat',sans-serif",
+        url: 'https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap',
+      },
+      {
+        label: 'Old Standard TT',
+        value: "'Old Standard TT',serif",
+        url: 'https://fonts.googleapis.com/css?family=Old+Standard+TT:400,700&display=swap',
+      },
+      {
+        label: 'Lato',
+        value: "'Lato',sans-serif",
+        url: 'https://fonts.googleapis.com/css?family=Lato:400,700&display=swap',
+      },
+      {
+        label: 'Raleway',
+        value: "'Raleway',sans-serif",
+        url: 'https://fonts.googleapis.com/css?family=Raleway:400,700&display=swap',
+      },
+      {
+        label: 'Cabin',
+        value: "'Cabin',sans-serif",
+        url: 'https://fonts.googleapis.com/css?family=Cabin:400,700&display=swap',
+      },
+      {
+        label: 'Pacifico',
+        value: "'Pacifico',cursive",
+        url: 'https://fonts.googleapis.com/css?family=Pacifico&display=swap',
+      },
+    ],
+  },
+};
 const currentTemplateTags = {
   mergeTags: [
     {
@@ -100,6 +211,7 @@ const EmailDesignerPage = ({ isCore = false }) => {
   const [bodyText, setBodyText] = useState('');
   const [mode, setMode] = useState('html');
   const [serverConfigLoaded, setServerConfigLoaded] = useState(false);
+  const [projectId, setProjectId] = useState(null);
   const [editorAppearance, setEditorAppearance] = useState({ ...defaultEditorAppearance });
   const [editorTools, setEditorTools] = useState({ ...defaultEditorTools });
   const [editorOptions, setEditorOptions] = useState({ ...defaultEditorOptions, ...currentTemplateTags });
@@ -243,6 +355,9 @@ const EmailDesignerPage = ({ isCore = false }) => {
       const editorConfigApi = await request(`/${pluginId}/config/editor`, { method: 'GET' });
 
       if (editorConfigApi) {
+        if (editorConfigApi.projectId) {
+          setProjectId(editorConfigApi.projectId);
+        }
         if (editorConfigApi.tools) {
           setEditorTools((state) => merge({}, state, editorConfigApi.tools));
         }
@@ -414,6 +529,7 @@ const EmailDesignerPage = ({ isCore = false }) => {
                       appearance={editorAppearance}
                       tools={editorTools}
                       options={editorOptions}
+                      projectId={projectId}
                     />
                   </React.StrictMode>
                 )}
