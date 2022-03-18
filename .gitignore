@@ -12,3 +12,4 @@ npm-debug.log
 
 .dontpublish
 cypress.env.json
+.vscode/

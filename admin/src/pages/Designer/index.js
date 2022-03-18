@@ -535,7 +535,7 @@ const EmailDesignerPage = ({ isCore = false }) => {
                 )}
               </Box>
 
-              <Box style={{ display: mode === 'text' ? 'flex' : 'none' }}>
+              <Box style={{ display: mode === 'text' ? 'block' : 'none' }}>
                 <Textarea
                   name="textarea"
                   onChange={(e) => setBodyText(e.target.value)}

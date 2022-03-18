@@ -329,8 +329,8 @@ Give a star if this project helped you.
 
 ## 🌎 Community support
 
-- For general help using Strapi, please refer to [the official Strapi documentation](https://strapi.io/documentation/).
-- Strapi Slack [channel](https://slack.strapi.io/)
+- For general help using Strapi, please refer to [the official Strapi documentation](https://docs.strapi.io/developer-docs/latest/getting-started/introduction.html).
+- For support with this plugin you can DM me in the Strapi Discord [channel](https://discord.strapi.io/).
 - You can DM me on [Twitter](https://twitter.com/alexzaganelli)
 
 ## 📝 License
@@ -380,6 +380,6 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 
 ## Support Me ✨
 
-If you like this plugin I'm very happy, so we can drink a beer 🍻. _Alla salute!_
+If you like this plugin I'm very happy, so lets drink a beer. _Salute! 🍻_
 
 [!["Buy Me A Beer"](https://img.buymeacoffee.com/button-api/?text=Buy+me+a+beer&emoji=🍺&slug=alexzaganelli&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff)](https://www.buymeacoffee.com/alexzaganelli)
