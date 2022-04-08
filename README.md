@@ -63,7 +63,7 @@ yarn add strapi-plugin-email-designer@latest
 npm i -S strapi-plugin-email-designer@latest
 ```
 
-- you may need also to add to the unlayer domain to the _Content Security Policy_. Update the config file `config/middleware.js` as:
+- you may need also to add to the unlayer domain to the _Content Security Policy_. Update the config file `config/middlewares.js` as:
 
 ```diff
 // ...
