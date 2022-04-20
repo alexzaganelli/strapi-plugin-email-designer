@@ -147,7 +147,7 @@ const HomePage = () => {
       setImportLoading(true);
       let _importedTemplates = [];
 
-      for await (const template of importedTemplates) {
+      for (const template of importedTemplates) {
         console.log('💬 :: forawait :: template', template);
         const response = await request(`/${pluginId}/templates/${template.id}`, {
           method: 'POST',
