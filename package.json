@@ -28,10 +28,10 @@
     "striptags": "^3.2.0"
   },
   "devDependencies": {
-    "babel-eslint": "^10.1.0",
-    "cypress": "^7.5.0",
-    "eslint": "^7.29.0",
-    "prettier": "^2.3.1"
+    "@babel/eslint-parser": "^7.19.1",
+    "cypress": "^11.2.0",
+    "eslint": "^8.28.0",
+    "prettier": "^2.8.0"
   },
   "peerDependencies": {
     "@strapi/strapi": "^4.0.0"

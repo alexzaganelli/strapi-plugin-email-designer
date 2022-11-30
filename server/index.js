@@ -9,5 +9,5 @@ module.exports = {
   contentTypes,
   controllers,
   routes,
-  services
+  services,
 };
