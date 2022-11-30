@@ -18,13 +18,13 @@
     "prettier:write": "prettier --write **/*.js"
   },
   "dependencies": {
-    "dayjs": "^1.10.7",
+    "dayjs": "^1.11.6",
     "decode-html": "^2.0.0",
-    "html-to-text": "^8.0.0",
+    "html-to-text": "^8.2.1",
     "lodash": "^4.17.21",
-    "react-email-editor": "^1.5.0",
-    "react-github-btn": "^1.2.0",
-    "react-syntax-highlighter": "^15.4.3",
+    "react-email-editor": "^1.6.3",
+    "react-github-btn": "^1.4.0",
+    "react-syntax-highlighter": "^15.5.0",
     "striptags": "^3.2.0"
   },
   "devDependencies": {
