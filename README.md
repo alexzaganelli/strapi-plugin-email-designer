@@ -189,14 +189,14 @@ Complete installation requirements are exact same as for Strapi itself and can b
 
 **Supported Strapi versions**:
 
-- Strapi v4.0.x
+- Strapi v4.x.x
 
 (This plugin may work with the older Strapi versions, but these are not tested nor officially supported at this time.)
 
 **Node / NPM versions**:
 
-- NodeJS >= 12.10 < 17
-- NPM >= 6.x
+- NodeJS >= 14.21 < 19
+- NPM >= 7.x
 
 **We recommend always using the latest version of Strapi to start your new projects**.
 

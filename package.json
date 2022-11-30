@@ -49,8 +49,8 @@
     }
   ],
   "engines": {
-    "node": ">=12.x.x <=16.x.x",
-    "npm": ">=6.0.0"
+    "node": ">=14.21.1 <=18.x.x",
+    "npm": ">=7.0.0"
   },
   "repository": {
     "type": "git",
