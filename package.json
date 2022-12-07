@@ -18,9 +18,9 @@
     "prettier:write": "prettier --write **/*.js"
   },
   "dependencies": {
-    "dayjs": "^1.11.6",
+    "dayjs": "^1.11.7",
     "decode-html": "^2.0.0",
-    "html-to-text": "^8.2.1",
+    "html-to-text": "^9.0.1",
     "lodash": "^4.17.21",
     "react-email-editor": "^1.6.3",
     "react-github-btn": "^1.4.0",
@@ -29,8 +29,8 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.19.1",
-    "cypress": "^11.2.0",
-    "eslint": "^8.28.0",
+    "cypress": "^12.0.1",
+    "eslint": "^8.29.0",
     "prettier": "^2.8.0"
   },
   "peerDependencies": {
