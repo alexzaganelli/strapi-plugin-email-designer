@@ -29,7 +29,7 @@ module.exports = ({ strapi }) => {
    * @returns Promise<{ subject, text, subject }>
    */
   const sendTemplatedEmail = async (emailOptions = {}, emailTemplate = {}, data = {}) => {
-    const keysToIgnore = ['attachment', 'attachments'];
+    const keysToIgnore = ['attachment', 'attachments', 'headers'];
 
     Object.entries(emailOptions).forEach(([key, address]) => {
       if (!keysToIgnore.includes(key)) {
