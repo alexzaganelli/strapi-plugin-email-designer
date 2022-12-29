@@ -4,6 +4,7 @@ node_modules
 stats.json
 package-lock.json
 yarn.lock
+pnpm-lock.yaml
 
 # Cruft
 .DS_Store
