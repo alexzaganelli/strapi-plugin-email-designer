@@ -1,6 +1,6 @@
 {
   "name": "strapi-plugin-email-designer",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Strapi Email designer plugin.",
   "homepage": "https://github.com/alexzaganelli/strapi-plugin-email-designer#readme",
   "strapi": {
@@ -18,6 +18,9 @@
     "prettier:write": "prettier --write **/*.js"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.2.1",
+    "@fortawesome/free-solid-svg-icons": "^6.2.1",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "dayjs": "^1.11.7",
     "decode-html": "^2.0.0",
     "html-to-text": "^9.0.1",
