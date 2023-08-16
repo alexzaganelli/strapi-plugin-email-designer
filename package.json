@@ -18,26 +18,27 @@
     "prettier:write": "prettier --write **/*.js"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.2.1",
-    "@fortawesome/free-solid-svg-icons": "^6.2.1",
+    "@fortawesome/fontawesome-svg-core": "^6.4.2",
+    "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
-    "dayjs": "^1.11.7",
+    "dayjs": "^1.11.9",
     "decode-html": "^2.0.0",
-    "html-to-text": "^9.0.1",
+    "html-to-text": "^9.0.5",
     "lodash": "^4.17.21",
-    "react-email-editor": "^1.6.3",
+    "mustache": "^4.2.0",
+    "react-email-editor": "^1.7.8",
     "react-github-btn": "^1.4.0",
     "react-syntax-highlighter": "^15.5.0",
     "striptags": "^3.2.0"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.19.1",
-    "cypress": "^12.0.1",
-    "eslint": "^8.29.0",
-    "prettier": "^2.8.0"
+    "@babel/eslint-parser": "^7.22.10",
+    "cypress": "^12.17.4",
+    "eslint": "^8.47.0",
+    "prettier": "^3.0.2"
   },
   "peerDependencies": {
-    "@strapi/strapi": "^4.0.0"
+    "@strapi/strapi": "^4.12.4"
   },
   "author": {
     "name": "Alexandre Zaganelli",

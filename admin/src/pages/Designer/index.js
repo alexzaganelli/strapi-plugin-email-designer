@@ -178,17 +178,17 @@ const currentTemplateTags = {
       mergeTags: [
         {
           name: 'First Name',
-          value: '{{= USER.firstname }}',
+          value: '{{ USER.firstname }}',
           sample: (userInfo && userInfo.firstname) || 'John',
         },
         {
           name: 'Last Name',
-          value: '{{= USER.lastname }}',
+          value: '{{ USER.lastname }}',
           sample: (userInfo && userInfo.lastname) || 'Doe',
         },
         {
           name: 'Email',
-          value: '{{= USER.username }}',
+          value: '{{ USER.username }}',
           sample: (userInfo && userInfo.username) || 'john@doe.com',
         },
       ],
@@ -196,7 +196,7 @@ const currentTemplateTags = {
   ],
   mergeTagsConfig: {
     autocompleteTriggerChar: '@',
-    delimiter: ['{{=', '}}'],
+    delimiter: ['{{', '}}'],
   },
 };
 
@@ -408,7 +408,7 @@ const EmailDesignerPage = ({ isCore = false }) => {
           .replace(/\n/g, '<br />');
 
         _templateData.design = JSON.parse(
-          JSON.stringify(standardEmailRegistrationTemplate).replace('__PLACEHOLDER__', _message)
+          JSON.stringify(standardEmailRegistrationTemplate).replace('__PLACEHOLDER__', _message),
         );
       }
 
@@ -490,9 +490,11 @@ const EmailDesignerPage = ({ isCore = false }) => {
                 value={templateData?.subject || ''}
               />
             </Box>
-            <Button onClick={saveDesign} color="success">
-              {getMessage('designer.action.saveTemplate')}
-            </Button>
+            <Box padding={0} style={{ display: 'flex', alignItems: 'flex-end', whiteSpace: 'nowrap' }}>
+              <Button onClick={saveDesign} color="success" size={1}>
+                {getMessage('designer.action.saveTemplate')}
+              </Button>
+            </Box>
           </Bar>
 
           <TabGroup

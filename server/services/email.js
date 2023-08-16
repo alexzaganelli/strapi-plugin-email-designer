@@ -1,6 +1,7 @@
 'use strict';
 
 const _ = require('lodash');
+const Mustache = require('mustache');
 // From: https://stackoverflow.com/questions/201323/how-can-i-validate-an-email-address-using-a-regular-expression
 const isValidEmail =
   /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
@@ -9,15 +10,7 @@ const decode = require('decode-html');
 const { htmlToText } = require('html-to-text');
 const { isEmpty } = require('lodash');
 
-const templateSettings = {
-  evaluate: /\{\{(.+?)\}\}/g,
-  interpolate: /\{\{=(.+?)\}\}/g,
-  escape: /\{\{-(.+?)\}\}/g,
-};
-
 module.exports = ({ strapi }) => {
-  const templater = (tmpl) => _.template(tmpl, templateSettings);
-
   const isMantainLegacyTemplateActive = () =>
     _.get(strapi.plugins, 'email-designer.config.mantainLegacyTemplate', true);
 
@@ -88,9 +81,9 @@ module.exports = ({ strapi }) => {
     const templatedAttributes = attributes.reduce(
       (compiled, attribute) =>
         emailTemplate[attribute]
-          ? Object.assign(compiled, { [attribute]: templater(emailTemplate[attribute])(data) })
+          ? Object.assign(compiled, { [attribute]: Mustache.render(emailTemplate[attribute], data) })
           : compiled,
-      {}
+      {},
     );
 
     return strapi.plugin('email').provider.send({ ...emailOptions, ...templatedAttributes });
@@ -127,9 +120,9 @@ module.exports = ({ strapi }) => {
     const templatedAttributes = attributes.reduce(
       (compiled, attribute) =>
         emailTemplate[attribute]
-          ? Object.assign(compiled, { [attribute]: templater(emailTemplate[attribute])(data) })
+          ? Object.assign(compiled, { [attribute]: Mustache.render(emailTemplate[attribute], data) })
           : compiled,
-      {}
+      {},
     );
 
     return {
