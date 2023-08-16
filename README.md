@@ -113,15 +113,15 @@ The **Email Designer** plugin should appear in the **Plugins** section of Strapi
 
 ## 💄 Usage
 
-1. Design your template with easy on the visual composer. For variables use [lodash templating language](https://lodash.com/docs/4.17.15#template) with the double curly braces tags ( `{{` and `}}` ). **You can leave the text version blank to automatically generate a text version of your email from the HTML version.**
+1. Design your template with easy on the visual composer. For variables use [{{mustache}} templating language](https://github.com/janl/mustache.js) with the double curly braces tags ( `{{` and `}}` ). **You can leave the text version blank to automatically generate a text version of your email from the HTML version.**
 
 Tips: in the template's body is possible to iterate array like this:
 
-```javascript
-{{ _.forEach(order.products, function(product) { }}
-	<li>{{- product.name }}</li>
-	<li>{{- product.price }}</li>
-{{ }); }}
+```text
+{{#order.products}}
+    <li>{{name}}</li>
+    <li>${{price}}</li>
+{{/order.products}}
 ```
 
 2. Send email programmatically:
@@ -253,7 +253,7 @@ module.exports = ({ env }) => ({
           mergeTags: [
             {
               name: 'Email',
-              value: '{{= USER.username }}',
+              value: '{{ USER.username }}',
               sample: 'john@doe.com',
             },
             // ...
