@@ -25,6 +25,7 @@
     "decode-html": "^2.0.0",
     "html-to-text": "^9.0.5",
     "lodash": "^4.17.21",
+    "mustache": "^4.2.0",
     "react-email-editor": "^1.7.8",
     "react-github-btn": "^1.4.0",
     "react-syntax-highlighter": "^15.5.0",
