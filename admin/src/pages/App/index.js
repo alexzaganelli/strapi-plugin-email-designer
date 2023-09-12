@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { NotFound } from '@strapi/helper-plugin';
+import { AnErrorOccurred } from '@strapi/helper-plugin';
 
 // Utils
 import styled from 'styled-components';
@@ -23,7 +23,7 @@ const App = () => {
         <Route path={`/plugins/${pluginId}/design/:templateId`} component={() => <Designer />} exact />
         <Route path={`/plugins/${pluginId}/core/:coreEmailType`} component={() => <Designer isCore />} exact />
         <Route path={`/plugins/${pluginId}/how-to`} component={HowToPage} exact />
-        <Route component={NotFound} />
+        <Route component={AnErrorOccurred} />
       </Switch>
     </PluginViewWrapper>
   );
