@@ -128,6 +128,15 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "zguig52",
+      "name": "Guillaume REMBERT",
+      "avatar_url": "https://avatars.githubusercontent.com/u/12774668?v=4",
+      "profile": "https://github.com/zguig52",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
@@ -136,5 +145,7 @@
   "repoType": "github",
   "repoHost": "https://github.com",
   "skipCi": true,
-  "badgeTemplate": "<a href=\"#contributors-\"><img alt=\"Contributors\" src=\"https://img.shields.io/badge/all_contributors-<%= contributors.length %>-orange.svg?style=plastic\"></a>"
+  "badgeTemplate": "<a href=\"#contributors-\"><img alt=\"Contributors\" src=\"https://img.shields.io/badge/all_contributors-<%= contributors.length %>-orange.svg?style=plastic\"></a>",
+  "commitType": "docs",
+  "commitConvention": "angular"
 }
